@@ -5,7 +5,10 @@
         "prettier/react"
     ],
     "rules": {
-        "react/jsx-filename-extension": [1, { "extensions": [".js"] }]
+        "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+        "jsx-a11y/label-has-associated-control": [ "error", { "assert": "htmlFor" }],
+        "no-unused-vars": 1,
+        "react/jsx-props-no-spreading": 0
     },
     "env" : {
         "browser": true

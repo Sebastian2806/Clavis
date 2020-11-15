@@ -5,6 +5,7 @@ const theme = {
     darkblue: '#17223B',
     lightblue: '#D0E7E5',
     purple: '#6B778D',
+    lightpurple: '#AEB1B8',
     error: '#FF6768',
     warning: '#DBB552',
     approve: '#007D55',
