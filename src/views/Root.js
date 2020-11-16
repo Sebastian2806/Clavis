@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import GlobalStyles from '../theme/globalStyles';
 import theme from '../theme/theme';
 import SignIn from './SignIn';
+import Actions from './Actions';
 
 const StyledWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,6 +22,7 @@ const Root = () => (
         <Switch>
           <Route exact path="/" />
           <Route path="/signin" component={SignIn} />
+          <Route path="/actions" component={Actions} />
           <Route path="/addclassroom" />
           <Route path="/adduser" />
           <Route path="/findclassroom" />

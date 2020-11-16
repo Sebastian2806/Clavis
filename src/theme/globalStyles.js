@@ -24,7 +24,13 @@ const GlobalStyle = createGlobalStyle`
     }
 
     ol, ul {
+        padding: 0;
     	list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.light}
     }
 `;
 

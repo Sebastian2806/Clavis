@@ -5,26 +5,10 @@ import KeyIcon from '../assets/icon/key.svg';
 import Title from '../components/atoms/Title';
 import TextInput from '../components/molecules/TextInput';
 import Button from '../components/atoms/Button';
+import MainWrapper from '../components/MainWrapper';
 
-const StyledWrapper = styled.div`
-  margin: 0 auto;
-  width: 100%;
-  height: 100%;
-
-  padding: 10px;
-  border-radius: 0;
-  background-color: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.lightpurple};
-
-  @media (min-width: 450px) {
-    width: 400px;
-    height: 500px;
-    border-radius: 10px;
-  }
-
-  & form {
-    height: 60%;
-  }
+const StyledForm = styled(Form)`
+  height: 60%;
 `;
 
 const StyledHeader = styled.header`
@@ -57,7 +41,7 @@ const StyledError = styled.div`
 `;
 
 const SignIn = () => (
-  <StyledWrapper>
+  <MainWrapper>
     <StyledHeader>
       <img src={KeyIcon} alt="" />
       <Title>Clavis</Title>
@@ -72,7 +56,7 @@ const SignIn = () => (
       }}
     >
       {({ errors }) => (
-        <Form>
+        <StyledForm>
           <FromWrapper>
             <Wrapper>
               <Field as={TextInput} label="email" name="email" type="email" />
@@ -83,10 +67,10 @@ const SignIn = () => (
               <Button>Zaloguj</Button>
             </Wrapper>
           </FromWrapper>
-        </Form>
+        </StyledForm>
       )}
     </Formik>
-  </StyledWrapper>
+  </MainWrapper>
 );
 
 export default SignIn;
