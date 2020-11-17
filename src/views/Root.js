@@ -5,6 +5,8 @@ import GlobalStyles from '../theme/globalStyles';
 import theme from '../theme/theme';
 import SignIn from './SignIn';
 import Actions from './Actions';
+import AddClassroom from './AddClassroom';
+import AddUser from './AddUser';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -23,8 +25,8 @@ const Root = () => (
           <Route exact path="/" />
           <Route path="/signin" component={SignIn} />
           <Route path="/actions" component={Actions} />
-          <Route path="/addclassroom" />
-          <Route path="/adduser" />
+          <Route path="/addclassroom" component={AddClassroom} />
+          <Route path="/adduser" component={AddUser} />
           <Route path="/findclassroom" />
           <Route path="/classroomdesc/:id" />
           <Route path="/classroomdesc/:id/confirm" />

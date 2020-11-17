@@ -26,9 +26,11 @@ const StyledUnderline = styled.div`
   }
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled.input.attrs((props) => ({
+  height: props.height || '30px',
+}))`
   width: 100%;
-  height: 30px;
+  height: ${({ height }) => height};
   background: transparent;
   border: 0;
   color: ${({ theme }) => theme.colors.light};
@@ -43,10 +45,10 @@ const StyledInput = styled.input`
   }
 `;
 
-const Input = ({ name, ...props }) => {
+const Input = ({ name, textarea, ...props }) => {
   return (
     <StyledWrapper>
-      <StyledInput name={name} id={name} {...props} />
+      <StyledInput name={name} id={name} as={textarea ? 'textarea' : 'input'} height={textarea && 'auto'} {...props} />
       <StyledUnderline />
     </StyledWrapper>
   );
@@ -54,6 +56,11 @@ const Input = ({ name, ...props }) => {
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
+  textarea: PropTypes.bool,
+};
+
+Input.defaultProps = {
+  textarea: false,
 };
 
 export default Input;

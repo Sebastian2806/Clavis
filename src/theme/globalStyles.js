@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
         -moz-osx-font-smoothing: grayscale;
     }
 
-    button, input {
+    button, input, select {
         font-family: 'Roboto', sans-serif;
     }
 
@@ -31,6 +31,10 @@ const GlobalStyle = createGlobalStyle`
     a {
         text-decoration: none;
         color: ${({ theme }) => theme.colors.light}
+    }
+
+    textarea {
+        resize: none;
     }
 `;
 
