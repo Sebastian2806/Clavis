@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Formik, Form, Field } from 'formik';
 import TextInput from '../components/molecules/TextInput';
@@ -61,6 +61,8 @@ const StyledHeader = styled.div`
 `;
 
 const AddUser = () => {
+  const [message, setMessage] = useState(null);
+
   return (
     <>
       <Header />
@@ -77,8 +79,29 @@ const AddUser = () => {
               email: '',
               password: '',
             }}
-            onSubmit={(values) => {
-              console.log(values);
+            onSubmit={(values, { setErrors, setSubmitting }) => {
+              setSubmitting(true);
+              fetch('https://clavis-rest.herokuapp.com/admin/adduser', {
+                method: 'PUT',
+                body: JSON.stringify(values),
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+              })
+                .then((result) => result.json())
+                .then((data) => {
+                  console.log(data);
+                  if (data.errors && data.errors.length > 0) {
+                    const err = {};
+                    data.errors.forEach((el) => (err[el.param] = el.msg));
+                    setErrors(err);
+                  } else {
+                    setMessage('Użytkownik dodany pomyślnie!');
+                  }
+                  setSubmitting(false);
+                })
+                .catch((err) => console.log(err));
             }}
           >
             {({ errors, values, handleChange }) => (
@@ -88,7 +111,8 @@ const AddUser = () => {
                 <Select data={roles} label="rola" name="role" value={values.type} onChange={handleChange} />
                 <Field as={TextInput} label="email" name="email" type="email" />
                 <Field as={TextInput} label="hasło" name="password" type="password" />
-                {(errors.email || errors.password) && <StyledError>Błędny email lub hasło</StyledError>}
+                {(errors.email || errors.password) && <StyledError>Błąd podczas dodawanie użytkownika</StyledError>}
+                {message && <p>{message}</p>}
                 <StyledButton>dodaj</StyledButton>
               </StyledForm>
             )}

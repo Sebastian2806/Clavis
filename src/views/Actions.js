@@ -87,6 +87,8 @@ const StyledActionIcon = styled.img`
 `;
 
 const Actions = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  console.log(user);
   return (
     <>
       <Header />
@@ -95,19 +97,19 @@ const Actions = () => {
           <StyledAboutUserBox>
             <StyledIcon src={UserIcon} alt="" />
             <StyledNameBox>
-              <StyledName>Karol&nbsp;</StyledName>
-              <StyledName> Nowakowski</StyledName>
+              <StyledName>{user.name}&nbsp;</StyledName>
+              <StyledName>{user.surname}</StyledName>
             </StyledNameBox>
             <StyledRole>administrator</StyledRole>
           </StyledAboutUserBox>
           <StyledActionBox>
-            <Link to="/adduser">
+            <Link to="/addclassroom">
               <StyledAction>
                 <StyledActionIcon src={AdduserIcon} alt="" />
                 <span>Dodaj sale</span>
               </StyledAction>
             </Link>
-            <Link to="/addclassroom">
+            <Link to="/adduser">
               <StyledAction>
                 <StyledActionIcon src={AddclassroomIcon} alt="" />
                 <span>Dodaj użytkownika</span>

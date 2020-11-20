@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Formik, Form, Field } from 'formik';
 import TextInput from '../components/molecules/TextInput';
@@ -47,9 +47,9 @@ const StyledButton = styled(Button)`
 `;
 
 const types = [
-  { id: 1, value: 'hall', label: 'Aula' },
-  { id: 2, value: 'humane', label: 'Humanistyczna' },
-  { id: 3, value: 'ITsuite', label: 'Komputerowa' },
+  { id: 1, value: 'Aula', label: 'Aula' },
+  { id: 2, value: 'Humanistyczna', label: 'Humanistyczna' },
+  { id: 3, value: 'Komputerowa', label: 'Komputerowa' },
 ];
 
 const StyledHeader = styled.div`
@@ -61,6 +61,8 @@ const StyledHeader = styled.div`
 `;
 
 const AddClassroom = () => {
+  const [message, setMessage] = useState(null);
+
   return (
     <>
       <Header />
@@ -71,22 +73,44 @@ const AddClassroom = () => {
           </StyledHeader>
           <Formik
             initialValues={{
-              room_number: '',
-              type: 'hall',
+              number: '',
+              type: 'Aula',
               capacity: '',
               description: '',
             }}
-            onSubmit={(values) => {
-              console.log(values);
+            onSubmit={(values, { setErrors, setSubmitting }) => {
+              setSubmitting(true);
+              fetch('https://clavis-rest.herokuapp.com/admin/addclassroom', {
+                method: 'PUT',
+                body: JSON.stringify(values),
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+              })
+                .then((result) => result.json())
+                .then((data) => {
+                  console.log(data);
+                  if (data.errors && data.errors.length > 0) {
+                    const err = {};
+                    data.errors.forEach((el) => (err[el.param] = el.msg));
+                    setErrors(err);
+                  } else {
+                    setMessage('Klasa dodany pomyślnie!');
+                  }
+                  setSubmitting(false);
+                })
+                .catch((err) => console.log(err));
             }}
           >
             {({ errors, values, handleChange }) => (
               <StyledForm>
-                <Field as={TextInput} label="numer sali" name="room_number" type="number" />
+                <Field as={TextInput} label="numer sali" name="number" type="number" />
                 <Select data={types} label="typ sali" name="type" value={values.type} onChange={handleChange} />
                 <Field as={TextInput} label="pojemność" name="capacity" type="number" />
                 <Field as={TextInput} label="opis" name="description" textarea rows="3" />
-                {(errors.email || errors.password) && <StyledError>Błędny email lub hasło</StyledError>}
+                {(errors.email || errors.password) && <StyledError>Błąd podczas dodawania klasy</StyledError>}
+                {message && <p>{message}</p>}
                 <StyledButton>dodaj</StyledButton>
               </StyledForm>
             )}
