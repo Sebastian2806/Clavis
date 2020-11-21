@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Title from '../atoms/Title';
 import LogoutIcon from '../../assets/icon/logout.svg';
+import { AuthContext } from '../../context/authContext';
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -33,13 +34,17 @@ const StyledImg = styled.img`
   height: 25px;
 `;
 
-const Header = () => (
-  <StyledHeader>
-    <StyledTitle>clavis</StyledTitle>
-    <StyledLink to="signin" aria-label="Wyloguj się z konta.">
-      <StyledImg src={LogoutIcon} alt="" />
-    </StyledLink>
-  </StyledHeader>
-);
+const Header = () => {
+  const authContext = useContext(AuthContext);
+
+  return (
+    <StyledHeader>
+      <StyledTitle>clavis</StyledTitle>
+      <StyledLink to="signin" aria-label="Wyloguj się z konta.">
+        <StyledImg src={LogoutIcon} alt="" onClick={authContext.logOut} />
+      </StyledLink>
+    </StyledHeader>
+  );
+};
 
 export default Header;

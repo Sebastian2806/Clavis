@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Header from '../components/molecules/Header';
 import UserIcon from '../assets/icon/user.svg';
 import AdduserIcon from '../assets/icon/adduser.svg';
 import AddclassroomIcon from '../assets/icon/addclassroom.svg';
+import { AuthContext } from '../context/authContext';
 
 const StyledWrapper = styled.div`
   min-width: 100%;
@@ -87,8 +88,8 @@ const StyledActionIcon = styled.img`
 `;
 
 const Actions = () => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  console.log(user);
+  const authContext = useContext(AuthContext);
+
   return (
     <>
       <Header />
@@ -97,8 +98,8 @@ const Actions = () => {
           <StyledAboutUserBox>
             <StyledIcon src={UserIcon} alt="" />
             <StyledNameBox>
-              <StyledName>{user.name}&nbsp;</StyledName>
-              <StyledName>{user.surname}</StyledName>
+              <StyledName>{authContext.authState.user.name}&nbsp;</StyledName>
+              <StyledName>{authContext.authState.user.surname}</StyledName>
             </StyledNameBox>
             <StyledRole>administrator</StyledRole>
           </StyledAboutUserBox>

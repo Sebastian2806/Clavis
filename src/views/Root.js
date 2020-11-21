@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import GlobalStyles from '../theme/globalStyles';
 import theme from '../theme/theme';
 import SignIn from './SignIn';
 import Actions from './Actions';
 import AddClassroom from './AddClassroom';
 import AddUser from './AddUser';
+import { AuthProvider, AuthContext } from '../context/authContext';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -16,24 +18,63 @@ const StyledWrapper = styled.div`
   justify-content: center;
 `;
 
-const Root = () => (
-  <ThemeProvider theme={theme}>
-    <GlobalStyles />
-    <StyledWrapper>
+const AuthRoute = ({ children, ...props }) => {
+  const authContext = useContext(AuthContext);
+  return <Route {...props} render={() => (authContext.isAuthenticated() ? { children } : <Redirect to="signin" />)} />;
+};
+
+const AdminRoute = ({ children, ...props }) => {
+  const authContext = useContext(AuthContext);
+  return (
+    <Route
+      {...props}
+      render={() =>
+        authContext.isAuthenticated() && authContext.authState.user.role === 'admin' ? (
+          { children }
+        ) : (
+          <Redirect to="signin" />
+        )
+      }
+    />
+  );
+};
+
+const Root = () => {
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
       <Router>
-        <Switch>
-          <Route exact path="/" />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/actions" component={Actions} />
-          <Route path="/addclassroom" component={AddClassroom} />
-          <Route path="/adduser" component={AddUser} />
-          <Route path="/findclassroom" />
-          <Route path="/classroomdesc/:id" />
-          <Route path="/classroomdesc/:id/confirm" />
-        </Switch>
+        <AuthProvider>
+          <StyledWrapper>
+            <Switch>
+              <Route exact path="/" component={SignIn} />
+              <Route path="/signin" component={SignIn} />
+              <AuthRoute path="/actions">
+                <Actions />
+              </AuthRoute>
+              <AdminRoute path="/addclassroom">
+                <AddClassroom />
+              </AdminRoute>
+              <AdminRoute path="/adduser">
+                <AddUser />
+              </AdminRoute>
+              {/* <Route path="/findclassroom" /> */}
+              {/* <Route path="/classroomdesc/:id" /> */}
+              {/* <Route path="/classroomdesc/:id/confirm" /> */}
+            </Switch>
+          </StyledWrapper>
+        </AuthProvider>
       </Router>
-    </StyledWrapper>
-  </ThemeProvider>
-);
+    </ThemeProvider>
+  );
+};
+
+AuthRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+AdminRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default Root;

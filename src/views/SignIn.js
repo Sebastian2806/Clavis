@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,6 +7,7 @@ import Title from '../components/atoms/Title';
 import TextInput from '../components/molecules/TextInput';
 import Button from '../components/atoms/Button';
 import MainWrapper from '../components/MainWrapper';
+import { AuthContext } from '../context/authContext';
 
 const StyledForm = styled(Form)`
   height: 60%;
@@ -43,6 +44,7 @@ const StyledError = styled.div`
 
 const SignIn = () => {
   const history = useHistory();
+  const authContext = useContext(AuthContext);
 
   return (
     <MainWrapper>
@@ -56,7 +58,6 @@ const SignIn = () => {
           password: '',
         }}
         onSubmit={(values, { setErrors, setSubmitting }) => {
-          console.log(values);
           setSubmitting(true);
           fetch('https://clavis-rest.herokuapp.com/authorization/login', {
             method: 'POST',
@@ -72,8 +73,7 @@ const SignIn = () => {
                 data.errors.forEach((el) => (err[el.param] = el.msg));
                 setErrors(err);
               } else {
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
+                authContext.setAuthInfo(data);
                 history.push('/actions');
               }
               setSubmitting(false);
