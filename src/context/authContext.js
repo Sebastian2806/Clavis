@@ -11,22 +11,25 @@ const AuthProvider = ({ children }) => {
 
   const authToken = localStorage.getItem('token');
   const userInfo = localStorage.getItem('user');
+  const expiresAt = localStorage.getItem('expiresAt');
 
-  const { decodedToken } = useJwt(authToken);
-  if (authToken) localStorage.setItem('expiresAt', decodedToken ? decodedToken.exp : null);
-  console.log(authToken);
+  // const { decodedToken } = useJwt(authToken);
+  // if (authToken) localStorage.setItem('expiresAt', 1606055311);
+  // console.log(authToken);
 
   const [authState, setAuthState] = useState({
     token: authToken,
-    expiresAt: decodedToken ? decodedToken.exp : null,
+    expiresAt,
     user: userInfo ? JSON.parse(userInfo) : {},
   });
 
   const setAuthInfo = ({ token, user }) => {
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('expiresAt', 1606055311);
     setAuthState({
       token,
+      expiresAt: 1606055311,
       user,
     });
   };

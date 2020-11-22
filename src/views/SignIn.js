@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Formik, Form, Field } from 'formik';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import KeyIcon from '../assets/icon/key.svg';
 import Title from '../components/atoms/Title';
@@ -46,8 +46,11 @@ const SignIn = () => {
   const history = useHistory();
   const authContext = useContext(AuthContext);
 
+  const [redirectOnLogin, setRedirectOnLogin] = useState(false);
+
   return (
     <MainWrapper>
+      {redirectOnLogin && <Redirect to="/actions" />}
       <StyledHeader>
         <img src={KeyIcon} alt="" />
         <Title>Clavis</Title>
@@ -74,7 +77,7 @@ const SignIn = () => {
                 setErrors(err);
               } else {
                 authContext.setAuthInfo(data);
-                history.push('/actions');
+                setRedirectOnLogin(true);
               }
               setSubmitting(false);
             })
