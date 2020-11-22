@@ -1,6 +1,5 @@
 import React, { useState, createContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useJwt } from 'react-jwt';
 import PropTypes from 'prop-types';
 
 const AuthContext = createContext();
@@ -26,10 +25,10 @@ const AuthProvider = ({ children }) => {
   const setAuthInfo = ({ token, user }) => {
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('expiresAt', 1606055311);
+    localStorage.setItem('expiresAt', 1606056600);
     setAuthState({
       token,
-      expiresAt: 1606055311,
+      expiresAt: 1606056600,
       user,
     });
   };

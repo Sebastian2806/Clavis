@@ -33,7 +33,7 @@ const StyledInput = styled.input.attrs((props) => ({
   height: ${({ height }) => height};
   background: transparent;
   border: 0;
-  color: ${({ theme }) => theme.colors.light};
+  /* color: ${({ theme }) => theme.colors.light}; */
   padding: 0;
   font-size: 15px;
   position: relative;

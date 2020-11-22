@@ -6,7 +6,6 @@ import KeyIcon from '../assets/icon/key.svg';
 import Title from '../components/atoms/Title';
 import TextInput from '../components/molecules/TextInput';
 import Button from '../components/atoms/Button';
-import MainWrapper from '../components/MainWrapper';
 import { AuthContext } from '../context/authContext';
 
 const StyledForm = styled(Form)`
@@ -49,7 +48,7 @@ const SignIn = () => {
   const [redirectOnLogin, setRedirectOnLogin] = useState(false);
 
   return (
-    <MainWrapper>
+    <>
       {redirectOnLogin && <Redirect to="/actions" />}
       <StyledHeader>
         <img src={KeyIcon} alt="" />
@@ -101,7 +100,7 @@ const SignIn = () => {
           </StyledForm>
         )}
       </Formik>
-    </MainWrapper>
+    </>
   );
 };
 export default SignIn;

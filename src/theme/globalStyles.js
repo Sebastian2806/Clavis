@@ -9,7 +9,7 @@ const GlobalStyle = createGlobalStyle`
     
     body {
         margin: 0;
-        background-color: ${({ theme }) => theme.colors.darkblue};
+        ${'' /* background-color: ${({ theme }) => theme.colors.darkblue}; */}
         font-family:  'Roboto', sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
 
     button, input, select {
         font-family: 'Roboto', sans-serif;
+        padding: 0;
     }
 
     h1, h2, h3, h4, h5, h6 { 
@@ -25,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
 
     ol, ul {
         padding: 0;
+        margin: 0;
     	list-style: none;
     }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Formik, Form, Field } from 'formik';
+import CreateIcon from '@material-ui/icons/Create';
 import TextInput from '../components/molecules/TextInput';
 import Button from '../components/atoms/Button';
 import Header from '../components/molecules/Header';
@@ -12,7 +13,7 @@ const StyledWrapper = styled.div`
   min-height: calc(100vh - 50px);
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  /* margin-top: 50px; */
   background-color: ${({ theme }) => theme.colors.background};
   padding-top: 30px;
 
@@ -65,7 +66,7 @@ const AddClassroom = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <StyledWrapper>
         <StyledContainer>
           <StyledHeader>

@@ -1,48 +1,52 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import MenuIcon from '@material-ui/icons/Menu';
 import Title from '../atoms/Title';
-import LogoutIcon from '../../assets/icon/logout.svg';
-import { AuthContext } from '../../context/authContext';
+import IconBox from '../atoms/IconBox';
+import { MenuContext } from '../../context/menuContext';
 
 const StyledHeader = styled.header`
   width: 100%;
+  height: 70px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
   padding: 0 10px;
-  background-color: ${({ theme }) => theme.colors.background};
-  height: 50px;
 `;
 
 const StyledTitle = styled(Title)`
-  font-size: 24px;
-  color: ${({ theme }) => theme.colors.lightblue};
-  margin: 0;
+  color: ${({ theme }) => theme.colors.darkblue};
+  margin-left: 10px;
+
+  @media (min-width: 900px) {
+    display: none;
+  }
 `;
 
-const StyledLink = styled(Link)`
-  display: flex;
-  align-items: center;
-`;
+const StyledMenuButton = styled(IconBox)`
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightpurple};
+  }
 
-const StyledImg = styled.img`
-  width: 25px;
-  height: 25px;
+  & > svg {
+    width: 70%;
+    height: 70%;
+    color: ${({ theme }) => theme.colors.darkblue};
+  }
+
+  @media (min-width: 900px) {
+    display: none;
+  }
 `;
 
 const Header = () => {
-  const authContext = useContext(AuthContext);
+  const menuContext = useContext(MenuContext);
 
   return (
     <StyledHeader>
+      <StyledMenuButton onClick={() => menuContext.setIsMenuOpen(true)} aria-label="Otwórz menu boczne">
+        <MenuIcon />
+      </StyledMenuButton>
       <StyledTitle>clavis</StyledTitle>
-      <StyledLink to="signin" aria-label="Wyloguj się z konta.">
-        <StyledImg src={LogoutIcon} alt="" onClick={authContext.logOut} />
-      </StyledLink>
     </StyledHeader>
   );
 };

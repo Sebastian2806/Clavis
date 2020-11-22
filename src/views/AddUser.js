@@ -1,34 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { Formik, Form, Field } from 'formik';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import TextInput from '../components/molecules/TextInput';
 import Button from '../components/atoms/Button';
-import Header from '../components/molecules/Header';
 import Select from '../components/molecules/Select';
-import AddUserIcon from '../assets/icon/adduser.svg';
-
-const StyledWrapper = styled.div`
-  min-width: 100%;
-  min-height: calc(100vh - 50px);
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-  background-color: ${({ theme }) => theme.colors.background};
-  padding-top: 30px;
-
-  @media (min-width: 600px) {
-    padding-top: 50px;
-  }
-`;
-
-const StyledContainer = styled.div`
-  width: 100%;
-  max-width: 500px;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-`;
+import { FetchContext } from '../context/fetchContext';
 
 const StyledForm = styled(Form)`
   width: 80%;
@@ -52,25 +29,18 @@ const roles = [
   { id: 3, value: 'apparitor', label: 'Wydający' },
 ];
 
-const StyledHeader = styled.div`
-  width: 100%;
-  height: 110px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const AddUser = () => {
+  const fetchContext = useContext(FetchContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState(null);
-
   return (
     <>
-      <Header />
-      <StyledWrapper>
-        <StyledContainer>
-          <StyledHeader>
-            <img src={AddUserIcon} alt="" />
-          </StyledHeader>
+      <div>
+        <div>
+          <div>
+            <PersonAddIcon />
+          </div>
           <Formik
             initialValues={{
               name: '',
@@ -79,33 +49,30 @@ const AddUser = () => {
               email: '',
               password: '',
             }}
-            onSubmit={(values, { setErrors, setSubmitting }) => {
-              setSubmitting(true);
-              fetch('https://clavis-rest.herokuapp.com/admin/adduser', {
-                method: 'PUT',
-                body: JSON.stringify(values),
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-              })
-                .then((result) => result.json())
-                .then((data) => {
-                  console.log(data);
-                  if (data.errors && data.errors.length > 0) {
-                    const err = {};
-                    data.errors.forEach((el) => (err[el.param] = el.msg));
-                    setErrors(err);
-                  } else {
-                    setMessage('Użytkownik dodany pomyślnie!');
-                  }
-                  setSubmitting(false);
-                })
-                .catch((err) => console.log(err));
+            onSubmit={async (values, { setSubmitting, setErrors }) => {
+              try {
+                setIsLoading(true);
+                setSubmitting(false);
+                const data = await fetchContext.authAxios.put('admin/adduser', values);
+                console.log(data);
+                setIsError('');
+              } catch (err) {
+                if (err.response.data.errors && err.response.data.errors.length > 0) {
+                  const error = {};
+                  err.response.data.errors.forEach((el) => (error[el.param] = el.msg));
+                  console.log(error);
+                  setErrors(error);
+                } else {
+                  setIsError('Wystąpił błąd podczas dodawania użytkownika.');
+                }
+              }
+              setIsLoading(true);
+              setSubmitting(false);
             }}
           >
             {({ errors, values, handleChange }) => (
               <StyledForm>
+                {JSON.stringify(errors)}
                 <Field as={TextInput} label="imie" name="name" type="text" />
                 <Field as={TextInput} label="nazwisko" name="surname" type="text" />
                 <Select data={roles} label="rola" name="role" value={values.type} onChange={handleChange} />
@@ -117,8 +84,8 @@ const AddUser = () => {
               </StyledForm>
             )}
           </Formik>
-        </StyledContainer>
-      </StyledWrapper>
+        </div>
+      </div>
     </>
   );
 };

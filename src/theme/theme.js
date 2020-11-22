@@ -7,6 +7,7 @@ const theme = {
     purple: '#6B778D',
     lightpurple: '#AEB1B8',
     error: '#FF6768',
+    errorhover: '#ff8080',
     warning: '#DBB552',
     approve: '#007D55',
     button: '#2196F3',
