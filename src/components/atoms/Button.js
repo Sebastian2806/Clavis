@@ -1,16 +1,45 @@
+import React from 'react';
 import styled from 'styled-components';
+import PulseLoader from 'react-spinners/PulseLoader';
+import PropTypes from 'prop-types';
 
-const Button = styled.button`
-  width: 100%;
+const StyledButton = styled.button`
+  width: 120px;
   height: 46px;
-  border-radius: 23px;
   border: 0;
+  border-radius: ${({ theme }) => theme.radius};
+  transition: background-color 150ms;
   color: ${({ theme }) => theme.colors.light};
-  background-color: ${({ theme }) => theme.colors.button};
+  background-color: ${({ theme }) => theme.colors.dark};
   text-transform: uppercase;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 500;
   cursor: pointer;
+  margin-top: 25px;
+  margin-left: 15px;
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${({ theme }) => theme.colors.disabled};
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+  }
 `;
+
+const Button = ({ children, isLoading, ...rest }) => (
+  <StyledButton {...rest}>{isLoading ? <PulseLoader size={11} margin={4} color="#ffffff" /> : children}</StyledButton>
+);
+
+Button.propTypes = {
+  children: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool,
+};
+
+Button.defaultProps = {
+  isLoading: false,
+};
 
 export default Button;

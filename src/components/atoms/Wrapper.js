@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const Wrapper = styled.main`
   height: calc(var(--vh) * 100);
+  flex-grow: 1;
 
   @media (min-width: 900px) {
     margin-left: 300px;

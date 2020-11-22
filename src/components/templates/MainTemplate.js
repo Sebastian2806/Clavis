@@ -15,6 +15,7 @@ const StyledWrapper = styled.div`
   width: 100%;
   min-height: calc(var(--vh) * 100);
   position: relative;
+  display: flex;
 `;
 
 const MainTemplate = ({ children }) => {

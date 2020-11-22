@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 
 const Label = styled.label`
-  text-transform: uppercase;
-  font-size: 13px;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.lightpurple};
+  font-size: 17px;
+  color: ${({ theme }) => theme.colors.dark};
 `;
 
 export default Label;

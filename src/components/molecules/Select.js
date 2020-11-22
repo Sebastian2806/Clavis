@@ -4,26 +4,29 @@ import styled from 'styled-components';
 import Label from '../atoms/Label';
 
 const StyledWrapper = styled.div`
+  width: 100%;
+  max-width: 275px;
+  display: flex;
+  flex-direction: column;
   margin: 10px 0;
 `;
 
 const StyledSelect = styled.select`
   width: 100%;
+  max-width: 275px;
   height: ${({ height }) => height};
-  background: transparent;
-  border: 0;
-  color: ${({ theme }) => theme.colors.light};
-  padding: 0;
-  font-size: 15px;
-  position: relative;
-  z-index: 3;
-  outline: none;
-  margin: 10px 0;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.lightpurple};
+  height: 45px;
+  background-color: transparent;
+  border: 3px solid ${({ theme }) => theme.colors.dark};
+  font-size: 19px;
+  padding: 0 5px;
+  border-radius: ${({ theme }) => theme.radius};
+  margin-top: 5px;
 `;
 
 const StyledOption = styled.option`
   color: #000;
+  font-size: 19px;
 `;
 
 const Select = ({ data, label, name, ...props }) => {

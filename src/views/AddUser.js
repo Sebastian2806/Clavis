@@ -1,26 +1,86 @@
 import React, { useContext, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import TextInput from '../components/molecules/TextInput';
 import Button from '../components/atoms/Button';
+import AvatarBox from '../components/atoms/AvatarBox';
+import TextInput from '../components/molecules/TextInput';
 import Select from '../components/molecules/Select';
 import { FetchContext } from '../context/fetchContext';
 
+const StyledWrapper = styled.div`
+  width: 100%;
+  min-height: calc(var(--vh) * 100 - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  @media (min-width: 600px) {
+    align-items: center;
+  }
+`;
+
+const StyledContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  max-width: 300px;
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 1000px) {
+    max-width: 600px;
+  }
+`;
+
+const StyledSideContainer = styled.div`
+  width: 100%;
+
+  @media (min-width: 1000px) {
+    display: flex;
+  }
+`;
+
+const StyledSide = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+
+  @media (min-width: 1000px) {
+    width: 50%;
+  }
+`;
+
 const StyledForm = styled(Form)`
-  width: 80%;
+  width: 100%;
 `;
 
-const StyledError = styled.div`
+const StyledMessageContainer = styled.div`
+  padding: 0 15px;
+`;
+
+const StyledMessage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   height: 50px;
-  line-height: 50px;
-  text-align: center;
+  padding: 15px;
+  border-radius: ${({ theme }) => theme.radius};
   color: ${({ theme }) => theme.colors.light};
+  font-weight: bold;
+  text-align: center;
+  margin-top: 30px;
   background-color: ${({ theme }) => theme.colors.error};
-`;
 
-const StyledButton = styled(Button)`
-  margin-top: 50px;
+  ${({ correct }) =>
+    correct &&
+    css`
+      background-color: ${({ theme }) => theme.colors.approve};
+    `}
 `;
 
 const roles = [
@@ -29,19 +89,30 @@ const roles = [
   { id: 3, value: 'apparitor', label: 'Wydający' },
 ];
 
+const AddUserSchema = Yup.object().shape({
+  name: Yup.string()
+    .matches(/^[A-ZĄĆĘŁŃÓŚŹŻ]+$/i, 'Dozwolone są tylko litery')
+    .required('Pole wymagane'),
+  surname: Yup.string()
+    .matches(/^[A-ZĄĆĘŁŃÓŚŹŻ]+$/i, 'Dozwolone są tylko litery')
+    .required('Pole wymagane'),
+  email: Yup.string().email('Email jest niepoprawny!').required('Pole wymagane'),
+  password: Yup.string().min(8, 'Conajmniej 8 znaków').required('Pole wymagane'),
+});
+
 const AddUser = () => {
   const fetchContext = useContext(FetchContext);
-  const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [message, setMessage] = useState(null);
+  const [isCorrect, setIsCorrect] = useState(false);
   return (
     <>
-      <div>
-        <div>
-          <div>
+      <StyledWrapper>
+        <StyledContainer>
+          <AvatarBox>
             <PersonAddIcon />
-          </div>
+          </AvatarBox>
           <Formik
+            validationSchema={AddUserSchema}
             initialValues={{
               name: '',
               surname: '',
@@ -49,43 +120,91 @@ const AddUser = () => {
               email: '',
               password: '',
             }}
-            onSubmit={async (values, { setSubmitting, setErrors }) => {
+            onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
               try {
-                setIsLoading(true);
-                setSubmitting(false);
-                const data = await fetchContext.authAxios.put('admin/adduser', values);
-                console.log(data);
-                setIsError('');
+                setIsCorrect(false);
+                setSubmitting(true);
+                await fetchContext.authAxios.put('admin/adduser', values);
+                setIsError(false);
+                setIsCorrect(true);
+                resetForm();
               } catch (err) {
-                if (err.response.data.errors && err.response.data.errors.length > 0) {
+                if (
+                  err.response &&
+                  err.response.data &&
+                  err.response.data.errors &&
+                  err.response.data.errors.length > 0
+                ) {
                   const error = {};
                   err.response.data.errors.forEach((el) => (error[el.param] = el.msg));
-                  console.log(error);
                   setErrors(error);
                 } else {
-                  setIsError('Wystąpił błąd podczas dodawania użytkownika.');
+                  setIsError(true);
                 }
               }
-              setIsLoading(true);
               setSubmitting(false);
             }}
           >
-            {({ errors, values, handleChange }) => (
+            {({ errors, touched, values, handleChange, isSubmitting }) => (
               <StyledForm>
-                {JSON.stringify(errors)}
-                <Field as={TextInput} label="imie" name="name" type="text" />
-                <Field as={TextInput} label="nazwisko" name="surname" type="text" />
-                <Select data={roles} label="rola" name="role" value={values.type} onChange={handleChange} />
-                <Field as={TextInput} label="email" name="email" type="email" />
-                <Field as={TextInput} label="hasło" name="password" type="password" />
-                {(errors.email || errors.password) && <StyledError>Błąd podczas dodawanie użytkownika</StyledError>}
-                {message && <p>{message}</p>}
-                <StyledButton>dodaj</StyledButton>
+                <StyledSideContainer>
+                  <StyledSide>
+                    <Field
+                      as={TextInput}
+                      label="Imię"
+                      name="name"
+                      type="text"
+                      error={errors.name && touched.name ? errors.name : ''}
+                    />
+                    <Field
+                      as={TextInput}
+                      label="Nazwisko"
+                      name="surname"
+                      type="text"
+                      error={errors.surname && touched.surname ? errors.surname : ''}
+                    />
+                    <Select data={roles} label="Rola" name="role" value={values.type} onChange={handleChange} />
+                  </StyledSide>
+                  <StyledSide>
+                    <Field
+                      as={TextInput}
+                      label="Email"
+                      name="email"
+                      type="email"
+                      error={errors.email && touched.email ? errors.email : ''}
+                    />
+                    <Field
+                      as={TextInput}
+                      label="Hasło"
+                      name="password"
+                      type="password"
+                      error={errors.password && touched.password ? errors.password : ''}
+                    />
+                  </StyledSide>
+                </StyledSideContainer>
+                {isError && (
+                  <StyledMessageContainer>
+                    <StyledMessage>Wystąpił błąd podczas dodawania użytkownika.</StyledMessage>
+                  </StyledMessageContainer>
+                )}
+                {isCorrect && (
+                  <StyledMessageContainer>
+                    <StyledMessage correct>Pomyślnie dodano użytkownika do bazy.</StyledMessage>
+                  </StyledMessageContainer>
+                )}
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  aria-label="Dodaj nowego użytkownika"
+                  isLoading={isSubmitting}
+                >
+                  dodaj
+                </Button>
               </StyledForm>
             )}
           </Formik>
-        </div>
-      </div>
+        </StyledContainer>
+      </StyledWrapper>
     </>
   );
 };

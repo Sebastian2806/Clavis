@@ -1,66 +1,54 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
-const StyledWrapper = styled.div`
-  position: relative;
-  margin-top: 3px;
-`;
-
-const StyledUnderline = styled.div`
-  &::before,
-  &::after {
-    content: '';
-    left: 0;
-    top: 95%;
-    position: absolute;
-    height: 1px;
-    width: 100%;
-    background-color: ${({ theme }) => theme.colors.lightpurple};
-  }
-
-  &::after {
-    transform: scaleX(0);
-    background-color: ${({ theme }) => theme.colors.light};
-    transition: transform 150ms;
-  }
-`;
-
 const StyledInput = styled.input.attrs((props) => ({
-  height: props.height || '30px',
+  height: props.height || '45px',
 }))`
   width: 100%;
+  max-width: 275px;
   height: ${({ height }) => height};
-  background: transparent;
-  border: 0;
-  /* color: ${({ theme }) => theme.colors.light}; */
-  padding: 0;
-  font-size: 15px;
-  position: relative;
-  z-index: 3;
-  outline: none;
+  background-color: transparent;
+  border: 3px solid ${({ theme }) => theme.colors.dark};
+  font-size: 19px;
+  padding: 0 5px;
+  border-radius: ${({ theme }) => theme.radius};
+  margin-top: 5px;
 
-  &:focus + div::after {
-    transform: scaleX(1);
+  &:hover,
+  &:focus {
+    background-color: #f2f4f5;
   }
+
+  ${({ error }) =>
+    error &&
+    css`
+      border: 3px solid ${({ theme }) => theme.colors.error};
+    `}
 `;
 
-const Input = ({ name, textarea, ...props }) => {
+const Input = ({ name, textarea, error, ...props }) => {
   return (
-    <StyledWrapper>
-      <StyledInput name={name} id={name} as={textarea ? 'textarea' : 'input'} height={textarea && 'auto'} {...props} />
-      <StyledUnderline />
-    </StyledWrapper>
+    <StyledInput
+      name={name}
+      id={name}
+      as={textarea ? 'textarea' : 'input'}
+      height={textarea && 'auto'}
+      error={error}
+      {...props}
+    />
   );
 };
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
   textarea: PropTypes.bool,
+  error: PropTypes.string,
 };
 
 Input.defaultProps = {
   textarea: false,
+  error: '',
 };
 
 export default Input;
