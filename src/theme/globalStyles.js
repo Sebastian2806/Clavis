@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
         -moz-osx-font-smoothing: grayscale;
     }
 
-    button, input, select {
+    button, input, select, textarea {
         font-family: 'Roboto', sans-serif;
         padding: 0;
     }
