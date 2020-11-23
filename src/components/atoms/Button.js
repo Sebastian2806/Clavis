@@ -15,8 +15,6 @@ const StyledButton = styled.button`
   font-size: 17px;
   font-weight: 500;
   cursor: pointer;
-  margin-top: 25px;
-  margin-left: 15px;
 
   &:disabled {
     cursor: not-allowed;
