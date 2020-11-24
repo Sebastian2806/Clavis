@@ -11,15 +11,15 @@ const StyledHeader = styled.header`
   display: flex;
   align-items: center;
   padding: 0 10px;
+
+  @media (min-width: 900px) {
+    display: none;
+  }
 `;
 
 const StyledTitle = styled(Title)`
   color: ${({ theme }) => theme.colors.darkblue};
   margin-left: 10px;
-
-  @media (min-width: 900px) {
-    display: none;
-  }
 `;
 
 const StyledMenuButton = styled(IconBox)`

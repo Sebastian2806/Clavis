@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SignIn from './SignIn';
 import Home from './Home';
 import AddClassroom from './AddClassroom';
+import FindClassroom from './FindClassroom';
 import AddUser from './AddUser';
 import MainTemplate from '../components/templates/MainTemplate';
 import AuthRoute from '../components/privateRoutes/AuthRoute';
@@ -23,7 +24,9 @@ const Root = () => {
           <AdminRoute path="/adduser">
             <AddUser />
           </AdminRoute>
-          {/* <Route path="/findclassroom" /> */}
+          <AuthRoute exact path="/findclassroom">
+            <FindClassroom />
+          </AuthRoute>
           {/* <Route path="/classroomdesc/:id" /> */}
           {/* <Route path="/classroomdesc/:id/confirm" /> */}
         </Switch>

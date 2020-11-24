@@ -13,6 +13,7 @@ const StyledWrapper = styled.div`
 
   @media (min-width: 600px) {
     align-items: center;
+    min-height: calc(var(--vh) * 100);
   }
 `;
 

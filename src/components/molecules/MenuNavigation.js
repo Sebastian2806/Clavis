@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import CreateIcon from '@material-ui/icons/Create';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../context/authContext';
@@ -20,6 +21,12 @@ const nav = [
     icon: <PersonAddIcon />,
     roles: ['admin'],
     path: '/adduser',
+  },
+  {
+    label: 'Wyszukaj salę',
+    icon: <SearchIcon />,
+    roles: ['admin', 'user', 'apparitor'],
+    path: '/findclassroom',
   },
 ];
 
