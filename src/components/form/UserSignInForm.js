@@ -18,8 +18,8 @@ const StyledButtonContainer = styled.div`
 `;
 
 const SignInSchema = Yup.object().shape({
-  email: Yup.string().email('Email jest niepoprawny!').required('Pole wymagane'),
-  password: Yup.string().min(8, 'Conajmniej 8 znaków').required('Pole wymagane'),
+  email: Yup.string().required('Pole wymagane'),
+  password: Yup.string().required('Pole wymagane'),
 });
 
 const UserSignInForm = ({ setRedirectOnLogin }) => {
