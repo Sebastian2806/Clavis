@@ -50,7 +50,7 @@ const Classroom = ({ number, label, status, capacity }) => (
 Classroom.propTypes = {
   number: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  capacity: PropTypes.number.isRequired,
+  capacity: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
 };
 

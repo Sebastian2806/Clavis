@@ -6,12 +6,15 @@ const { Provider } = MenuContext;
 
 const MenuProvider = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   return (
     <Provider
       value={{
         isMenuOpen,
         setIsMenuOpen,
+        isFiltersOpen,
+        setIsFiltersOpen,
       }}
     >
       {children}

@@ -20,7 +20,7 @@ const StyledGrid = styled.section`
     grid-template-columns: repeat(2, minmax(200px, 300px));
   }
 
-  @media (min-width: 1070px) {
+  @media (min-width: 1300px) {
     grid-template-columns: repeat(3, minmax(200px, 300px));
   }
 `;

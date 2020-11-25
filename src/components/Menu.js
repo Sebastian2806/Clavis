@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import MenuHeader from './molecules/MenuHeader';
 import MenuUserInfo from './molecules/MenuUserInfo';
@@ -55,7 +55,7 @@ const Menu = () => {
         <StyledLine />
         <MenuNavigation />
       </StyledWrapper>
-      <StyledBackground isMenuOpen={menuContext.isMenuOpen} onClick={() => menuContext.setIsMenuOpen(false)} />
+      {/* <StyledBackground isMenuOpen={menuContext.isMenuOpen} onClick={() => menuContext.setIsMenuOpen(false)} /> */}
     </>
   );
 };

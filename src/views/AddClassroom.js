@@ -11,7 +11,7 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: flex-start;
 
-  @media (min-width: 600px) {
+  @media (min-width: 900px) {
     align-items: center;
     min-height: calc(var(--vh) * 100);
   }

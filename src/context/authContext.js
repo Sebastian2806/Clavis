@@ -23,6 +23,18 @@ const AuthProvider = ({ children }) => {
   });
 
   const setAuthInfo = ({ token, user }) => {
+    if (!token || !user) {
+      setAuthState({
+        token: null,
+        expiresAt: null,
+        user: {},
+      });
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('expiresAt');
+      return Error('Błąd podczas logowania');
+    }
+
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('expiresAt', 1607056600);
@@ -31,13 +43,11 @@ const AuthProvider = ({ children }) => {
       expiresAt: 1607056600,
       user,
     });
+    return true;
   };
 
   const isAuthenticated = () => {
     if (!authState.token || !authState.expiresAt) {
-      //   localStorage.removeItem('token');
-      //   localStorage.removeItem('user');
-      //   localStorage.removeItem('expiresAt');
       return false;
     }
     return new Date().getTime() / 1000 < authState.expiresAt;

@@ -8,6 +8,7 @@ import { AuthProvider } from '../../context/authContext';
 import { MenuProvider } from '../../context/menuContext';
 import { FetchProvider } from '../../context/fetchContext';
 import { setVH } from '../../util/helpers';
+import Background from '../atoms/Background';
 
 const setHeight = setVH();
 
@@ -36,6 +37,7 @@ const MainTemplate = ({ children }) => {
           <MenuProvider>
             <ThemeProvider theme={theme}>
               <GlobalStyles />
+              <Background />
               {children}
             </ThemeProvider>
           </MenuProvider>

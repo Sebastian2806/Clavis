@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const IconBox = styled.button`
   cursor: pointer;
@@ -10,7 +10,7 @@ const IconBox = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 100ms;
+  transition: background-color 150ms;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.background};
@@ -21,6 +21,22 @@ const IconBox = styled.button`
     height: 80%;
     color: ${({ theme }) => theme.colors.light};
   }
+
+  ${({ mode }) =>
+    mode === 'light' &&
+    css`
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.dark};
+      }
+
+      & > svg {
+        color: ${({ theme }) => theme.colors.dark};
+      }
+
+      &:hover > svg {
+        color: ${({ theme }) => theme.colors.light};
+      }
+    `}
 `;
 
 export default IconBox;
