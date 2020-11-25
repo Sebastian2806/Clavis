@@ -31,7 +31,7 @@ const UserSignInForm = ({ setRedirectOnLogin }) => {
 
   return (
     <Formik
-      //   validationSchema={SignInSchema}
+      validationSchema={SignInSchema}
       initialValues={{
         email: '',
         password: '',

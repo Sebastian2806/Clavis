@@ -11,7 +11,7 @@ import AdminRoute from '../components/privateRoutes/AdminRoute';
 
 const Root = () => {
   return (
-    <Router>
+    <Router basename={window.location.pathname || ''}>
       <MainTemplate>
         <Switch>
           <Route path="/signin" component={SignIn} />
