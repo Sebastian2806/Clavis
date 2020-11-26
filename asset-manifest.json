@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.js": "/static/js/main.2c479d0e.chunk.js",
-    "main.js.map": "/static/js/main.2c479d0e.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.ac7703af.js",
-    "runtime-main.js.map": "/static/js/runtime-main.ac7703af.js.map",
-    "static/js/2.ec22f9bb.chunk.js": "/static/js/2.ec22f9bb.chunk.js",
-    "static/js/2.ec22f9bb.chunk.js.map": "/static/js/2.ec22f9bb.chunk.js.map",
-    "index.html": "/index.html",
-    "static/js/2.ec22f9bb.chunk.js.LICENSE.txt": "/static/js/2.ec22f9bb.chunk.js.LICENSE.txt",
-    "static/media/key.c3cb9b08.svg": "/static/media/key.c3cb9b08.svg"
+    "main.js": "https://sebastian2806.github.io/Clavis/static/js/main.39035363.chunk.js",
+    "main.js.map": "https://sebastian2806.github.io/Clavis/static/js/main.39035363.chunk.js.map",
+    "runtime-main.js": "https://sebastian2806.github.io/Clavis/static/js/runtime-main.3e5aed17.js",
+    "runtime-main.js.map": "https://sebastian2806.github.io/Clavis/static/js/runtime-main.3e5aed17.js.map",
+    "static/js/2.57f724fb.chunk.js": "https://sebastian2806.github.io/Clavis/static/js/2.57f724fb.chunk.js",
+    "static/js/2.57f724fb.chunk.js.map": "https://sebastian2806.github.io/Clavis/static/js/2.57f724fb.chunk.js.map",
+    "index.html": "https://sebastian2806.github.io/Clavis/index.html",
+    "static/js/2.57f724fb.chunk.js.LICENSE.txt": "https://sebastian2806.github.io/Clavis/static/js/2.57f724fb.chunk.js.LICENSE.txt",
+    "static/media/key.c3cb9b08.svg": "https://sebastian2806.github.io/Clavis/static/media/key.c3cb9b08.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.ac7703af.js",
-    "static/js/2.ec22f9bb.chunk.js",
-    "static/js/main.2c479d0e.chunk.js"
+    "static/js/runtime-main.3e5aed17.js",
+    "static/js/2.57f724fb.chunk.js",
+    "static/js/main.39035363.chunk.js"
   ]
 }
