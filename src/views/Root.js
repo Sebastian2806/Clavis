@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import SignIn from './SignIn';
 import Home from './Home';
 import AddClassroom from './AddClassroom';
@@ -11,7 +11,7 @@ import AdminRoute from '../components/privateRoutes/AdminRoute';
 
 const Root = () => {
   return (
-    <Router basename={window.location.pathname || ''}>
+    <Router basename="/Clavis">
       <MainTemplate>
         <Switch>
           <Route path="/signin" component={SignIn} />
@@ -27,6 +27,8 @@ const Root = () => {
           <AuthRoute exact path="/findclassroom">
             <FindClassroom />
           </AuthRoute>
+          {/* <Route render={() => <Redirect to="/" />} /> */}
+
           {/* <Route path="/classroomdesc/:id" /> */}
           {/* <Route path="/classroomdesc/:id/confirm" /> */}
         </Switch>
