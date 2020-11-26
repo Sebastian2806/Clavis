@@ -4,7 +4,10 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import PropTypes from 'prop-types';
 
 const StyledButton = styled.button`
-  width: 120px;
+  min-width: 120px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0 10px;
   height: 46px;
   border: 0;
   border-radius: ${({ theme }) => theme.radius};

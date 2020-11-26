@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import TuneIcon from '@material-ui/icons/Tune';
+import { useParams } from 'react-router-dom';
 import Loader from '../components/molecules/Loader';
 import GridTemplate from '../components/templates/GridTemplate';
 import Classroom from '../components/molecules/Classroom';
@@ -54,12 +55,16 @@ const StyledIconBox = styled(IconBox)`
 const FindClassroom = () => {
   const { setIsFiltersOpen } = useContext(MenuContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDesc, setIsDesc] = useState(false);
+  const { classId } = useParams();
 
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 1500);
-  }, []);
+    }, 500);
+    if (classId) setIsDesc(true);
+    else setIsDesc(false);
+  }, [classId]);
 
   return (
     <StyledWrapper>
@@ -85,7 +90,7 @@ const FindClassroom = () => {
             </StyledContainer>
             <Filters />
           </StyledBox>
-          {/* <ClassroomDesc /> */}
+          {isDesc && <ClassroomDesc />}
         </>
       )}
     </StyledWrapper>

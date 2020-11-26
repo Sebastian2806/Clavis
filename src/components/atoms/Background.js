@@ -8,6 +8,8 @@ const StyledBackground = styled.div`
   background-color: #000;
   opacity: 0.6;
   z-index: 9999;
+  top: 0;
+  left: 0;
   position: fixed;
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
 `;

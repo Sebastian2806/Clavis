@@ -5,6 +5,7 @@ import Home from './Home';
 import AddClassroom from './AddClassroom';
 import FindClassroom from './FindClassroom';
 import AddUser from './AddUser';
+import ClassroomDesc from './ClassroomDesc';
 import MainTemplate from '../components/templates/MainTemplate';
 import AuthRoute from '../components/privateRoutes/AuthRoute';
 import AdminRoute from '../components/privateRoutes/AdminRoute';
@@ -24,11 +25,10 @@ const Root = () => {
           <AdminRoute path="/adduser">
             <AddUser />
           </AdminRoute>
-          <AuthRoute exact path="/findclassroom">
+          <AuthRoute exact path="/findclassroom/:classId?">
             <FindClassroom />
           </AuthRoute>
-          {/* <Route render={() => <Redirect to="/" />} /> */}
-
+          <Route render={() => <Redirect to="/" />} />
           {/* <Route path="/classroomdesc/:id" /> */}
           {/* <Route path="/classroomdesc/:id/confirm" /> */}
         </Switch>

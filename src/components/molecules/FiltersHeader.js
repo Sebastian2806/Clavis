@@ -28,7 +28,7 @@ const FiltersHeader = () => {
   const { setIsFiltersOpen } = useContext(MenuContext);
   return (
     <StyledHeaderWrapper>
-      <StyledIconBox mode="light" onClick={() => setIsFiltersOpen(false)}>
+      <StyledIconBox mode="dark" onClick={() => setIsFiltersOpen(false)}>
         <CloseIcon />
       </StyledIconBox>
       <StyledTitle>Filtry</StyledTitle>

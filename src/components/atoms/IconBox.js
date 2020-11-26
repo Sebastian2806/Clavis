@@ -23,7 +23,7 @@ const IconBox = styled.button`
   }
 
   ${({ mode }) =>
-    mode === 'light' &&
+    mode === 'dark' &&
     css`
       &:hover {
         background-color: ${({ theme }) => theme.colors.dark};

@@ -73,7 +73,7 @@ const MenuNavigation = () => {
             (el) =>
               el.roles.includes(authContext.authState.user.role) && (
                 <StyledLink key={el.path} to={el.path}>
-                  <StyledListItem active={pathname === el.path}>
+                  <StyledListItem active={pathname.includes(el.path)}>
                     {el.icon}
                     <span>{el.label}</span>
                   </StyledListItem>
