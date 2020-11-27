@@ -5,10 +5,10 @@ import Home from './Home';
 import AddClassroom from './AddClassroom';
 import FindClassroom from './FindClassroom';
 import AddUser from './AddUser';
-import ClassroomDesc from './ClassroomDesc';
 import MainTemplate from '../components/templates/MainTemplate';
 import AuthRoute from '../components/privateRoutes/AuthRoute';
 import AdminRoute from '../components/privateRoutes/AdminRoute';
+import ApparitorRoute from '../components/privateRoutes/ApparitorRoute';
 
 const Root = () => {
   return (
@@ -28,9 +28,10 @@ const Root = () => {
           <AuthRoute exact path="/findclassroom/:classId?">
             <FindClassroom />
           </AuthRoute>
+          <ApparitorRoute exact path="/rentalregistry">
+            <FindClassroom />
+          </ApparitorRoute>
           <Route render={() => <Redirect to="/" />} />
-          {/* <Route path="/classroomdesc/:id" /> */}
-          {/* <Route path="/classroomdesc/:id/confirm" /> */}
         </Switch>
       </MainTemplate>
     </Router>

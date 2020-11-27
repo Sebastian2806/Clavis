@@ -53,7 +53,7 @@ const SignInForm = () => {
   const [isCorrect, setIsCorrect] = useState(false);
   return (
     <Formik
-      //   validationSchema={AddClassroomSchema}
+      validationSchema={AddClassroomSchema}
       initialValues={{
         number: '',
         capacity: '',
@@ -70,7 +70,6 @@ const SignInForm = () => {
           resetForm();
         } catch (err) {
           setIsError(false);
-          console.log(err.response.data);
           if (err.response && err.response.data && err.response.data.errors && err.response.data.errors.length > 0) {
             const error = {};
             err.response.data.errors.forEach((el) => (error[el.param] = el.msg));
