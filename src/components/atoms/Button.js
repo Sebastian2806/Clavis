@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PulseLoader from 'react-spinners/PulseLoader';
 import PropTypes from 'prop-types';
 
@@ -28,6 +28,18 @@ const StyledButton = styled.button`
     display: flex;
     justify-content: center;
   }
+
+  ${({ cancel }) =>
+    cancel &&
+    css`
+      background-color: ${({ theme }) => theme.colors.error};
+    `}
+
+  ${({ approve }) =>
+    approve &&
+    css`
+      background-color: ${({ theme }) => theme.colors.approve};
+    `}
 `;
 
 const Button = ({ children, isLoading, ...rest }) => (

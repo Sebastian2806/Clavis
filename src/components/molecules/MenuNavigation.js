@@ -3,6 +3,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SearchIcon from '@material-ui/icons/Search';
+import ImportContactsSharpIcon from '@material-ui/icons/ImportContactsSharp';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../context/authContext';
@@ -27,6 +28,12 @@ const nav = [
     icon: <SearchIcon />,
     roles: ['admin', 'user', 'apparitor'],
     path: '/findclassroom',
+  },
+  {
+    label: 'Rejestr wypożyczeń',
+    icon: <ImportContactsSharpIcon />,
+    roles: ['admin', 'apparitor'],
+    path: '/rentalregistry',
   },
 ];
 

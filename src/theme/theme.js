@@ -15,6 +15,9 @@ const theme = {
     disabled: '#454545',
   },
   radius: '10px',
+  breakpoints: {
+    hidemenu: '900px',
+  },
 };
 
 export default theme;
