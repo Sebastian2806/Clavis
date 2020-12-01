@@ -31,6 +31,10 @@ const StyledInput = styled.input`
       stroke-dashoffset: 0;
     }
   }
+
+  &:focus + label {
+    outline: 1px solid #000;
+  }
 `;
 
 const StyledSvg = styled.svg`

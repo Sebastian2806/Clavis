@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { Formik, Form, Field } from 'formik';
+import moment from 'moment';
 import Checkbox from './Checkbox';
 import Button from '../atoms/Button';
 import FiltersHeader from './FiltersHeader';
@@ -40,44 +41,78 @@ const StyledBox = styled.div`
   }
 `;
 
+const StyledInput = styled.input`
+  width: 65px;
+  height: 45px;
+  background-color: transparent;
+  border: 3px solid ${({ theme }) => theme.colors.dark};
+  font-size: 19px;
+  padding: 0 5px;
+  border-radius: ${({ theme }) => theme.radius};
+
+  &:hover,
+  &:focus {
+    background-color: #f2f4f5;
+  }
+`;
+
+const StyledTimeBox = styled.div`
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledTimeSpan = styled.span`
+  font-size: 45px;
+  padding: 0 12px;
+`;
+
 const Filters = () => {
   const { isFiltersOpen } = useContext(MenuContext);
+  const [start] = useState(moment().format('HH:mm'));
+  const [end] = useState(moment().add(90, 'm').format('HH:mm'));
 
   return (
     <StyledWrapper isFiltersOpen={isFiltersOpen}>
       <FiltersHeader />
       <Formik
-        // validationSchema={}
         initialValues={{
           status: [],
-          start: '',
-          end: '',
+          start,
+          end,
         }}
         onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
           console.log(values);
         }}
       >
-        {({ errors, touched, values, handleChange, isSubmitting }) => (
+        {({ values, handleChange, isSubmitting }) => (
           <Form>
             <StyledFormContainer>
               <StyledBox>
                 <SubTitle>W godzinach:</SubTitle>
-                <Field
-                  as={TextInput}
-                  name="start"
-                  error=""
-                  label=""
-                  aria-label="Początek wynajęcia sali"
-                  placeholder="np.: 17:35"
-                />
-                <Field
-                  as={TextInput}
-                  name="end"
-                  error=""
-                  label=""
-                  aria-label="Koniec wynajęcia sali"
-                  placeholder="np.: 19:05"
-                />
+                <StyledTimeBox>
+                  <TextInput
+                    value={values.start}
+                    onChange={handleChange}
+                    input={<StyledInput type="text" />}
+                    name="start"
+                    aria-label="Początek wynajęcia sali"
+                    placeholder="np.: 17:35"
+                    label="Początek"
+                    time
+                  />
+                  <StyledTimeSpan>-</StyledTimeSpan>
+                  <TextInput
+                    value={values.end}
+                    onChange={handleChange}
+                    input={<StyledInput type="text" />}
+                    name="end"
+                    aria-label="Koniec wynajęcia sali"
+                    placeholder="np.: 19:05"
+                    label="Koniec"
+                    time
+                  />
+                </StyledTimeBox>
               </StyledBox>
               <StyledBox role="group" aria-labelledby="checkbox-status-group">
                 <SubTitle id="checkbox-status-group">Status sali:</SubTitle>
@@ -88,7 +123,7 @@ const Filters = () => {
                 </ul>
               </StyledBox>
             </StyledFormContainer>
-            <Button>Filtruj</Button>
+            <Button isLoading={isSubmitting}>Filtruj</Button>
           </Form>
         )}
       </Formik>
