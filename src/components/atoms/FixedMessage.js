@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const FixedMessage = styled.div`
   position: fixed;
@@ -18,12 +18,6 @@ const FixedMessage = styled.div`
   color: ${({ theme }) => theme.colors.light};
   transition: transform 200ms ease-out;
   transform: ${({ show }) => (show ? 'translateY(0)' : 'translateY(150%)')};
-
-  /* ${({ show }) =>
-    show &&
-    css`
-      transform: translateY(0);
-    `} */
 `;
 
 export default FixedMessage;

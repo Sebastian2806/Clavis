@@ -29,8 +29,6 @@ const StyledContainer = styled.div`
   justify-content: center;
 `;
 
-const StyledViewTitle = styled(ViewTitle)``;
-
 const RentalRegistry = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [messageStatus, setMessageStatus] = useState({ show: false, msg: 'Akcja wykonana pomyślnie.' });
@@ -55,7 +53,7 @@ const RentalRegistry = () => {
         <StyledContainer>
           <div>
             <StyledHeader>
-              <StyledViewTitle>Rejestr wypożyczeń</StyledViewTitle>
+              <ViewTitle>Rejestr wypożyczeń</ViewTitle>
             </StyledHeader>
             <GridTemplate>
               {rental.length > 0 ? (
