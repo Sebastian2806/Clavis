@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import Title from '../atoms/Title';
 import DotStatus from '../atoms/DotStatus';
 
 const StyledClassroom = styled.div`
   height: 100px;
   border-radius: ${({ theme }) => theme.radius};
-  border: 3px solid ${({ theme }) => theme.colors.dark};
+  border: 2px solid ${({ theme }) => theme.colors.dark};
 `;
 
 const StyledTitleBox = styled.div`
@@ -33,6 +34,12 @@ const StyledParagraph = styled.p`
   margin: 0;
   font-size: 21px;
   align-self: flex-end;
+  display: flex;
+  align-items: center;
+
+  & > span {
+    margin-left: 5px;
+  }
 `;
 
 const Classroom = ({ number, label, status, capacity }) => (
@@ -42,7 +49,10 @@ const Classroom = ({ number, label, status, capacity }) => (
       <StyledTitle as="h3">{number}</StyledTitle>
     </StyledTitleBox>
     <StyledCapacityBox>
-      <StyledParagraph>{`Pojemność: ${capacity}`}</StyledParagraph>
+      <StyledParagraph>
+        <PeopleAltIcon />
+        <span>{capacity}</span>
+      </StyledParagraph>
     </StyledCapacityBox>
   </StyledClassroom>
 );
