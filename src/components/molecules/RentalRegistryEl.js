@@ -1,31 +1,17 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import DateRangeSharpIcon from '@material-ui/icons/DateRangeSharp';
 import QueryBuilderSharpIcon from '@material-ui/icons/QueryBuilderSharp';
 import PropTypes from 'prop-types';
 import Loader from './Loader';
-import GridElContainer from './GridElContainer';
-import Button from '../atoms/Button';
-
-const StyledBox = styled.div`
-  padding: 5px 10px;
-`;
-
-const StyledSection = styled(StyledBox)`
-  flex-grow: 1;
-`;
-
-const StyledTitle = styled.h2`
-  font-size: 24px;
-`;
+import CardWrapper from './CardWrapper';
+import CardActions from './CardActions';
+import CardBox from '../atoms/CardBox';
+import CardHeader from '../atoms/CardHeader';
 
 const StyledParagraph = styled.p`
   font-size: 20px;
   margin: 0;
-`;
-
-const StyledParagraphName = styled(StyledParagraph)`
-  font-weight: bold;
 `;
 
 const TimePragraph = styled(StyledParagraph)`
@@ -36,19 +22,6 @@ const StyledTimeWrapper = styled.div`
   padding: 5px 0;
   display: flex;
   align-items: center;
-`;
-
-const StyledButton = styled(Button)`
-  min-width: 80px;
-  font-size: 15px;
-  height: 38px;
-  margin-bottom: 5px;
-
-  ${({ cancel }) =>
-    cancel &&
-    css`
-      margin-left: 10px;
-    `}
 `;
 
 const RentalRegistryEl = ({
@@ -68,8 +41,7 @@ const RentalRegistryEl = ({
     is: false,
   });
 
-  const rentalAction = (type, e) => {
-    // const elId = e.target.dataset.id;
+  const rentalAction = (type) => {
     setRentalActionStatus({ type, is: true });
     removeEL(id);
     setTimeout(() => {
@@ -83,16 +55,17 @@ const RentalRegistryEl = ({
   };
 
   return (
-    <GridElContainer height={210}>
+    <CardWrapper>
       {rentalActionStatus.is && <Loader adjust />}
-      <StyledBox as="header">
-        <StyledTitle>{number}</StyledTitle>
-      </StyledBox>
-      <StyledSection as="section">
-        <StyledParagraphName>
-          <span>{name}&nbsp;</span>
-          <span>{surname}</span>
-        </StyledParagraphName>
+      <CardHeader>
+        <h2>{number}</h2>
+      </CardHeader>
+      <CardBox>
+        <p>
+          <span>{name}</span> <span>{surname}</span>
+        </p>
+      </CardBox>
+      <CardBox>
         <div>
           <StyledTimeWrapper>
             <DateRangeSharpIcon />
@@ -105,28 +78,9 @@ const RentalRegistryEl = ({
             </TimePragraph>
           </StyledTimeWrapper>
         </div>
-      </StyledSection>
-      <StyledBox>
-        <StyledButton
-          onClick={(e) => rentalAction('approve', e)}
-          type="button"
-          approve
-          data-id={id}
-          isLoading={rentalActionStatus.type === 'approve' && rentalActionStatus.is}
-        >
-          Wydaj
-        </StyledButton>
-        <StyledButton
-          onClick={(e) => rentalAction('cancel', e)}
-          type="button"
-          cancel
-          data-id={id}
-          isLoading={rentalActionStatus.type === 'cancel' && rentalActionStatus.is}
-        >
-          Anuluj
-        </StyledButton>
-      </StyledBox>
-    </GridElContainer>
+      </CardBox>
+      <CardActions rentalAction={rentalAction} rentalActionStatus={rentalActionStatus} />
+    </CardWrapper>
   );
 };
 

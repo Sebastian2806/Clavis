@@ -4,6 +4,9 @@ import Loader from '../components/molecules/Loader';
 import ViewTitle from '../components/atoms/ViewTitle';
 import GridTemplate from '../components/templates/GridTemplate';
 import RentalRegistryEl from '../components/molecules/RentalRegistryEl';
+import CardWrapper from '../components/molecules/CardWrapper';
+import CardHeader from '../components/atoms/CardHeader';
+import CardBox from '../components/atoms/CardBox';
 import { rental } from '../data';
 import FixedMessage from '../components/atoms/FixedMessage';
 
