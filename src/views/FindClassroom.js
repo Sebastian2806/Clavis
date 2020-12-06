@@ -10,7 +10,7 @@ import IconBox from '../components/atoms/IconBox';
 import ViewTitle from '../components/atoms/ViewTitle';
 import { MenuContext } from '../context/menuContext';
 import ClassroomDesc from '../components/molecules/ClassroomDesc';
-import { classrooms } from '../data';
+import { FetchContext } from '../context/fetchContext';
 
 const StyledWrapper = styled.div`
   min-height: calc(var(--vh) * 100 - 70px);
@@ -48,15 +48,44 @@ const StyledIconBox = styled(IconBox)`
 `;
 
 const FindClassroom = () => {
+  const fetchContext = useContext(FetchContext);
   const { setIsFiltersOpen } = useContext(MenuContext);
   const [isLoading, setIsLoading] = useState(true);
   const [isDesc, setIsDesc] = useState(false);
   const { classId } = useParams();
+  const [classrooms, setClassrooms] = useState(null);
+
+  const labels = [
+    {
+      status: 'free',
+      label: 'wolna',
+    },
+    {
+      status: 'book',
+      label: 'zarezerwowana',
+    },
+    {
+      status: 'take',
+      label: 'zajęta',
+    },
+  ];
 
   useEffect(() => {
-    setTimeout(() => {
+    (async () => {
+      setIsLoading(true);
+      const cl = await fetchContext.authAxios.post('classrooms', {});
+
+      const classroomsInfo = cl.data.classrooms.map((classroom) => {
+        const [name] = labels.filter((el) => el.status === classroom.status);
+        return { ...classroom, label: name.label };
+      });
+
+      setClassrooms(classroomsInfo);
       setIsLoading(false);
-    }, 500);
+    })();
+  }, []);
+
+  useEffect(() => {
     if (classId) setIsDesc(true);
     else setIsDesc(false);
   }, [classId]);
