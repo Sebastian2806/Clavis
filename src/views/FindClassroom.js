@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import TuneIcon from '@material-ui/icons/Tune';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Loader from '../components/molecules/Loader';
 import GridTemplate from '../components/templates/GridTemplate';
 import Classroom from '../components/molecules/Classroom';
@@ -11,6 +11,7 @@ import ViewTitle from '../components/atoms/ViewTitle';
 import { MenuContext } from '../context/menuContext';
 import ClassroomDesc from '../components/molecules/ClassroomDesc';
 import { FetchContext } from '../context/fetchContext';
+import { ClassroomContext } from '../context/classroomsContext';
 
 const StyledWrapper = styled.div`
   min-height: calc(var(--vh) * 100 - 70px);
@@ -49,6 +50,7 @@ const StyledIconBox = styled(IconBox)`
 
 const FindClassroom = () => {
   const fetchContext = useContext(FetchContext);
+  const classroomContext = useContext(ClassroomContext);
   const { setIsFiltersOpen } = useContext(MenuContext);
   const [isLoading, setIsLoading] = useState(true);
   const [isDesc, setIsDesc] = useState(false);
@@ -80,6 +82,7 @@ const FindClassroom = () => {
         return { ...classroom, label: name.label };
       });
 
+      classroomContext.setClassrooms(classroomsInfo);
       setClassrooms(classroomsInfo);
       setIsLoading(false);
     })();
@@ -107,7 +110,9 @@ const FindClassroom = () => {
                 </StyledTitleContainer>
                 <GridTemplate areFiltersApplied>
                   {classrooms.map((classroom) => (
-                    <Classroom key={classroom.number} {...classroom} />
+                    <Link to={`/findclassroom/${classroom.id}`} key={classroom.number}>
+                      <Classroom {...classroom} />
+                    </Link>
                   ))}
                 </GridTemplate>
               </div>

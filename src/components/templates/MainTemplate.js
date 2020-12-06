@@ -7,6 +7,7 @@ import theme from '../../theme/theme';
 import { AuthProvider } from '../../context/authContext';
 import { MenuProvider } from '../../context/menuContext';
 import { FetchProvider } from '../../context/fetchContext';
+import { ClassroomProvider } from '../../context/classroomsContext';
 import { setVH } from '../../util/helpers';
 import Background from '../atoms/Background';
 
@@ -34,13 +35,15 @@ const MainTemplate = ({ children }) => {
     <StyledWrapper>
       <AuthProvider>
         <FetchProvider>
-          <MenuProvider>
-            <ThemeProvider theme={theme}>
-              <GlobalStyles />
-              <Background />
-              {children}
-            </ThemeProvider>
-          </MenuProvider>
+          <ClassroomProvider>
+            <MenuProvider>
+              <ThemeProvider theme={theme}>
+                <GlobalStyles />
+                <Background />
+                {children}
+              </ThemeProvider>
+            </MenuProvider>
+          </ClassroomProvider>
         </FetchProvider>
       </AuthProvider>
     </StyledWrapper>

@@ -1,12 +1,24 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+import { Link, useParams } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
 import Title from '../atoms/Title';
 import IconBox from '../atoms/IconBox';
 import SubTitle from '../atoms/SubTitle';
 import Button from '../atoms/Button';
 import DotStatus from '../atoms/DotStatus';
+import { ClassroomContext } from '../../context/classroomsContext';
+import { getStatusLabel } from '../../util/helpers';
+
+const scale = keyframes`
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: rotate(1);
+  }
+`;
 
 const StyledWrapper = styled.div`
   position: absolute;
@@ -23,13 +35,13 @@ const StyledWrapper = styled.div`
 const StyledContainer = styled.div`
   width: 100%;
   max-width: 500px;
-  height: 400px;
+  height: fit-content;
+  max-height: 450px;
   margin: 15px;
-  border: 3px solid ${({ theme }) => theme.colors.dark};
-  background-color: ${({ theme }) => theme.colors.light};
-  border-radius: ${({ theme }) => theme.radius};
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  animation: ${scale} 200ms;
 `;
 
 const StyledBackground = styled.div`
@@ -47,8 +59,12 @@ const StyledHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: ${({ theme }) => theme.colors.dark};
+  width: 100%;
   padding: 10px;
+  z-index: 40000;
+  background-color: ${({ theme }) => theme.colors.dark};
+  border-top-left-radius: ${({ theme }) => theme.radius};
+  border-top-right-radius: ${({ theme }) => theme.radius};
 `;
 
 const StyledTitle = styled(Title)`
@@ -61,6 +77,11 @@ const StyledContent = styled.div`
   flex-grow: 1;
   overflow-y: auto;
   padding: 10px;
+  background-color: ${({ theme }) => theme.colors.light};
+  border: 3px solid ${({ theme }) => theme.colors.dark};
+  border-top: 0;
+  border-bottom-left-radius: ${({ theme }) => theme.radius};
+  border-bottom-right-radius: ${({ theme }) => theme.radius};
 `;
 
 const StyledSubtitle = styled(SubTitle)`
@@ -92,35 +113,49 @@ const StyledDotStatus = styled(DotStatus)`
 `;
 
 const ClassroomDesc = () => {
+  const classroomContext = useContext(ClassroomContext);
+  const [classroom, setClassroom] = useState({});
+  const [show, setShow] = useState(true);
+  const { classId } = useParams();
+
+  useEffect(() => {
+    const cl = classroomContext.getClassroomById(classId);
+    const [name] = getStatusLabel(cl.status);
+    setClassroom({ ...cl, label: name.label });
+  }, []);
+
   return (
     <>
       <StyledWrapper>
         <StyledContainer>
           <StyledHeader>
-            <StyledTitle>aula 02</StyledTitle>
+            <StyledTitle>{classroom.number}</StyledTitle>
             <Link to="/findclassroom" aria-label="Wróć do przeglądania sal">
               <IconBox>
                 <CloseIcon />
               </IconBox>
             </Link>
           </StyledHeader>
+
           <StyledContent>
-            <StyledSubtitle>Aktualny status</StyledSubtitle>
-            <StyledStatusContainer>
-              <StyledDotStatus type="free" />
-              <StyledParagraph>wolna</StyledParagraph>
-            </StyledStatusContainer>
-            <StyledSubtitle>Typ</StyledSubtitle>
-            <StyledParagraph>aula</StyledParagraph>
-            <StyledSubtitle>Pojemność</StyledSubtitle>
-            <StyledParagraph>100</StyledParagraph>
-            <StyledSubtitle>Opis</StyledSubtitle>
-            <StyledParagraph>
-              Litwo! Ojczyzno moja! Ty jesteś jak zdrowie. Ile cię stracił. Dziś człowieka nie mógł najprędzej,
-              niedzielne ubrani piękniejsze jest zagadką, młódź lubi zagadki. Roztargniony, do zdrowia powróciłaś cudem
-              na rywala coraz głośniejsza kłótnia o kusego charta którego posiadaniem pan dla zabawki
-            </StyledParagraph>
-            <StyledButton>Sprawdź dostępność</StyledButton>
+            {show ? (
+              <StyledButton>Zarezerwuj</StyledButton>
+            ) : (
+              <>
+                <StyledSubtitle>Aktualny status</StyledSubtitle>
+                <StyledStatusContainer>
+                  <StyledDotStatus type={classroom.status} />
+                  <StyledParagraph>{classroom.label}</StyledParagraph>
+                </StyledStatusContainer>
+                <StyledSubtitle>Typ</StyledSubtitle>
+                <StyledParagraph>{classroom.type}</StyledParagraph>
+                <StyledSubtitle>Pojemność</StyledSubtitle>
+                <StyledParagraph>{classroom.capacity}</StyledParagraph>
+                <StyledSubtitle>Opis</StyledSubtitle>
+                <StyledParagraph>{classroom.description}</StyledParagraph>
+                <StyledButton onClick={() => setShow(true)}>Zarezerwuj</StyledButton>
+              </>
+            )}
           </StyledContent>
         </StyledContainer>
       </StyledWrapper>

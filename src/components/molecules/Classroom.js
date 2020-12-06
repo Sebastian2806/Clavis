@@ -9,6 +9,12 @@ const StyledClassroom = styled.div`
   height: 100px;
   border-radius: ${({ theme }) => theme.radius};
   border: 2px solid ${({ theme }) => theme.colors.dark};
+  color: ${({ theme }) => theme.colors.dark};
+  transition: background-color 100ms;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightpurple};
+  }
 `;
 
 const StyledTitleBox = styled.div`

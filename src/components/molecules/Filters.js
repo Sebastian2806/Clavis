@@ -20,7 +20,6 @@ const StyledWrapper = styled.div`
   position: fixed;
   background-color: ${({ theme }) => theme.colors.light};
   transform: ${({ isFiltersOpen }) => (isFiltersOpen ? 'translateX(0)' : 'translateX(100%)')};
-  z-index: 10000;
 
   @media (min-width: 1000px) {
     position: static;
