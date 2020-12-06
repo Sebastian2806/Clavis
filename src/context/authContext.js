@@ -1,6 +1,7 @@
 import React, { useState, createContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 const AuthContext = createContext();
 const { Provider } = AuthContext;
@@ -10,53 +11,53 @@ const AuthProvider = ({ children }) => {
 
   const authToken = localStorage.getItem('token');
   const userInfo = localStorage.getItem('user');
-  const expiresAt = localStorage.getItem('expiresAt');
-
-  // const { decodedToken } = useJwt(authToken);
-  // if (authToken) localStorage.setItem('expiresAt', 1606055311);
-  // console.log(authToken);
+  const expiresAtTime = localStorage.getItem('expiresAt');
 
   const [authState, setAuthState] = useState({
     token: authToken,
-    expiresAt,
+    expiresAt: expiresAtTime,
     user: userInfo ? JSON.parse(userInfo) : {},
   });
 
-  const setAuthInfo = ({ token, user }) => {
+  const removeItemsFromLocalStorage = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('expiresAt');
+  };
+
+  const setAuthInfo = ({ token, user, expiresAt }) => {
     if (!token || !user) {
       setAuthState({
         token: null,
         expiresAt: null,
         user: {},
       });
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('expiresAt');
+      removeItemsFromLocalStorage();
       return Error('Błąd podczas logowania');
     }
 
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('expiresAt', 1607056600);
+    localStorage.setItem('expiresAt', expiresAt);
+
     setAuthState({
       token,
-      expiresAt: 1607056600,
+      expiresAt,
       user,
     });
     return true;
   };
 
   const isAuthenticated = () => {
-    if (!authState.token || !authState.expiresAt) {
+    if (!authState.token || !authState.expiresAt || moment().unix() > authState.expiresAt) {
+      removeItemsFromLocalStorage();
       return false;
     }
-    return new Date().getTime() / 1000 < authState.expiresAt;
+    return true;
   };
 
   const logOut = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    localStorage.removeItem('expiresAt');
+    removeItemsFromLocalStorage();
     setAuthState({
       token: null,
       expiresAt: null,
