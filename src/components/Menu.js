@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import MenuHeader from './molecules/MenuHeader';
 import MenuUserInfo from './molecules/MenuUserInfo';
@@ -34,18 +34,14 @@ const StyledLine = styled.div`
   background-color: ${({ theme }) => theme.colors.light};
 `;
 
-const StyledBackground = styled.div`
-  width: 100%;
-  height: calc(var(--vh) * 100);
-  background-color: #000;
-  opacity: 0.6;
-  z-index: 9999;
-  position: fixed;
-  display: ${({ isMenuOpen }) => (isMenuOpen ? 'block' : 'none')};
-`;
-
 const Menu = () => {
   const menuContext = useContext(MenuContext);
+
+  useEffect(() => {
+    return () => {
+      menuContext.setIsMenuOpen(false);
+    };
+  }, []);
 
   return (
     <>
@@ -55,7 +51,6 @@ const Menu = () => {
         <StyledLine />
         <MenuNavigation />
       </StyledWrapper>
-      {/* <StyledBackground isMenuOpen={menuContext.isMenuOpen} onClick={() => menuContext.setIsMenuOpen(false)} /> */}
     </>
   );
 };
