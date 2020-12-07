@@ -57,6 +57,12 @@ const FindClassroom = () => {
   const { classId } = useParams();
   const [classrooms, setClassrooms] = useState(null);
 
+  useEffect(() => {
+    return () => {
+      setIsFiltersOpen(false);
+    };
+  }, []);
+
   const labels = [
     {
       status: 'free',

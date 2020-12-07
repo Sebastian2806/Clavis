@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Label = styled.label`
-  font-size: ${({ time }) => (time ? '14px' : '17px')};
+  font-size: 17px;
   color: ${({ theme }) => theme.colors.dark};
 `;
 

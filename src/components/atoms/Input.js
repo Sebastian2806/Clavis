@@ -32,6 +32,13 @@ const StyledInput = styled.input.attrs((props) => ({
       max-width: 175px;
       text-align: center;
     `}
+
+  ${({ time }) =>
+    time &&
+    css`
+      width: 80px;
+      text-align: center;
+    `}
 `;
 
 const Input = ({ name, textarea, error, ...props }) => {

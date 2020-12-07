@@ -18,6 +18,7 @@ const StyledWrapper = styled.div`
   min-height: calc(var(--vh) * 100);
   transition: transform 150ms ease-out;
   position: fixed;
+  z-index: 10000;
   background-color: ${({ theme }) => theme.colors.light};
   transform: ${({ isFiltersOpen }) => (isFiltersOpen ? 'translateX(0)' : 'translateX(100%)')};
 

@@ -22,22 +22,6 @@ const StyledErrorMessage = styled.p`
   text-align: right;
 `;
 
-const StyledInput = styled.input`
-  width: 80px;
-  height: 45px;
-  text-align: center;
-  background-color: transparent;
-  border: 3px solid ${({ theme }) => theme.colors.dark};
-  font-size: 19px;
-  padding: 0 5px;
-  border-radius: ${({ theme }) => theme.radius};
-
-  &:hover,
-  &:focus {
-    background-color: #f2f4f5;
-  }
-`;
-
 const TextInput = ({ name, label, error, time, ...props }) => {
   return (
     <StyledWrapper time={time}>
@@ -45,7 +29,7 @@ const TextInput = ({ name, label, error, time, ...props }) => {
         {label}
       </Label>
       {time ? (
-        <TimeField input={<StyledInput type="text" />} name={name} {...props} />
+        <TimeField input={<Input id={name} name={name} error={error} time {...props} />} name={name} {...props} />
       ) : (
         <Input id={name} name={name} error={error} {...props} />
       )}

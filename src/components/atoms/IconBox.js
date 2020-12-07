@@ -14,6 +14,15 @@ const IconBox = styled.button`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.background};
+    ${({ lightHover, theme }) =>
+      lightHover &&
+      css`
+        background-color: ${theme.colors.light};
+
+        & > svg {
+          color: ${theme.colors.dark};
+        }
+      `}
   }
 
   & > svg {
