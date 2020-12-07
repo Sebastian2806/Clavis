@@ -104,7 +104,7 @@ const SignInForm = () => {
                 as={TextInput}
                 label="Pojemność"
                 name="capacity"
-                type="text"
+                type="number"
                 error={errors.capacity && touched.capacity ? errors.capacity : ''}
               />
             </StyledSide>
