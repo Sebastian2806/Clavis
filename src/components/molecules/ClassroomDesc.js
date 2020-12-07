@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
+import { Formik, Form, Field } from 'formik';
 import Title from '../atoms/Title';
 import IconBox from '../atoms/IconBox';
 import SubTitle from '../atoms/SubTitle';
@@ -9,6 +10,7 @@ import Button from '../atoms/Button';
 import DotStatus from '../atoms/DotStatus';
 import { ClassroomContext } from '../../context/classroomsContext';
 import { getStatusLabel } from '../../util/helpers';
+import TextInput from './TextInput';
 
 const scale = keyframes`
   from {
@@ -112,10 +114,46 @@ const StyledDotStatus = styled(DotStatus)`
   margin-right: 10px;
 `;
 
+const StyledInput = styled.input`
+  width: 65px;
+  height: 45px;
+  background-color: transparent;
+  border: 3px solid ${({ theme }) => theme.colors.dark};
+  font-size: 19px;
+  padding: 0 5px;
+  border-radius: ${({ theme }) => theme.radius};
+
+  &:hover,
+  &:focus {
+    background-color: #f2f4f5;
+  }
+`;
+
+const StyledTimeBox = styled.div`
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledTimeSpan = styled.span`
+  font-size: 45px;
+  padding: 0 12px;
+`;
+
+const FormContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledFrom = styled(Form)`
+  width: fit-content;
+`;
+
 const ClassroomDesc = () => {
   const classroomContext = useContext(ClassroomContext);
   const [classroom, setClassroom] = useState({});
   const [show, setShow] = useState(true);
+  const [value, setValue] = useState(true);
   const { classId } = useParams();
 
   useEffect(() => {
@@ -139,7 +177,53 @@ const ClassroomDesc = () => {
 
           <StyledContent>
             {show ? (
-              <StyledButton>Zarezerwuj</StyledButton>
+              <FormContainer>
+                <Formik
+                  initialValues={{
+                    date: '',
+                    startAt: '',
+                    endAt: '',
+                  }}
+                >
+                  {({ values, errors, touched, handleChange, isSubmitting }) => (
+                    <StyledFrom>
+                      <Field
+                        as={TextInput}
+                        name="date"
+                        label="Dzień"
+                        placeholder="DD-MM-YYYY"
+                        date
+                        error={errors.date && touched.date ? errors.date : ''}
+                      />
+                      <StyledTimeBox>
+                        <TextInput
+                          value={values.startAt}
+                          onChange={handleChange}
+                          input={<StyledInput type="text" />}
+                          name="startAt"
+                          aria-label="Początek wynajęcia sali"
+                          placeholder="np.: 17:35"
+                          label="Początek"
+                          time
+                        />
+                        <StyledTimeSpan>-</StyledTimeSpan>
+                        <TextInput
+                          value={values.endAt}
+                          onChange={handleChange}
+                          input={<StyledInput type="text" />}
+                          name="endAt"
+                          aria-label="Koniec wynajęcia sali"
+                          placeholder="np.: 19:05"
+                          label="Koniec"
+                          time
+                        />
+                      </StyledTimeBox>
+                      {/* pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" */}
+                      <StyledButton>Zarezerwuj</StyledButton>
+                    </StyledFrom>
+                  )}
+                </Formik>
+              </FormContainer>
             ) : (
               <>
                 <StyledSubtitle>Aktualny status</StyledSubtitle>

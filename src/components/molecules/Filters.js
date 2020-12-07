@@ -94,7 +94,7 @@ const Filters = () => {
                     value={values.start}
                     onChange={handleChange}
                     input={<StyledInput type="text" />}
-                    name="start"
+                    name="startAt"
                     aria-label="Początek wynajęcia sali"
                     placeholder="np.: 17:35"
                     label="Początek"
@@ -102,10 +102,10 @@ const Filters = () => {
                   />
                   <StyledTimeSpan>-</StyledTimeSpan>
                   <TextInput
-                    value={values.end}
+                    value={values.endAt}
                     onChange={handleChange}
                     input={<StyledInput type="text" />}
-                    name="end"
+                    name="startAt"
                     aria-label="Koniec wynajęcia sali"
                     placeholder="np.: 19:05"
                     label="Koniec"

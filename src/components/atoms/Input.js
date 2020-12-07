@@ -25,6 +25,13 @@ const StyledInput = styled.input.attrs((props) => ({
     css`
       border: 3px solid ${({ theme }) => theme.colors.error};
     `}
+
+  ${({ date }) =>
+    date &&
+    css`
+      max-width: 175px;
+      text-align: center;
+    `}
 `;
 
 const Input = ({ name, textarea, error, ...props }) => {
