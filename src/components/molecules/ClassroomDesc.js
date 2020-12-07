@@ -116,7 +116,7 @@ const StyledDotStatus = styled(DotStatus)`
 const ClassroomDesc = () => {
   const classroomContext = useContext(ClassroomContext);
   const [classroom, setClassroom] = useState({});
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const { classId } = useParams();
 
   useEffect(() => {
@@ -137,7 +137,6 @@ const ClassroomDesc = () => {
               </IconBox>
             </Link>
           </StyledHeader>
-
           <StyledContent>
             {show ? (
               <ReservationFrom id={classroom.id} />
