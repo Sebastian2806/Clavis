@@ -1,25 +1,14 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import TextInput from '../molecules/TextInput';
 import Button from '../atoms/Button';
 import Message from '../atoms/Message';
 import { FetchContext } from '../../context/fetchContext';
-import { isSameOrBefore, getCurrentTime, getCurrentDate, addTime } from '../../util/helpers';
-
-const StyledTimeBox = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 15px;
-`;
-
-const StyledTimeSpan = styled.span`
-  font-size: 45px;
-  padding: 0 12px;
-`;
+import DateInputs from '../molecules/DateInputs';
+import { isSameOrBefore, getCurrentTime, getCurrentDate, addTime, addDate } from '../../util/helpers';
+import ReservationSchema from '../../schemas/ReservationSchema';
 
 const FormContainer = styled.div`
   display: flex;
@@ -27,7 +16,11 @@ const FormContainer = styled.div`
 `;
 
 const StyledFrom = styled(Form)`
-  width: fit-content;
+  width: 100%;
+
+  @media (min-width: 500px) {
+    width: 70%;
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -35,30 +28,17 @@ const StyledButton = styled(Button)`
 `;
 
 const StyledDateTimeContainer = styled.div`
-  width: 100%;
+  width: fit-content;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  &::first-child {
+    background-color: red;
+  }
 `;
 
 const StyledContainer = styled.div`
   padding: 15px 0;
 `;
-
-const ReservationSchema = Yup.object().shape({
-  date: Yup.string()
-    .matches(
-      /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/i,
-      'Data jest niepoprawna',
-    )
-    .required('Pole wymagane'),
-  startAt: Yup.string()
-    .test('startAt_test', 'Godzina początkowa musi być przed końcową', function (value) {
-      const { endAt } = this.parent;
-      return isSameOrBefore(value, endAt);
-    })
-    .required('Pole wymagane'),
-  endAt: Yup.string().required('Pole wymagane'),
-});
 
 const ReservationForm = ({ id }) => {
   const [isError, setIsError] = useState({ is: false, msg: 'Wystąpił błąd podczas rezerwacji.' });
@@ -74,18 +54,26 @@ const ReservationForm = ({ id }) => {
       <Formik
         validationSchema={ReservationSchema}
         initialValues={{
-          date: getCurrentDate(),
+          dateStart: getCurrentDate(),
+          dateEnd: addDate(`${getCurrentDate()} ${currentTime}`),
           startAt: currentTime,
           endAt: addTime(currentTime),
         }}
-        onSubmit={async ({ date, startAt, endAt }) => {
+        onSubmit={async ({ dateStart, dateEnd, startAt, endAt }, { setErrors }) => {
           const formattedDate = {
-            startAt: `${date.split('-').reverse().join('-')} ${startAt}`,
-            endAt: `${date.split('-').reverse().join('-')} ${endAt}`,
+            startAt: `${dateStart.split('-').reverse().join('-')} ${startAt}`,
+            endAt: `${dateEnd.split('-').reverse().join('-')} ${endAt}`,
           };
+
           setIsCorrect(false);
           setIsError({ is: false, msg: 'Wystąpił błąd podczas rezerwacji.' });
           setIsLoading(true);
+
+          if (!isSameOrBefore(formattedDate.startAt, formattedDate.endAt)) {
+            setErrors({ startAt: 'Data zakończenia jest mniejsza niż rozpoczęcia' });
+            setIsLoading(false);
+            return;
+          }
 
           try {
             await fetchContext.authAxios.post(`classroom/${id}/confirm`, formattedDate);
@@ -104,43 +92,15 @@ const ReservationForm = ({ id }) => {
         {({ values, errors, touched, handleChange }) => (
           <StyledFrom autoComplete="off">
             <StyledDateTimeContainer>
-              <Field
-                as={TextInput}
-                name="date"
-                label="Dzień"
-                placeholder="DD-MM-YYYY"
-                date
-                error={errors.date && touched.date ? errors.date : ''}
-              />
-              <StyledTimeBox>
-                <TextInput
-                  value={values.startAt}
-                  onChange={handleChange}
-                  name="startAt"
-                  aria-label="Początek wynajęcia sali"
-                  placeholder="np.: 17:35"
-                  label="Początek"
-                  time
-                />
-                <StyledTimeSpan>-</StyledTimeSpan>
-                <TextInput
-                  value={values.endAt}
-                  onChange={handleChange}
-                  name="endAt"
-                  aria-label="Koniec wynajęcia sali"
-                  placeholder="np.: 19:05"
-                  label="Koniec"
-                  time
-                />
-              </StyledTimeBox>
+              <DateInputs values={values} errors={errors} touched={touched} handleChange={handleChange} />
+              {(isError.is || isCorrect || errors.startAt) && (
+                <StyledContainer>
+                  <Message error={isError.is || errors.startAt} correct={isCorrect}>
+                    {isError.is || errors.startAt ? errors.startAt || isError.msg : 'Sala zarezerwowana pomyślnie.'}
+                  </Message>
+                </StyledContainer>
+              )}
             </StyledDateTimeContainer>
-            {(isError.is || isCorrect) && (
-              <StyledContainer>
-                <Message error={isError.is} correct={isCorrect}>
-                  {isError.is ? isError.msg : 'Sala zarezerwowana pomyślnie.'}
-                </Message>
-              </StyledContainer>
-            )}
             <StyledButton isLoading={isLoading}>Zarezerwuj</StyledButton>
           </StyledFrom>
         )}

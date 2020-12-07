@@ -37,7 +37,7 @@ const StyledContainer = styled.div`
   width: 100%;
   max-width: 500px;
   height: fit-content;
-  max-height: 450px;
+  max-height: 550px;
   margin: 15px;
   display: flex;
   flex-direction: column;
