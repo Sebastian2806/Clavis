@@ -36,3 +36,11 @@ export const getCurrentDate = () => moment().format('DD-MM-YYYY');
 
 export const addDate = (currentTime, duration = 90, unit = 'm') =>
   moment(currentTime, 'DD-MM-YYYY HH:mm').add(duration, unit).format('DD-MM-YYYY');
+
+export const addToDate = (currentTime, duration = 90, unit = 'm') =>
+  moment(currentTime, 'DD-MM-YYYY HH:mm').add(duration, unit).format('DD-MM-YYYY HH:mm');
+
+export const formatDate = ({ dateStart, dateEnd, startAt, endAt }) => ({
+  startAt: `${dateStart.split('-').reverse().join('-')} ${startAt}`,
+  endAt: `${dateEnd.split('-').reverse().join('-')} ${endAt}`,
+});

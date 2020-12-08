@@ -12,14 +12,18 @@ const StyledContainer = styled.div`
   grid-gap: 10px;
 
   @media (min-width: 300px) {
-    grid-gap: 30px;
+    grid-gap: 20px;
   }
+`;
+
+const StyledSubTitle = styled(SubTitle)`
+  font-size: 18px;
 `;
 
 const DateInputs = ({ values, errors, touched, handleChange }) => {
   return (
     <>
-      <SubTitle>Początek rezerwacji:</SubTitle>
+      <StyledSubTitle>Początek rezerwacji:</StyledSubTitle>
       <StyledContainer>
         <Field
           as={TextInput}
@@ -39,7 +43,7 @@ const DateInputs = ({ values, errors, touched, handleChange }) => {
           time
         />
       </StyledContainer>
-      <SubTitle>Koniec rezerwacji:</SubTitle>
+      <StyledSubTitle>Koniec rezerwacji:</StyledSubTitle>
       <StyledContainer>
         <Field
           as={TextInput}

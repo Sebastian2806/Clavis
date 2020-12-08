@@ -15,6 +15,7 @@ const ReservationSchema = Yup.object().shape({
     .required('Pole wymagane'),
   startAt: Yup.string().required('Pole wymagane'),
   endAt: Yup.string().required('Pole wymagane'),
+  status: Yup.array().of(Yup.string()),
 });
 
 export default ReservationSchema;
