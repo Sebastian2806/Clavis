@@ -128,7 +128,7 @@ const FindClassroom = () => {
                     <TuneIcon />
                   </StyledIconBox>
                 </StyledTitleContainer>
-                {!(classrooms.length > 0) ? (
+                {classrooms.length > 0 ? (
                   <GridTemplate areFiltersApplied>
                     {classrooms.map((classroom) => (
                       <Link to={`/findclassroom/${classroom.id}`} key={classroom.number}>
