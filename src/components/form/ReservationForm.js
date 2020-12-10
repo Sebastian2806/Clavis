@@ -7,8 +7,9 @@ import Button from '../atoms/Button';
 import Message from '../atoms/Message';
 import { FetchContext } from '../../context/fetchContext';
 import DateInputs from '../molecules/DateInputs';
-import { isSameOrBefore, getCurrentTime, getCurrentDate, addTime, addDate } from '../../util/helpers';
+import { isSameOrBefore, formatDate } from '../../util/helpers';
 import ReservationSchema from '../../schemas/ReservationSchema';
+import { useDate } from '../../hooks/useDate';
 
 const FormContainer = styled.div`
   display: flex;
@@ -45,8 +46,8 @@ const ReservationForm = ({ id }) => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [redirectOnReservation, setRedirectOnReservation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentTime] = useState(() => getCurrentTime());
   const fetchContext = useContext(FetchContext);
+  const [dateObj] = useDate();
 
   return (
     <FormContainer>
@@ -54,16 +55,10 @@ const ReservationForm = ({ id }) => {
       <Formik
         validationSchema={ReservationSchema}
         initialValues={{
-          dateStart: getCurrentDate(),
-          dateEnd: addDate(`${getCurrentDate()} ${currentTime}`),
-          startAt: currentTime,
-          endAt: addTime(currentTime),
+          ...dateObj,
         }}
-        onSubmit={async ({ dateStart, dateEnd, startAt, endAt }, { setErrors }) => {
-          const formattedDate = {
-            startAt: `${dateStart.split('-').reverse().join('-')} ${startAt}`,
-            endAt: `${dateEnd.split('-').reverse().join('-')} ${endAt}`,
-          };
+        onSubmit={async (values, { setErrors }) => {
+          const formattedDate = formatDate(values);
 
           setIsCorrect(false);
           setIsError({ is: false, msg: 'Wystąpił błąd podczas rezerwacji.' });

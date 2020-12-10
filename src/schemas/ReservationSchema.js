@@ -13,8 +13,8 @@ const ReservationSchema = Yup.object().shape({
       'Data jest błędna',
     )
     .required('Pole wymagane'),
-  startAt: Yup.string().required('Pole wymagane'),
-  endAt: Yup.string().required('Pole wymagane'),
+  timeStart: Yup.string().required('Pole wymagane'),
+  timeEnd: Yup.string().required('Pole wymagane'),
 });
 
 export default ReservationSchema;

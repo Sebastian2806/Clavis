@@ -25,22 +25,16 @@ const labels = [
 export const getStatusLabel = (status) => labels.filter((el) => el.status === status);
 
 export const isSameOrBefore = (startTime, endTime) =>
-  moment(startTime, 'DD-MM-YYYY HH:mm').isSameOrBefore(moment(endTime, 'DD-MM-YYYY HH:mm'));
+  moment(startTime, 'DD-MM-YYYYTHH:mmZ').isSameOrBefore(moment(endTime, 'DD-MM-YYYYTHH:mmZ'));
 
-export const getCurrentTime = () => moment().format('HH:mm');
+export const addToFullDate = (currentTime, duration = 90, unit = 'm') =>
+  moment(currentTime, 'DD-MM-YYYYTHH:mmZ').add(duration, unit).format('DD-MM-YYYYTHH:mmZ');
 
-export const addTime = (currentTime, duration = 90, unit = 'm') =>
-  moment(currentTime, 'HH:mm').add(duration, unit).format('HH:mm');
+export const getFullDate = () => moment().format('DD-MM-YYYYTHH:mmZ');
 
-export const getCurrentDate = () => moment().format('DD-MM-YYYY');
-
-export const addDate = (currentTime, duration = 90, unit = 'm') =>
-  moment(currentTime, 'DD-MM-YYYY HH:mm').add(duration, unit).format('DD-MM-YYYY');
-
-export const addToDate = (currentTime, duration = 90, unit = 'm') =>
-  moment(currentTime, 'DD-MM-YYYY HH:mm').add(duration, unit).format('DD-MM-YYYY HH:mm');
-
-export const formatDate = ({ dateStart, dateEnd, startAt, endAt }) => ({
-  startAt: `${dateStart.split('-').reverse().join('-')} ${startAt}`,
-  endAt: `${dateEnd.split('-').reverse().join('-')} ${endAt}`,
+export const formatDate = ({ dateStart, dateEnd, timeStart, timeEnd }) => ({
+  startAt: moment(`${dateStart.split('-').reverse().join('-')} ${timeStart}`).format('YYYY-MM-DDTHH:mmZ'),
+  endAt: moment(`${dateEnd.split('-').reverse().join('-')} ${timeEnd}`).format('YYYY-MM-DDTHH:mmZ'),
 });
+
+export const getFromDate = (time, format = 'DD-MM-YYYY') => moment(time, 'DD-MM-YYYYTHH:mmZ').format(format);

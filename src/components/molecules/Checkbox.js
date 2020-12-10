@@ -24,9 +24,9 @@ const StyledInput = styled.input`
   width: 1px;
 
   &:checked + label > svg {
-    path {
+    /* path {
       stroke-dashoffset: 320;
-    }
+    } */
     polyline {
       stroke-dashoffset: 0;
     }
@@ -43,18 +43,18 @@ const StyledSvg = styled.svg`
   stroke-width: 12;
   fill: none;
 
-  & > path {
+  /* & > path {
     stroke-dasharray: 320;
     stroke-dashoffset: 0;
     fill: ${({ theme }) => theme.colors.light};
     transition: stroke-dashoffset 0.3s linear;
-  }
+  } */
 
   & > polyline {
     stroke-dasharray: 70;
     stroke-dashoffset: 70;
     fill: none;
-    transition: stroke-dashoffset 0.3s linear;
+    transition: stroke-dashoffset 0.3s ease-in-out;
   }
 
   ${({ type, theme }) => {

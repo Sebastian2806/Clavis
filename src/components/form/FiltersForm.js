@@ -1,14 +1,13 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { Formik, Form, Field } from 'formik';
-import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 import Button from '../atoms/Button';
 import Message from '../atoms/Message';
 import { FetchContext } from '../../context/fetchContext';
+import { ClassroomContext } from '../../context/classroomsContext';
 import DateInputs from '../molecules/DateInputs';
 import { isSameOrBefore, formatDate } from '../../util/helpers';
-import ReservationSchema from '../../schemas/ReservationSchema';
+import FiltersSchema from '../../schemas/FiltersSchema';
 import SubTitle from '../atoms/SubTitle';
 import Checkbox from '../molecules/Checkbox';
 import { useDate } from '../../hooks/useDate';
@@ -35,28 +34,27 @@ const StyledFormContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const FiltersForm = ({ id }) => {
+const FiltersForm = () => {
   const [isError, setIsError] = useState({ is: false, msg: 'Wystąpił błąd podczas filtrowania.' });
   const [isCorrect, setIsCorrect] = useState(false);
-  const [redirectOnReservation, setRedirectOnReservation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const fetchContext = useContext(FetchContext);
+  const classroomContext = useContext(ClassroomContext);
   const [dateObj] = useDate();
 
   return (
     <>
-      {redirectOnReservation && <Redirect to="/findclassroom" />}
       <Formik
-        validationSchema={ReservationSchema}
+        validationSchema={FiltersSchema}
         initialValues={{
           ...dateObj,
-          status: {},
+          status: ['take', 'free'],
         }}
         onSubmit={async (values, { setErrors }) => {
           const formattedDate = formatDate(values);
           setIsCorrect(false);
           setIsError({ is: false, msg: 'Wystąpił błąd podczas filtrowania.' });
-          //   setIsLoading(true);
+          setIsLoading(true);
 
           if (!isSameOrBefore(formattedDate.startAt, formattedDate.endAt)) {
             setErrors({ startAt: 'Data zakończenia jest mniejsza niż rozpoczęcia' });
@@ -65,16 +63,14 @@ const FiltersForm = ({ id }) => {
           }
 
           const dataToSend = { status: values.status || [], ...formattedDate };
-          console.log(dataToSend);
-          //   try {
-          //     // await fetchContext.authAxios.post(`classroom/${id}/confirm`, formattedDate);
-          //     setIsCorrect(true);
-          //     setTimeout(() => setRedirectOnReservation(true), 1000);
-          //   } catch (err) {
-          //     setIsError({ is: true, msg: 'Wystąpił błąd podczas filtrowania.' });
 
-          //     setIsLoading(false);
-          //   }
+          try {
+            const result = await fetchContext.authAxios.post(`classrooms`, dataToSend);
+            classroomContext.setClassrooms(result.data.classrooms);
+          } catch (err) {
+            setIsError({ is: true, msg: 'Wystąpił błąd podczas filtrowania.' });
+          }
+          setIsLoading(false);
         }}
       >
         {({ values, errors, touched, handleChange }) => (
@@ -105,14 +101,6 @@ const FiltersForm = ({ id }) => {
       </Formik>
     </>
   );
-};
-
-FiltersForm.propTypes = {
-  id: PropTypes.string,
-};
-
-FiltersForm.defaultProps = {
-  id: '',
 };
 
 export default FiltersForm;

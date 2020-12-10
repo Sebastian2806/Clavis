@@ -34,9 +34,9 @@ const DateInputs = ({ values, errors, touched, handleChange }) => {
           error={errors.dateStart && touched.dateStart ? errors.dateStart : ''}
         />
         <TextInput
-          value={values.startAt}
+          value={values.timeStart}
           onChange={handleChange}
-          name="startAt"
+          name="timeStart"
           aria-label="Początek wynajęcia sali"
           placeholder="np.: 17:35"
           label="Godzina"
@@ -54,9 +54,9 @@ const DateInputs = ({ values, errors, touched, handleChange }) => {
           error={errors.dateEnd && touched.dateEnd ? errors.dateEnd : ''}
         />
         <TextInput
-          value={values.endAt}
+          value={values.timeEnd}
           onChange={handleChange}
-          name="endAt"
+          name="timeEnd"
           aria-label="Koniec wynajęcia sali"
           placeholder="np.: 19:05"
           label="Godzina"
@@ -72,20 +72,20 @@ DateInputs.propTypes = {
   values: PropTypes.shape({
     dateStart: PropTypes.string.isRequired,
     dateEnd: PropTypes.string.isRequired,
-    startAt: PropTypes.string.isRequired,
-    endAt: PropTypes.string.isRequired,
+    timeStart: PropTypes.string.isRequired,
+    timeEnd: PropTypes.string.isRequired,
   }).isRequired,
   errors: PropTypes.shape({
     dateStart: PropTypes.string,
     dateEnd: PropTypes.string,
-    startAt: PropTypes.string,
-    endAt: PropTypes.string,
+    timeStart: PropTypes.string,
+    timeEnd: PropTypes.string,
   }).isRequired,
   touched: PropTypes.shape({
     dateStart: PropTypes.bool,
     dateEnd: PropTypes.bool,
-    startAt: PropTypes.bool,
-    endAt: PropTypes.bool,
+    timeStart: PropTypes.bool,
+    timeEnd: PropTypes.bool,
   }).isRequired,
 };
 
