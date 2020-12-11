@@ -47,7 +47,7 @@ const Select = ({ data, label, name, ...props }) => {
 Select.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
       value: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
     }),

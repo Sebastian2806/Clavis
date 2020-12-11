@@ -3,6 +3,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SearchIcon from '@material-ui/icons/Search';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import ImportContactsSharpIcon from '@material-ui/icons/ImportContactsSharp';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
@@ -11,6 +12,12 @@ import StyledListItem from '../atoms/MenuItem';
 import { MenuContext } from '../../context/menuContext';
 
 const nav = [
+  {
+    label: 'Wydaj klucz',
+    icon: <VpnKeyIcon />,
+    roles: ['admin', 'apparitor'],
+    path: '/issuekey',
+  },
   {
     label: 'Dodaj salę',
     icon: <CreateIcon />,

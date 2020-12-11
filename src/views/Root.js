@@ -6,6 +6,7 @@ import AddClassroom from './AddClassroom';
 import FindClassroom from './FindClassroom';
 import AddUser from './AddUser';
 import RentalRegistry from './RentalRegistry';
+import IssueTheKey from './IssueTheKey';
 import MainTemplate from '../components/templates/MainTemplate';
 import AuthRoute from '../components/privateRoutes/AuthRoute';
 import AdminRoute from '../components/privateRoutes/AdminRoute';
@@ -31,6 +32,9 @@ const Root = () => {
           </AuthRoute>
           <ApparitorRoute exact path="/rentalregistry">
             <RentalRegistry />
+          </ApparitorRoute>
+          <ApparitorRoute exact path="/issuekey">
+            <IssueTheKey />
           </ApparitorRoute>
           <Route render={() => <Redirect to="/" />} />
         </Switch>
