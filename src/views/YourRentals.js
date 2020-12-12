@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Loader from '../components/molecules/Loader';
-import ViewTitle from '../components/atoms/ViewTitle';
 import GridTemplate from '../components/templates/GridTemplate';
+import ViewTitle from '../components/atoms/ViewTitle';
 import RentalCard from '../components/molecules/RentalCard';
 import FixedMessage from '../components/atoms/FixedMessage';
-import { RentalContext } from '../context/rentalsContext';
 import { CANCELED, FINISHED } from '../util/constants';
+import { RentalContext } from '../context/rentalsContext';
 
 const StyledWrapper = styled.div`
   min-height: calc(var(--vh) * 100 - 70px);
@@ -30,7 +30,7 @@ const StyledContainer = styled.div`
   justify-content: center;
 `;
 
-const RentalRegistry = () => {
+const YourRentals = () => {
   const rentalContext = useContext(RentalContext);
   const [rental, setRental] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -59,7 +59,7 @@ const RentalRegistry = () => {
         <StyledContainer>
           <div>
             <StyledHeader>
-              <ViewTitle>Rejestr wypożyczeń</ViewTitle>
+              <ViewTitle>Twoje wypożyczenia</ViewTitle>
             </StyledHeader>
             <GridTemplate>
               {rental.length > 0 ? (
@@ -71,6 +71,7 @@ const RentalRegistry = () => {
                         key={rentalEl.number}
                         messageStatus={messageStatus}
                         setMessageStatus={setMessageStatus}
+                        userRentals
                         {...rentalEl}
                       />
                     ),
@@ -87,4 +88,4 @@ const RentalRegistry = () => {
   );
 };
 
-export default RentalRegistry;
+export default YourRentals;

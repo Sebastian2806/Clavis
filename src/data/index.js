@@ -21,7 +21,7 @@ export const rental = [
   {
     id: 1,
     number: 'aula 02',
-    status: 'free',
+    status: 'booked',
     capacity: '100',
     label: 'wolna',
     start: '17.35',
@@ -33,7 +33,7 @@ export const rental = [
   {
     id: 2,
     number: '100',
-    status: 'free',
+    status: 'booked',
     capacity: '16',
     label: 'wolna',
     start: '17.35',
@@ -45,7 +45,7 @@ export const rental = [
   {
     id: 3,
     number: '204',
-    status: 'take',
+    status: 'canceled',
     capacity: '15',
     label: 'zajęta',
     start: '17.35',
@@ -57,7 +57,7 @@ export const rental = [
   {
     id: 4,
     number: '326',
-    status: 'book',
+    status: 'booked',
     capacity: '10',
     label: 'zarezerwowana',
     start: '17.35',
@@ -69,7 +69,7 @@ export const rental = [
   {
     id: 5,
     number: '300',
-    status: 'free',
+    status: 'booked',
     capacity: '27',
     label: 'wolna',
     start: '17.35',
@@ -81,7 +81,7 @@ export const rental = [
   {
     id: 6,
     number: '211',
-    status: 'take',
+    status: 'booked',
     capacity: '16',
     label: 'zajęta',
     start: '17.35',
@@ -93,7 +93,7 @@ export const rental = [
   {
     id: 7,
     number: '103',
-    status: 'book',
+    status: 'booked',
     capacity: '9',
     label: 'zarezerwowana',
     start: '17.35',
@@ -105,7 +105,7 @@ export const rental = [
   {
     id: 8,
     number: '302',
-    status: 'free',
+    status: 'canceled',
     capacity: '22',
     label: 'wolna',
     start: '17.35',
@@ -117,7 +117,7 @@ export const rental = [
   {
     id: 9,
     number: '117',
-    status: 'book',
+    status: 'booked',
     capacity: '16',
     label: 'zajęta',
     start: '17.35',

@@ -7,6 +7,7 @@ import theme from '../../theme/theme';
 import { AuthProvider } from '../../context/authContext';
 import { MenuProvider } from '../../context/menuContext';
 import { FetchProvider } from '../../context/fetchContext';
+import { RentalProvider } from '../../context/rentalsContext';
 import { ClassroomProvider } from '../../context/classroomsContext';
 import { setVH } from '../../util/helpers';
 import Background from '../atoms/Background';
@@ -35,15 +36,17 @@ const MainTemplate = ({ children }) => {
     <StyledWrapper>
       <AuthProvider>
         <FetchProvider>
-          <ClassroomProvider>
-            <MenuProvider>
-              <ThemeProvider theme={theme}>
-                <GlobalStyles />
-                <Background />
-                {children}
-              </ThemeProvider>
-            </MenuProvider>
-          </ClassroomProvider>
+          <RentalProvider>
+            <ClassroomProvider>
+              <MenuProvider>
+                <ThemeProvider theme={theme}>
+                  <GlobalStyles />
+                  <Background />
+                  {children}
+                </ThemeProvider>
+              </MenuProvider>
+            </ClassroomProvider>
+          </RentalProvider>
         </FetchProvider>
       </AuthProvider>
     </StyledWrapper>

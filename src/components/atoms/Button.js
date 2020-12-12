@@ -40,6 +40,12 @@ const StyledButton = styled.button`
     css`
       background-color: ${({ theme }) => theme.colors.approve};
     `}
+
+    ${({ taken }) =>
+    taken &&
+    css`
+      background-color: ${({ theme }) => theme.colors.warning};
+    `}
 `;
 
 const Button = ({ children, isLoading, ...rest }) => (

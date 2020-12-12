@@ -7,10 +7,12 @@ import FindClassroom from './FindClassroom';
 import AddUser from './AddUser';
 import RentalRegistry from './RentalRegistry';
 import IssueTheKey from './IssueTheKey';
+import YourRentals from './YourRentals';
 import MainTemplate from '../components/templates/MainTemplate';
 import AuthRoute from '../components/privateRoutes/AuthRoute';
 import AdminRoute from '../components/privateRoutes/AdminRoute';
 import ApparitorRoute from '../components/privateRoutes/ApparitorRoute';
+import UserRoute from '../components/privateRoutes/UserRoute';
 
 const Root = () => {
   return (
@@ -27,15 +29,18 @@ const Root = () => {
           <AdminRoute path="/adduser">
             <AddUser />
           </AdminRoute>
-          <AuthRoute exact path="/findclassroom/:classId?">
+          <AuthRoute path="/findclassroom/:classId?">
             <FindClassroom />
           </AuthRoute>
-          <ApparitorRoute exact path="/rentalregistry">
+          <ApparitorRoute path="/rentalregistry">
             <RentalRegistry />
           </ApparitorRoute>
-          <ApparitorRoute exact path="/issuekey">
+          <ApparitorRoute path="/issuekey">
             <IssueTheKey />
           </ApparitorRoute>
+          <UserRoute>
+            <YourRentals path="/yourrentals" />
+          </UserRoute>
           <Route render={() => <Redirect to="/" />} />
         </Switch>
       </MainTemplate>

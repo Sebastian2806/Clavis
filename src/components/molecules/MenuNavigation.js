@@ -42,6 +42,12 @@ const nav = [
     roles: ['admin', 'apparitor'],
     path: '/rentalregistry',
   },
+  {
+    label: 'Twoje wypożyczenia',
+    icon: <ImportContactsSharpIcon />,
+    roles: ['user'],
+    path: '/yourrentals',
+  },
 ];
 
 const StyledNav = styled.nav`
