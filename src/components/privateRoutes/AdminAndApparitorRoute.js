@@ -6,13 +6,14 @@ import Wrapper from '../atoms/Wrapper';
 import Header from '../molecules/Header';
 import Menu from '../Menu';
 
-const Apparitor = ({ children, ...props }) => {
+const AdminAndApparitorRoute = ({ children, ...props }) => {
   const authContext = useContext(AuthContext);
   return (
     <Route
       {...props}
       render={() =>
-        authContext.isAuthenticated() && authContext.authState.user.role === 'apparitor' ? (
+        authContext.isAuthenticated() &&
+        (authContext.authState.user.role === 'admin' || authContext.authState.user.role === 'apparitor') ? (
           <>
             <Menu />
             <Wrapper>
@@ -28,8 +29,8 @@ const Apparitor = ({ children, ...props }) => {
   );
 };
 
-Apparitor.propTypes = {
+AdminAndApparitorRoute.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default Apparitor;
+export default AdminAndApparitorRoute;

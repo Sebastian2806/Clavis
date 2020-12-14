@@ -21,7 +21,7 @@ const AdminRoute = ({ children, ...props }) => {
             </Wrapper>
           </>
         ) : (
-          <Redirect to="signin" />
+          <Redirect to="/" />
         )
       }
     />

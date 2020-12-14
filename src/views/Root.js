@@ -12,6 +12,7 @@ import MainTemplate from '../components/templates/MainTemplate';
 import AuthRoute from '../components/privateRoutes/AuthRoute';
 import AdminRoute from '../components/privateRoutes/AdminRoute';
 import ApparitorRoute from '../components/privateRoutes/ApparitorRoute';
+import AdminAndApparitorRoute from '../components/privateRoutes/AdminAndApparitorRoute';
 import UserRoute from '../components/privateRoutes/UserRoute';
 
 const Root = () => {
@@ -32,9 +33,9 @@ const Root = () => {
           <AuthRoute path="/findclassroom/:classId?">
             <FindClassroom />
           </AuthRoute>
-          <ApparitorRoute path="/rentalregistry">
+          <AdminAndApparitorRoute path="/rentalregistry">
             <RentalRegistry />
-          </ApparitorRoute>
+          </AdminAndApparitorRoute>
           <ApparitorRoute path="/issuekey">
             <IssueTheKey />
           </ApparitorRoute>
