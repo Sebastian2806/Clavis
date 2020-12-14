@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/Clavis/static/js/main.0c2312a4.chunk.js",
-    "main.js.map": "/Clavis/static/js/main.0c2312a4.chunk.js.map",
+    "main.js": "/Clavis/static/js/main.6dfa99ef.chunk.js",
+    "main.js.map": "/Clavis/static/js/main.6dfa99ef.chunk.js.map",
     "runtime-main.js": "/Clavis/static/js/runtime-main.c9662aab.js",
     "runtime-main.js.map": "/Clavis/static/js/runtime-main.c9662aab.js.map",
     "static/js/2.469a2bd3.chunk.js": "/Clavis/static/js/2.469a2bd3.chunk.js",
@@ -13,6 +13,6 @@
   "entrypoints": [
     "static/js/runtime-main.c9662aab.js",
     "static/js/2.469a2bd3.chunk.js",
-    "static/js/main.0c2312a4.chunk.js"
+    "static/js/main.6dfa99ef.chunk.js"
   ]
 }
