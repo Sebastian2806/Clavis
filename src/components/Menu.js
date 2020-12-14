@@ -29,9 +29,8 @@ const StyledWrapper = styled.div`
 
 const StyledLine = styled.div`
   width: 80%;
-  height: 1px;
   margin: 20px auto 40px;
-  background-color: ${({ theme }) => theme.colors.light};
+  border-top: 1px solid ${({ theme }) => theme.colors.light};
 `;
 
 const Menu = () => {
