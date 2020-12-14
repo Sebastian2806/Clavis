@@ -44,19 +44,20 @@ const StyledCardContent = styled.div`
   grid-template-rows: auto 50px auto;
   grid-template-columns: 1fr;
   grid-gap: 10px;
+  padding: 15px 0 10px;
 
   @media (min-width: 550px) {
-    grid-template-columns: 160px auto 160px;
+    grid-template-columns: 1fr 50px 1fr;
     grid-template-rows: 1fr;
     grid-gap: 0;
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.hidemenu}), (min-width: 1250px) {
-    grid-template-columns: 200px auto 200px;
+    grid-template-columns: 1fr 50px 1fr;
   }
 
   @media (min-width: 1150px) {
-    grid-template-columns: 160px auto 160px;
+    grid-template-columns: 1fr 50px 1fr;
   }
 `;
 
@@ -69,7 +70,7 @@ const StyledWhoContainer = styled.div`
     flex-direction: column;
   }
 
-  @media (min-width: 1250px) {
+  @media (min-width: 1300px) {
     flex-direction: row;
   }
 

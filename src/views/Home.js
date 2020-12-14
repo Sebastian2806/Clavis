@@ -8,7 +8,7 @@ import Content from '../components/molecules/Home';
 
 const StyledWrapper = styled.div`
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   height: 100%;
   padding: 0 15px 20px;
   display: flex;
@@ -32,11 +32,11 @@ const StyledGrid = styled.div`
   grid-template-columns: 1fr;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.hidemenu}), (min-width: 550px) {
-    grid-template-columns: minmax(500px, 600px);
+    grid-template-columns: minmax(500px, 650px);
   }
 
   @media (min-width: 1150px) {
-    grid-template-columns: repeat(2, minmax(400px, 500px));
+    grid-template-columns: repeat(2, minmax(400px, 600px));
   }
 
   ${({ role }) =>
