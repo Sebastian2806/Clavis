@@ -11,7 +11,7 @@ import CenteredBox from '../atoms/CenteredBox';
 const StyledContent = styled.div`
   border: 3px solid ${({ theme }) => theme.colors.dark};
   border-radius: ${({ theme }) => theme.radius};
-  margin: 5px;
+  margin: 15px;
   padding: 10px;
   padding-top: 0;
 `;
@@ -43,13 +43,11 @@ const StyledCardContent = styled.div`
   display: grid;
   grid-template-rows: auto 50px auto;
   grid-template-columns: 1fr;
-  grid-gap: 10px;
   padding: 15px 0 10px;
 
   @media (min-width: 550px) {
     grid-template-columns: 1fr 50px 1fr;
     grid-template-rows: 1fr;
-    grid-gap: 0;
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.hidemenu}), (min-width: 1250px) {
