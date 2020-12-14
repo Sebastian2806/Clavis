@@ -10,6 +10,7 @@ import DotStatus from '../atoms/DotStatus';
 import { ClassroomContext } from '../../context/classroomsContext';
 import { getStatusLabel } from '../../util/helpers';
 import ReservationFrom from '../form/ReservationForm';
+import { AuthContext } from '../../context/authContext';
 
 const scale = keyframes`
   from {
@@ -115,6 +116,7 @@ const StyledDotStatus = styled(DotStatus)`
 
 const ClassroomDesc = () => {
   const classroomContext = useContext(ClassroomContext);
+  const authContext = useContext(AuthContext);
   const [classroom, setClassroom] = useState({});
   const [show, setShow] = useState(false);
   const { classId } = useParams();
@@ -153,7 +155,7 @@ const ClassroomDesc = () => {
                 <StyledParagraph>{classroom.capacity}</StyledParagraph>
                 <StyledSubtitle>Opis</StyledSubtitle>
                 <StyledParagraph>{classroom.description}</StyledParagraph>
-                <StyledButton onClick={() => setShow(true)}>Zarezerwuj</StyledButton>
+                {!authContext.isAdmin && <StyledButton onClick={() => setShow(true)}>Zarezerwuj</StyledButton>}
               </>
             )}
           </StyledContent>
