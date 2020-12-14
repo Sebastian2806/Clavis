@@ -10,13 +10,11 @@ import CardBox from '../atoms/CardBox';
 import CardHeader from '../atoms/CardHeader';
 import { RentalContext } from '../../context/rentalsContext';
 import { CANCELED, FINISHED, TAKEN } from '../../util/constants';
+import { transformDateToLocal } from '../../util/helpers';
 
-const StyledParagraph = styled.p`
+const StyledTime = styled.time`
   font-size: 20px;
   margin: 0;
-`;
-
-const TimePragraph = styled(StyledParagraph)`
   margin-left: 5px;
 `;
 
@@ -83,13 +81,13 @@ const RentalCard = ({ id, messageStatus, setMessageStatus, userRentals }) => {
         <div>
           <StyledTimeWrapper>
             <DateRangeSharpIcon />
-            <TimePragraph>{rental.date}</TimePragraph>
+            <StyledTime datatime={rental.startAt}>{transformDateToLocal(rental.startAt)}</StyledTime>
           </StyledTimeWrapper>
           <StyledTimeWrapper>
             <QueryBuilderSharpIcon />
-            <TimePragraph>
-              {rental.start} - {rental.end}
-            </TimePragraph>
+            <StyledTime datatime={rental.startAt}>{transformDateToLocal(rental.startAt, 'HH:mm')}</StyledTime>
+            <span>&nbsp;-</span>
+            <StyledTime datatime={rental.endAt}>{transformDateToLocal(rental.endAt, 'HH:mm')}</StyledTime>
           </StyledTimeWrapper>
         </div>
       </CardBox>

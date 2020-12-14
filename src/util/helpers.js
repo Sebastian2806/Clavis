@@ -38,3 +38,6 @@ export const formatDate = ({ dateStart, dateEnd, timeStart, timeEnd }) => ({
 });
 
 export const getFromDate = (time, format = 'DD-MM-YYYY') => moment(time, 'DD-MM-YYYYTHH:mmZ').format(format);
+
+export const transformDateToLocal = (time, format = 'DD-MM-YYYY', incomingFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ') =>
+  moment(time, incomingFormat).local().format(format);
