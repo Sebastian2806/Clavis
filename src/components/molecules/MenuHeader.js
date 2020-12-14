@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import CloseIcon from '@material-ui/icons/Close';
+import { Link } from 'react-router-dom';
 import Title from '../atoms/Title';
 import IconBox from '../atoms/IconBox';
 import { MenuContext } from '../../context/menuContext';
@@ -38,7 +39,9 @@ const MenuHeader = () => {
 
   return (
     <StyledHeader>
-      <StyledTitle>clavis</StyledTitle>
+      <Link to="/">
+        <StyledTitle>clavis</StyledTitle>
+      </Link>
       <StyledCloseBtn type="button" onClick={() => menuContext.setIsMenuOpen(false)} aria-label="Zamknij menu boczne">
         <CloseIcon />
       </StyledCloseBtn>
