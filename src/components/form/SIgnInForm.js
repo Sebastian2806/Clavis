@@ -120,6 +120,7 @@ const SignInForm = () => {
                 label="Hasło"
                 name="password"
                 type="password"
+                showPassIcon
                 error={errors.password && touched.password ? errors.password : ''}
               />
             </StyledSide>

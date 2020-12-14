@@ -80,6 +80,7 @@ const UserSignInForm = ({ setRedirectOnLogin }) => {
             label="Hasło"
             name="password"
             type="password"
+            showPassIcon
             error={errors.password && touched.password ? errors.password : ''}
           />
           {(isError || isCorrect) && (
