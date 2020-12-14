@@ -17,6 +17,49 @@ export const issueData = {
   ],
 };
 
+export const keysIssued = [
+  {
+    id: '1',
+    number: '201',
+    past: '7min',
+    name: 'Paweł',
+    surname: 'Nowakowski',
+    apparitor: { name: 'Marek', surname: 'Pawelczyk' },
+  },
+  {
+    id: '2',
+    number: '307',
+    past: '11min',
+    name: 'Karol',
+    surname: 'Piotrowski',
+    apparitor: { name: 'Piotr', surname: 'Michalak' },
+  },
+  {
+    id: '3',
+    number: 'aula 02',
+    past: '37min',
+    name: 'Izabela',
+    surname: 'Konieszko',
+    apparitor: { name: 'Marianna', surname: 'Kazimierska' },
+  },
+  {
+    id: '4',
+    number: '117',
+    past: '57min',
+    name: 'Karolina',
+    surname: 'Lewandowska',
+    apparitor: { name: 'Piotr', surname: 'Blob' },
+  },
+  {
+    id: '5',
+    number: '207',
+    past: '2h',
+    name: 'Michał',
+    surname: 'Pawłowski',
+    apparitor: { name: 'Piotr', surname: 'Michalak' },
+  },
+];
+
 export const rental = [
   {
     id: 1,
