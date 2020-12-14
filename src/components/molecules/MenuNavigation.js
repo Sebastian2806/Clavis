@@ -15,7 +15,7 @@ const nav = [
   {
     label: 'Wydaj klucz',
     icon: <VpnKeyIcon />,
-    roles: ['admin', 'apparitor'],
+    roles: ['apparitor'],
     path: '/issuekey',
   },
   {
