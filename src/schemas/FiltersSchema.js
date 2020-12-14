@@ -15,6 +15,7 @@ const ReservationSchema = Yup.object().shape({
     .required('Pole wymagane'),
   timeStart: Yup.string().required('Pole wymagane'),
   timeEnd: Yup.string().required('Pole wymagane'),
+  capacity: Yup.number().typeError('Dozwolone są tylko liczby'),
 });
 
 export default ReservationSchema;

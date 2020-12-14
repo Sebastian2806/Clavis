@@ -11,13 +11,14 @@ import FiltersSchema from '../../schemas/FiltersSchema';
 import SubTitle from '../atoms/SubTitle';
 import Checkbox from '../molecules/Checkbox';
 import { useDate } from '../../hooks/useDate';
+import TextInput from '../molecules/TextInput';
 
 const StyledFrom = styled(Form)`
   width: 100%;
 `;
 
 const StyledContainer = styled.div`
-  padding: 15px 0;
+  padding: 0 0 15px;
 `;
 
 const StyledBox = styled.div`
@@ -49,6 +50,7 @@ const FiltersForm = () => {
         initialValues={{
           ...dateObj,
           status: ['take', 'free'],
+          capacity: '',
         }}
         onSubmit={async (values, { setErrors }) => {
           const formattedDate = formatDate(values);
@@ -63,6 +65,7 @@ const FiltersForm = () => {
           }
 
           const dataToSend = { status: values.status || [], ...formattedDate };
+          if (values.capacity) dataToSend.capacity = values.capacity;
 
           try {
             const result = await fetchContext.authAxios.post(`classrooms`, dataToSend);
@@ -86,6 +89,15 @@ const FiltersForm = () => {
                   <Field as={Checkbox} name="status" label="Wolna" type="checkbox" value="free" />
                   <Field as={Checkbox} name="status" label="Zajęta" type="checkbox" value="take" />
                 </ul>
+              </StyledBox>
+              <StyledBox>
+                <Field
+                  as={TextInput}
+                  name="capacity"
+                  label="Pojemność"
+                  type="text"
+                  error={errors.capacity && touched.capacity ? errors.capacity : ''}
+                />
               </StyledBox>
             </StyledFormContainer>
             {(isError.is || isCorrect || errors.startAt) && (
