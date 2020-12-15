@@ -16,7 +16,7 @@ const SearchForm = ({ searchBy, setSearchBy, label, placeholder }) => {
       }}
     >
       {({ handleChange }) => (
-        <Form>
+        <Form autoComplete="off">
           <Field
             as={TextInput}
             type="search"

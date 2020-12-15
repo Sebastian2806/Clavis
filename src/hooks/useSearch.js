@@ -4,7 +4,8 @@ import { useState } from 'react';
 export const useSearch = () => {
   const [searchBy, setSearchBy] = useState('');
 
-  const filterByField = (elements, field) => elements.filter((el) => el[field].startsWith(searchBy));
+  const filterByField = (elements, field) =>
+    elements.filter((el) => el[field].toLowerCase().startsWith(searchBy.toLowerCase()));
 
   return [searchBy, setSearchBy, filterByField];
 };

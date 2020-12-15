@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import moment from 'moment';
 import Loader from '../components/molecules/Loader';
 import ViewTitle from '../components/atoms/ViewTitle';
 import GridTemplate from '../components/templates/GridTemplate';
 import RentalCard from '../components/molecules/RentalCard';
 import FixedMessage from '../components/atoms/FixedMessage';
+import SearchForm from '../components/form/SearchForm';
+import { useSearch } from '../hooks/useSearch';
 import { RentalContext } from '../context/rentalsContext';
 import { CANCELED, FINISHED } from '../util/constants';
 
@@ -33,6 +34,7 @@ const StyledContainer = styled.div`
 
 const RentalRegistry = () => {
   const rentalContext = useContext(RentalContext);
+  const [searchBy, setSearchBy, filterByField] = useSearch();
   const [rental, setRental] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [messageStatus, setMessageStatus] = useState({ show: false, msg: 'Akcja wykonana pomyślnie.' });
@@ -62,9 +64,10 @@ const RentalRegistry = () => {
             <StyledHeader>
               <ViewTitle>Rejestr wypożyczeń</ViewTitle>
             </StyledHeader>
+            <SearchForm searchBy={searchBy} setSearchBy={setSearchBy} label="Wyszukaj po nazwisku" />
             <GridTemplate>
-              {rental.length > 0 ? (
-                rental.map(
+              {filterByField(rental, 'surname').length > 0 ? (
+                filterByField(rental, 'surname').map(
                   (rentalEl) =>
                     rentalEl.status !== CANCELED &&
                     rentalEl.status !== FINISHED && (
