@@ -8,9 +8,9 @@ const { Provider } = RentalContext;
 const RentalProvider = ({ children }) => {
   const [rentals, setRental] = useState(rental);
 
-  const getRentalIndexById = (id) => rentals.findIndex((el) => el.id === id);
+  const getRentalIndexById = (id) => rentals.findIndex((el) => el._id === id);
 
-  const getRentalById = (id) => rentals.find((el) => el.id === id);
+  const getRentalById = (id) => rentals.find((el) => el._id === id);
 
   const removeRental = (id) => {
     const index = getRentalIndexById(id);

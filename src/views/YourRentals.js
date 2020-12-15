@@ -5,7 +5,7 @@ import GridTemplate from '../components/templates/GridTemplate';
 import ViewTitle from '../components/atoms/ViewTitle';
 import RentalCard from '../components/molecules/RentalCard';
 import FixedMessage from '../components/atoms/FixedMessage';
-import { CANCELED, FINISHED } from '../util/constants';
+import { CANCELED, FINISH } from '../util/constants';
 import { RentalContext } from '../context/rentalsContext';
 
 const StyledWrapper = styled.div`
@@ -66,7 +66,7 @@ const YourRentals = () => {
                 rental.map(
                   (rentalEl) =>
                     rentalEl.status !== CANCELED &&
-                    rentalEl.status !== FINISHED && (
+                    rentalEl.status !== FINISH && (
                       <RentalCard
                         key={rentalEl.number}
                         messageStatus={messageStatus}

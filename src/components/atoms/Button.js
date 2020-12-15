@@ -41,8 +41,8 @@ const StyledButton = styled.button`
       background-color: ${({ theme }) => theme.colors.approve};
     `}
 
-    ${({ taken }) =>
-    taken &&
+    ${({ take }) =>
+    take &&
     css`
       background-color: ${({ theme }) => theme.colors.warning};
     `}

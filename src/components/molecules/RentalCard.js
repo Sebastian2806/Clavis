@@ -9,8 +9,9 @@ import CardActions from './CardActions';
 import CardBox from '../atoms/CardBox';
 import CardHeader from '../atoms/CardHeader';
 import { RentalContext } from '../../context/rentalsContext';
-import { CANCELED, FINISHED, TAKEN } from '../../util/constants';
+import { CANCELED, FINISH, TAKE } from '../../util/constants';
 import { transformDateToLocal } from '../../util/helpers';
+import { FetchContext } from '../../context/fetchContext';
 
 const StyledTime = styled.time`
   font-size: 20px;
@@ -28,9 +29,9 @@ const setMessage = (status) => {
   switch (status) {
     case CANCELED:
       return 'Rezerwacja anulowana.';
-    case TAKEN:
+    case TAKE:
       return 'Klucz wydany.';
-    case FINISHED:
+    case FINISH:
       return 'Klucz przyjęty.';
     default:
       return 'Akcja wykonana pomyślnie.';
@@ -39,24 +40,38 @@ const setMessage = (status) => {
 
 const RentalCard = ({ id, messageStatus, setMessageStatus, userRentals }) => {
   const rentalContext = useContext(RentalContext);
+  const fetchContext = useContext(FetchContext);
   const [rental, setRental] = useState(() => rentalContext.getRentalById(id));
   const [isLoading, setIsLoading] = useState(false);
 
-  const changeStatus = (status) => {
+  const changeStatus = async (status) => {
     setIsLoading(true);
-    setTimeout(() => {
-      if (!messageStatus.show) {
-        setMessageStatus({ msg: setMessage(status), show: true });
+    // if (!messageStatus.show) {
+    //   setMessageStatus({ msg: setMessage(status), show: true });
+    // }
+    try {
+      if (status === CANCELED) {
+        await fetchContext.authAxios.delete(`apparitor/reservation/${id}/cancel`);
+        const rentalsCopy = rentalContext.rentals.map((el) => (el._id === id ? { ...el, status } : el));
+        rentalContext.setRental(rentalsCopy);
+      } else if (status === TAKE) {
+        await fetchContext.authAxios.post(`apparitor/reservation/${id}/take`);
+        const rentalsCopy = rentalContext.rentals.map((el) => (el._id === id ? { ...el, status } : el));
+        rentalContext.setRental(rentalsCopy);
+      } else if (status === FINISH) {
+        await fetchContext.authAxios.post(`apparitor/reservation/${id}/finish`);
+        const rentalsCopy = rentalContext.rentals.map((el) => (el._id === id ? { ...el, status } : el));
+        rentalContext.setRental(rentalsCopy);
       }
 
-      const rentalsCopy = rentalContext.rentals.map((el) => (el.id === id ? { ...el, status } : el));
+      setMessageStatus({ msg: setMessage(status), show: true });
+    } catch (err) {
+      console.log(err);
+    }
 
-      rentalContext.setRental(rentalsCopy);
-
-      setTimeout(() => {
-        setMessageStatus({ msg: setMessage(status), show: false });
-      }, 1000);
-      setIsLoading(false);
+    setIsLoading(false);
+    setTimeout(() => {
+      setMessageStatus({ msg: setMessage(status), show: false });
     }, 1000);
   };
 
@@ -68,12 +83,12 @@ const RentalCard = ({ id, messageStatus, setMessageStatus, userRentals }) => {
     <CardWrapper>
       {isLoading && <Loader adjust />}
       <CardHeader>
-        <h2>{rental.number}</h2>
+        <h2>{rental.classroom.number}</h2>
       </CardHeader>
       {!userRentals && (
         <CardBox>
           <p>
-            <span>{rental.name}</span> <span>{rental.surname}</span>
+            <span>{rental.creator.name}</span> <span>{rental.creator.surname}</span>
           </p>
         </CardBox>
       )}
@@ -97,7 +112,7 @@ const RentalCard = ({ id, messageStatus, setMessageStatus, userRentals }) => {
 };
 
 RentalCard.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   setMessageStatus: PropTypes.func.isRequired,
   messageStatus: PropTypes.shape({
     show: PropTypes.bool.isRequired,

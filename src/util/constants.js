@@ -2,6 +2,6 @@
 export const CANCELED = 'canceled';
 export const BOOKED = 'booked';
 export const APPROVE = 'approve';
-export const TAKEN = 'taken';
-export const FINISHED = 'finished';
+export const TAKE = 'take';
+export const FINISH = 'finish';
 export const CANCEL = 'cancel';

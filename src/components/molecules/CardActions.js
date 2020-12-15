@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import CardBox from '../atoms/CardBox';
 import Button from '../atoms/Button';
-import { BOOKED, CANCELED, FINISHED, TAKEN } from '../../util/constants';
+import { BOOKED, CANCELED, FINISH, TAKE } from '../../util/constants';
 import SubTitle from '../atoms/SubTitle';
 
 const StyledWrapper = styled(CardBox)`
@@ -33,7 +33,7 @@ const CardActions = ({ userRentals, changeStatus, status, isLoading }) => {
     <StyledWrapper>
       {!userRentals && status === BOOKED && (
         <StyledButton
-          onClick={(e) => changeStatus(TAKEN, e)}
+          onClick={(e) => changeStatus(TAKE, e)}
           type="button"
           approve
           isLoading={isLoading && status === BOOKED}
@@ -43,19 +43,19 @@ const CardActions = ({ userRentals, changeStatus, status, isLoading }) => {
         </StyledButton>
       )}
 
-      {!userRentals && status === TAKEN && (
+      {!userRentals && status === TAKE && (
         <StyledButton
-          onClick={(e) => changeStatus(FINISHED, e)}
+          onClick={(e) => changeStatus(FINISH, e)}
           type="button"
-          taken
-          isLoading={isLoading && status === TAKEN}
+          take
+          isLoading={isLoading && status === TAKE}
           aria-label="Odbierz klucz od nauczyciela"
         >
           Zwróć
         </StyledButton>
       )}
 
-      {status !== TAKEN && (
+      {status !== TAKE && (
         <StyledButton
           onClick={(e) => changeStatus(CANCELED, e)}
           type="button"
@@ -69,7 +69,7 @@ const CardActions = ({ userRentals, changeStatus, status, isLoading }) => {
         </StyledButton>
       )}
 
-      {userRentals && status === TAKEN && <StyledInfo>Klucz został pobrany</StyledInfo>}
+      {userRentals && status === TAKE && <StyledInfo>Klucz został pobrany</StyledInfo>}
     </StyledWrapper>
   );
 };

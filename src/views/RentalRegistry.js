@@ -8,7 +8,7 @@ import FixedMessage from '../components/atoms/FixedMessage';
 import SearchForm from '../components/form/SearchForm';
 import { useSearch } from '../hooks/useSearch';
 import { RentalContext } from '../context/rentalsContext';
-import { CANCELED, FINISHED } from '../util/constants';
+import { FetchContext } from '../context/fetchContext';
 
 const StyledWrapper = styled.div`
   min-height: calc(var(--vh) * 100 - 70px);
@@ -34,24 +34,24 @@ const StyledContainer = styled.div`
 
 const RentalRegistry = () => {
   const rentalContext = useContext(RentalContext);
+  const fetchContext = useContext(FetchContext);
   const [searchBy, setSearchBy, filterByField] = useSearch();
   const [rental, setRental] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [messageStatus, setMessageStatus] = useState({ show: false, msg: 'Akcja wykonana pomyślnie.' });
 
   useEffect(() => {
-    // rentalContext.setRental(rental);
-    setRental(rentalContext.rentals);
-    setTimeout(() => {
+    (async () => {
+      setIsLoading(true);
+      const rentals = await fetchContext.authAxios.get('apparitor/reservations');
+      rentalContext.setRental(rentals.data.reservations);
+      setRental(rentals.data.reservations);
       setIsLoading(false);
-    }, 500);
+    })();
   }, []);
 
   useEffect(() => {
     setRental(rentalContext.rentals);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
   }, [rentalContext.rentals]);
 
   return (
@@ -66,18 +66,16 @@ const RentalRegistry = () => {
             </StyledHeader>
             <SearchForm searchBy={searchBy} setSearchBy={setSearchBy} label="Wyszukaj po nazwisku" />
             <GridTemplate>
-              {filterByField(rental, 'surname').filter((el) => el.status !== CANCELED && el.status !== FINISHED)
-                .length > 0 ? (
-                filterByField(rental, 'surname')
-                  .filter((el) => el.status !== CANCELED && el.status !== FINISHED)
-                  .map((rentalEl) => (
-                    <RentalCard
-                      key={rentalEl.number}
-                      messageStatus={messageStatus}
-                      setMessageStatus={setMessageStatus}
-                      {...rentalEl}
-                    />
-                  ))
+              {rental.length > 0 ? (
+                rental.map((rentalEl) => (
+                  <RentalCard
+                    key={rentalEl.classroom.number}
+                    id={rentalEl._id}
+                    messageStatus={messageStatus}
+                    setMessageStatus={setMessageStatus}
+                    {...rentalEl}
+                  />
+                ))
               ) : (
                 <p>Brak próśb o wypożyczenie.</p>
               )}
