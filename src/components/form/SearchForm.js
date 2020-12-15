@@ -3,7 +3,7 @@ import { Field, Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
 import TextInput from '../molecules/TextInput';
 
-const SearchForm = ({ searchBy, setSearchBy }) => {
+const SearchForm = ({ searchBy, setSearchBy, label, placeholder }) => {
   const handleSearch = (e) => {
     const v = e.target.value;
     setSearchBy(v);
@@ -21,8 +21,8 @@ const SearchForm = ({ searchBy, setSearchBy }) => {
             as={TextInput}
             type="search"
             name="search"
-            label="Wyszukaj po numerze sali"
-            placeholder="np.: aula 02"
+            label={label}
+            placeholder={placeholder}
             onChange={(e) => {
               handleChange(e);
               handleSearch(e);
@@ -37,6 +37,12 @@ const SearchForm = ({ searchBy, setSearchBy }) => {
 SearchForm.propTypes = {
   searchBy: PropTypes.string.isRequired,
   setSearchBy: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+};
+
+SearchForm.defaultProps = {
+  placeholder: '',
 };
 
 export default SearchForm;

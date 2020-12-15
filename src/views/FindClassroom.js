@@ -133,7 +133,12 @@ const FindClassroom = () => {
                     <TuneIcon />
                   </StyledIconBox>
                 </StyledTitleContainer>
-                <SearchForm searchBy={searchBy} setSearchBy={setSearchBy} />
+                <SearchForm
+                  searchBy={searchBy}
+                  setSearchBy={setSearchBy}
+                  label="Wyszukaj po numerze sali"
+                  placeholder="np.: aula 02"
+                />
                 {filterByField(classrooms, 'number').length > 0 ? (
                   <GridTemplate areFiltersApplied>
                     {filterByField(classrooms, 'number').map((classroom) => (
