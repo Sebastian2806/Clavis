@@ -126,7 +126,7 @@ const SignInForm = () => {
               </Message>
             </StyledContainer>
           )}
-          <FormButton isSubmitting={isSubmitting} arialabel="Dodaj nową salę do bazy danych" />
+          <FormButton isSubmitting={isSubmitting} arialabel="Dodaj nową salę do bazy danych" label="dodaj" />
         </StyledForm>
       )}
     </Formik>

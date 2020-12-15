@@ -90,7 +90,7 @@ const UserSignInForm = ({ setRedirectOnLogin }) => {
             </StyledBErrorContainer>
           )}
           <StyledButtonContainer>
-            <Button isLoading={isLoading} aria-label="Zaloguj się do serwisu clavis">
+            <Button isLoading={isLoading} disabled={isLoading} aria-label="Zaloguj się do serwisu clavis">
               Zaloguj
             </Button>
           </StyledButtonContainer>

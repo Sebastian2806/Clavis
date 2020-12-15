@@ -7,16 +7,17 @@ const StyledButtonContainer = styled.div`
   padding: 15px;
 `;
 
-const FormButton = ({ isSubmitting, arialabel }) => (
+const FormButton = ({ isSubmitting, arialabel, label }) => (
   <StyledButtonContainer>
     <Button type="submit" disabled={isSubmitting} aria-label={arialabel} isLoading={isSubmitting}>
-      dodaj
+      {label}
     </Button>
   </StyledButtonContainer>
 );
 FormButton.propTypes = {
   isSubmitting: PropTypes.bool.isRequired,
   arialabel: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 export default FormButton;

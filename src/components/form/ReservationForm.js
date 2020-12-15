@@ -96,7 +96,9 @@ const ReservationForm = ({ id }) => {
                 </StyledContainer>
               )}
             </StyledDateTimeContainer>
-            <StyledButton isLoading={isLoading}>Zarezerwuj</StyledButton>
+            <StyledButton isLoading={isLoading} disabled={isLoading} aria-label="Zarezerwuj salę">
+              Zarezerwuj
+            </StyledButton>
           </StyledFrom>
         )}
       </Formik>

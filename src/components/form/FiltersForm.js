@@ -107,7 +107,9 @@ const FiltersForm = () => {
                 </Message>
               </StyledContainer>
             )}
-            <Button isLoading={isLoading}>Filtruj</Button>
+            <Button isLoading={isLoading} disabled={isLoading} aria-label="Filtruj klasy">
+              Filtruj
+            </Button>
           </StyledFrom>
         )}
       </Formik>
