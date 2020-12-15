@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import CardBox from '../atoms/CardBox';
 import Button from '../atoms/Button';
-import { BOOKED, CANCELED, FINISH, TAKE } from '../../util/constants';
+import { BOOKED, CANCEL, FINISH, TAKE } from '../../util/constants';
 import SubTitle from '../atoms/SubTitle';
 
 const StyledWrapper = styled(CardBox)`
@@ -57,13 +57,13 @@ const CardActions = ({ userRentals, changeStatus, status, isLoading }) => {
 
       {status !== TAKE && (
         <StyledButton
-          onClick={(e) => changeStatus(CANCELED, e)}
+          onClick={(e) => changeStatus(CANCEL, e)}
           type="button"
           cancel
           isLoading={isLoading && status === BOOKED}
           userRentals={userRentals}
           aria-label="Anuluj rezerwacje"
-          data-status={CANCELED}
+          data-status={CANCEL}
         >
           Anuluj
         </StyledButton>

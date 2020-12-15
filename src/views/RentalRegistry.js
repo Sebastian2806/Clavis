@@ -9,6 +9,7 @@ import SearchForm from '../components/form/SearchForm';
 import { useSearch } from '../hooks/useSearch';
 import { RentalContext } from '../context/rentalsContext';
 import { FetchContext } from '../context/fetchContext';
+import SubTitle from '../components/atoms/SubTitle';
 
 const StyledWrapper = styled.div`
   min-height: calc(var(--vh) * 100 - 70px);
@@ -69,7 +70,7 @@ const RentalRegistry = () => {
               {rental.length > 0 ? (
                 rental.map((rentalEl) => (
                   <RentalCard
-                    key={rentalEl.classroom.number}
+                    key={rentalEl._id}
                     id={rentalEl._id}
                     messageStatus={messageStatus}
                     setMessageStatus={setMessageStatus}
@@ -77,7 +78,7 @@ const RentalRegistry = () => {
                   />
                 ))
               ) : (
-                <p>Brak próśb o wypożyczenie.</p>
+                <SubTitle>Brak próśb o wypożyczenie.</SubTitle>
               )}
             </GridTemplate>
           </div>

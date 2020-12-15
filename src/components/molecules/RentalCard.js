@@ -9,7 +9,7 @@ import CardActions from './CardActions';
 import CardBox from '../atoms/CardBox';
 import CardHeader from '../atoms/CardHeader';
 import { RentalContext } from '../../context/rentalsContext';
-import { CANCELED, FINISH, TAKE } from '../../util/constants';
+import { CANCEL, FINISH, TAKE, ERROR } from '../../util/constants';
 import { transformDateToLocal } from '../../util/helpers';
 import { FetchContext } from '../../context/fetchContext';
 
@@ -27,12 +27,14 @@ const StyledTimeWrapper = styled.div`
 
 const setMessage = (status) => {
   switch (status) {
-    case CANCELED:
+    case CANCEL:
       return 'Rezerwacja anulowana.';
     case TAKE:
       return 'Klucz wydany.';
     case FINISH:
       return 'Klucz przyjęty.';
+    case ERROR:
+      return 'Wystąpił błąd..';
     default:
       return 'Akcja wykonana pomyślnie.';
   }
@@ -46,30 +48,22 @@ const RentalCard = ({ id, messageStatus, setMessageStatus, userRentals }) => {
 
   const changeStatus = async (status) => {
     setIsLoading(true);
-    // if (!messageStatus.show) {
-    //   setMessageStatus({ msg: setMessage(status), show: true });
-    // }
-    try {
-      if (status === CANCELED) {
-        await fetchContext.authAxios.delete(`apparitor/reservation/${id}/cancel`);
-        const rentalsCopy = rentalContext.rentals.map((el) => (el._id === id ? { ...el, status } : el));
-        rentalContext.setRental(rentalsCopy);
-      } else if (status === TAKE) {
-        await fetchContext.authAxios.post(`apparitor/reservation/${id}/take`);
-        const rentalsCopy = rentalContext.rentals.map((el) => (el._id === id ? { ...el, status } : el));
-        rentalContext.setRental(rentalsCopy);
-      } else if (status === FINISH) {
-        await fetchContext.authAxios.post(`apparitor/reservation/${id}/finish`);
-        const rentalsCopy = rentalContext.rentals.map((el) => (el._id === id ? { ...el, status } : el));
-        rentalContext.setRental(rentalsCopy);
-      }
 
-      setMessageStatus({ msg: setMessage(status), show: true });
+    try {
+      if (status === CANCEL) await fetchContext.authAxios.delete(`apparitor/reservation/${id}/cancel`);
+      else await fetchContext.authAxios.post(`apparitor/reservation/${id}/${status}`);
+
+      const rentals = await fetchContext.authAxios.get('apparitor/reservations');
+      setIsLoading(false);
+      rentalContext.setRental(rentals.data.reservations);
+
+      if (!messageStatus.show) {
+        setMessageStatus({ msg: setMessage(status), show: true });
+      }
     } catch (err) {
-      console.log(err);
+      setMessageStatus({ msg: setMessage(ERROR), show: true });
     }
 
-    setIsLoading(false);
     setTimeout(() => {
       setMessageStatus({ msg: setMessage(status), show: false });
     }, 1000);

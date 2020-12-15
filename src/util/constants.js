@@ -5,3 +5,4 @@ export const APPROVE = 'approve';
 export const TAKE = 'take';
 export const FINISH = 'finish';
 export const CANCEL = 'cancel';
+export const ERROR = 'error';
