@@ -12,6 +12,7 @@ import { RentalContext } from '../../context/rentalsContext';
 import { CANCEL, FINISH, TAKE, ERROR } from '../../util/constants';
 import { transformDateToLocal } from '../../util/helpers';
 import { FetchContext } from '../../context/fetchContext';
+import { AuthContext } from '../../context/authContext';
 
 const StyledTime = styled.time`
   font-size: 20px;
@@ -43,6 +44,7 @@ const setMessage = (status) => {
 const RentalCard = ({ id, messageStatus, setMessageStatus, userRentals }) => {
   const rentalContext = useContext(RentalContext);
   const fetchContext = useContext(FetchContext);
+  const { isAdmin } = useContext(AuthContext);
   const [rental, setRental] = useState(() => rentalContext.getRentalById(id));
   const [isLoading, setIsLoading] = useState(false);
 
@@ -100,7 +102,12 @@ const RentalCard = ({ id, messageStatus, setMessageStatus, userRentals }) => {
           </StyledTimeWrapper>
         </div>
       </CardBox>
-      <CardActions userRentals={userRentals} changeStatus={changeStatus} status={rental.status} isLoading={isLoading} />
+      <CardActions
+        userRentals={userRentals || isAdmin()}
+        changeStatus={changeStatus}
+        status={rental.status}
+        isLoading={isLoading}
+      />
     </CardWrapper>
   );
 };
