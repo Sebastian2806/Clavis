@@ -1,12 +1,11 @@
 import React, { useState, createContext } from 'react';
 import PropTypes from 'prop-types';
-import { rental } from '../data';
 
 const RentalContext = createContext();
 const { Provider } = RentalContext;
 
 const RentalProvider = ({ children }) => {
-  const [rentals, setRental] = useState(rental);
+  const [rentals, setRental] = useState();
 
   const getRentalIndexById = (id) => rentals.findIndex((el) => el._id === id);
 

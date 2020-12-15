@@ -45,14 +45,27 @@ const RentalRegistry = () => {
     (async () => {
       setIsLoading(true);
       const rentals = await fetchContext.authAxios.get('apparitor/reservations');
-      rentalContext.setRental(rentals.data.reservations);
-      setRental(rentals.data.reservations);
+
+      const r = rentals.data.reservations.map((el) => ({
+        ...el,
+        user_surname: el.creator.surname,
+      }));
+
+      rentalContext.setRental(r);
+      setRental(r);
       setIsLoading(false);
     })();
   }, []);
 
   useEffect(() => {
-    setRental(rentalContext.rentals);
+    if (rentalContext.rentals) {
+      const r = rentalContext.rentals.map((el) => ({
+        ...el,
+        user_surname: el.creator.surname,
+      }));
+
+      setRental(r);
+    }
   }, [rentalContext.rentals]);
 
   return (
@@ -67,8 +80,8 @@ const RentalRegistry = () => {
             </StyledHeader>
             <SearchForm searchBy={searchBy} setSearchBy={setSearchBy} label="Wyszukaj po nazwisku" />
             <GridTemplate>
-              {rental.length > 0 ? (
-                rental.map((rentalEl) => (
+              {filterByField(rental, 'user_surname').length > 0 ? (
+                filterByField(rental, 'user_surname').map((rentalEl) => (
                   <RentalCard
                     key={rentalEl._id}
                     id={rentalEl._id}
