@@ -28,6 +28,7 @@ const UserSignInForm = ({ setRedirectOnLogin }) => {
   const [isError, setIsError] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('Wystąpił błąd podczas logowania.');
 
   return (
     <Formik
@@ -51,16 +52,14 @@ const UserSignInForm = ({ setRedirectOnLogin }) => {
           setIsCorrect(true);
           setTimeout(() => setRedirectOnLogin(true), 500);
         } catch (err) {
-          setIsError(false);
-          if (err.response && err.response.data && err.response.data.errors && err.response.data.errors.length > 0) {
-            const error = {};
-            err.response.data.errors.forEach((el) => (error[el.param] = el.msg));
-            setErrors(error);
-          } else if (err.response && err.response.data && err.response.data.message) {
-            setErrors({ password: 'Błędne hasło!' });
-          } else {
-            setIsError(true);
-          }
+          setIsError(true);
+          if (
+            (err.response && err.response.data && err.response.data.errors && err.response.data.errors.length > 0) ||
+            (err.response && err.response.data && err.response.data.error && err.response.data.error.message)
+          )
+            setErrorMsg('Niepoprawny email lub hasło.');
+          else setErrorMsg('Wystąpił błąd podczas logowania.');
+
           setIsLoading(false);
         }
         setSubmitting(true);
@@ -86,7 +85,7 @@ const UserSignInForm = ({ setRedirectOnLogin }) => {
           {(isError || isCorrect) && (
             <StyledBErrorContainer>
               <Message error={isError} correct={isCorrect}>
-                {isError ? 'Wystąpił błąd podczas logowania.' : 'Zalogowano pomyślnie.'}
+                {isError ? errorMsg : 'Zalogowano pomyślnie.'}
               </Message>
             </StyledBErrorContainer>
           )}

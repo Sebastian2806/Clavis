@@ -66,19 +66,18 @@ const RentalRegistry = () => {
             </StyledHeader>
             <SearchForm searchBy={searchBy} setSearchBy={setSearchBy} label="Wyszukaj po nazwisku" />
             <GridTemplate>
-              {filterByField(rental, 'surname').length > 0 ? (
-                filterByField(rental, 'surname').map(
-                  (rentalEl) =>
-                    rentalEl.status !== CANCELED &&
-                    rentalEl.status !== FINISHED && (
-                      <RentalCard
-                        key={rentalEl.number}
-                        messageStatus={messageStatus}
-                        setMessageStatus={setMessageStatus}
-                        {...rentalEl}
-                      />
-                    ),
-                )
+              {filterByField(rental, 'surname').filter((el) => el.status !== CANCELED && el.status !== FINISHED)
+                .length > 0 ? (
+                filterByField(rental, 'surname')
+                  .filter((el) => el.status !== CANCELED && el.status !== FINISHED)
+                  .map((rentalEl) => (
+                    <RentalCard
+                      key={rentalEl.number}
+                      messageStatus={messageStatus}
+                      setMessageStatus={setMessageStatus}
+                      {...rentalEl}
+                    />
+                  ))
               ) : (
                 <p>Brak próśb o wypożyczenie.</p>
               )}
