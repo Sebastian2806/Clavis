@@ -155,7 +155,9 @@ const ClassroomDesc = () => {
                 <StyledParagraph>{classroom.capacity}</StyledParagraph>
                 <StyledSubtitle>Opis</StyledSubtitle>
                 <StyledParagraph>{classroom.description}</StyledParagraph>
-                {!authContext.isAdmin && <StyledButton onClick={() => setShow(true)}>Zarezerwuj</StyledButton>}
+                {!authContext.isAdmin() && !authContext.isApparitor() && (
+                  <StyledButton onClick={() => setShow(true)}>Zarezerwuj</StyledButton>
+                )}
               </>
             )}
           </StyledContent>
