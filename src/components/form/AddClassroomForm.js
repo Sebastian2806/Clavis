@@ -37,7 +37,7 @@ const StyledContainer = styled.div`
 
 const AddClassroomSchema = Yup.object().shape({
   number: Yup.string()
-    .matches(/^[A-ZĄĆĘŁŃÓŚŹŻ0-9]+$/i, 'Dozwolone są tylko cyfry i litery')
+    .matches(/^[A-ZĄĆĘŁŃÓŚŹŻ0-9 ]+$/i, 'Dozwolone są tylko cyfry i litery')
     .required('Pole wymagane'),
   capacity: Yup.number()
     .positive('Tylko liczby dodatnie')
