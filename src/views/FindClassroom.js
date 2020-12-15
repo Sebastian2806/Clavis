@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import TuneIcon from '@material-ui/icons/Tune';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { useParams, Link } from 'react-router-dom';
+import { Formik, Field, Form } from 'formik';
 import Loader from '../components/molecules/Loader';
 import GridTemplate from '../components/templates/GridTemplate';
 import Classroom from '../components/molecules/Classroom';
@@ -16,6 +17,9 @@ import { MenuContext } from '../context/menuContext';
 import { FetchContext } from '../context/fetchContext';
 import { ClassroomContext } from '../context/classroomsContext';
 import { getStatusLabel } from '../util/helpers';
+import TextInput from '../components/molecules/TextInput';
+import { useSearch } from '../hooks/useSearch';
+import SearchForm from '../components/form/SearchForm';
 
 const StyledWrapper = styled.div`
   min-height: calc(var(--vh) * 100 - 70px);
@@ -75,6 +79,7 @@ const FindClassroom = () => {
   const fetchContext = useContext(FetchContext);
   const classroomContext = useContext(ClassroomContext);
   const { setIsFiltersOpen } = useContext(MenuContext);
+  const [searchBy, setSearchBy, filterByField] = useSearch();
   const [isLoading, setIsLoading] = useState(true);
   const [isDesc, setIsDesc] = useState(false);
   const [classrooms, setClassrooms] = useState(null);
@@ -128,9 +133,10 @@ const FindClassroom = () => {
                     <TuneIcon />
                   </StyledIconBox>
                 </StyledTitleContainer>
-                {classrooms.length > 0 ? (
+                <SearchForm searchBy={searchBy} setSearchBy={setSearchBy} />
+                {filterByField(classrooms, 'number').length > 0 ? (
                   <GridTemplate areFiltersApplied>
-                    {classrooms.map((classroom) => (
+                    {filterByField(classrooms, 'number').map((classroom) => (
                       <Link to={`/findclassroom/${classroom.id}`} key={classroom.number}>
                         <Classroom {...classroom} />
                       </Link>
