@@ -4,6 +4,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SearchIcon from '@material-ui/icons/Search';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import GroupIcon from '@material-ui/icons/Group';
 import ImportContactsSharpIcon from '@material-ui/icons/ImportContactsSharp';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
@@ -47,6 +48,12 @@ const nav = [
     icon: <ImportContactsSharpIcon />,
     roles: ['user'],
     path: '/yourrentals',
+  },
+  {
+    label: 'Lista użytkowników',
+    icon: <GroupIcon />,
+    roles: ['admin'],
+    path: '/userlist',
   },
 ];
 

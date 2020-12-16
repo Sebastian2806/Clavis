@@ -3,9 +3,9 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
 const StyledListItem = styled.li`
-  display: flex;
+  display: 'flex';
   align-items: center;
-  margin: 10px 0;
+  margin: ${({ isListItem }) => (isListItem ? '0' : '10px 0')};
   position: relative;
 `;
 
@@ -66,8 +66,12 @@ const StyledSvg = styled.svg`
       return css`
         stroke: ${theme.colors.warning};
       `;
+    if (type === 'free')
+      return css`
+        stroke: ${theme.colors.approve};
+      `;
     return css`
-      stroke: ${theme.colors.approve};
+      stroke: ${theme.colors.dark};
     `;
   }}
 `;
@@ -79,16 +83,23 @@ const StyledLabel = styled.label`
   display: flex;
   align-items: center;
 
+  ${({ isListItem }) =>
+    isListItem &&
+    css`
+      width: fit-content;
+      margin: 0 auto;
+    `}
+
   & span {
     margin-left: 5px;
   }
 `;
 
-const Checkbox = ({ label, value, ...rest }) => {
+const Checkbox = ({ label, value, isListItem, ...rest }) => {
   return (
-    <StyledListItem>
-      <StyledInput id={value} name={value} value={value} {...rest} />
-      <StyledLabel htmlFor={value}>
+    <StyledListItem as={isListItem ? 'span' : 'li'} isListItem={isListItem}>
+      <StyledInput id={value} value={value} {...rest} />
+      <StyledLabel htmlFor={value} isListItem={isListItem}>
         <StyledSvg viewBox="0 0 100 100" type={value}>
           <path d="M82,89H18c-3.87,0-7-3.13-7-7V18c0-3.87,3.13-7,7-7h64c3.87,0,7,3.13,7,7v64C89,85.87,85.87,89,82,89z" />
           <polyline points="25.5,53.5 39.5,67.5 72.5,34.5 " />
@@ -101,7 +112,13 @@ const Checkbox = ({ label, value, ...rest }) => {
 
 Checkbox.propTypes = {
   value: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  isListItem: PropTypes.bool,
+};
+
+Checkbox.defaultProps = {
+  label: '',
+  isListItem: true,
 };
 
 export default Checkbox;

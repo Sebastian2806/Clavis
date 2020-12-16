@@ -8,6 +8,7 @@ import AddUser from './AddUser';
 import RentalRegistry from './RentalRegistry';
 import IssueTheKey from './IssueTheKey';
 import YourRentals from './YourRentals';
+import UserList from './UserList';
 import MainTemplate from '../components/templates/MainTemplate';
 import AuthRoute from '../components/privateRoutes/AuthRoute';
 import AdminRoute from '../components/privateRoutes/AdminRoute';
@@ -39,9 +40,12 @@ const Root = () => {
           <ApparitorRoute path="/issuekey">
             <IssueTheKey />
           </ApparitorRoute>
-          <UserRoute>
-            <YourRentals path="/yourrentals" />
+          <UserRoute path="/yourrentals">
+            <YourRentals />
           </UserRoute>
+          <AdminRoute path="/userlist">
+            <UserList />
+          </AdminRoute>
           <Route render={() => <Redirect to="/" />} />
         </Switch>
       </MainTemplate>

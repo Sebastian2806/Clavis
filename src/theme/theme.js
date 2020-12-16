@@ -13,6 +13,7 @@ const theme = {
     button: '#2196F3',
     dark: '#000000',
     disabled: '#454545',
+    lightgrey: '#bfbfbf',
   },
   radius: '10px',
   breakpoints: {
