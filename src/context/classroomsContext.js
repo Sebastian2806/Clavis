@@ -6,6 +6,7 @@ const { Provider } = ClassroomContext;
 
 const ClassroomProvider = ({ children }) => {
   const [classrooms, setClassrooms] = useState([]);
+  const [filters, setFilters] = useState({});
 
   const getClassroomById = (id) => classrooms.find((el) => el.id === id);
 
@@ -15,6 +16,8 @@ const ClassroomProvider = ({ children }) => {
         classrooms,
         setClassrooms,
         getClassroomById,
+        filters,
+        setFilters,
       }}
     >
       {children}

@@ -67,6 +67,8 @@ const FiltersForm = () => {
           const dataToSend = { status: values.status || [], ...formattedDate };
           if (values.capacity) dataToSend.capacity = values.capacity;
 
+          classroomContext.setFilters(dataToSend);
+
           try {
             const result = await fetchContext.authAxios.post(`classrooms`, dataToSend);
             classroomContext.setClassrooms(result.data.classrooms);

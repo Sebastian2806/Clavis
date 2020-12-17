@@ -10,6 +10,7 @@ import DateInputs from '../molecules/DateInputs';
 import { isSameOrBefore, formatDate } from '../../util/helpers';
 import ReservationSchema from '../../schemas/ReservationSchema';
 import { useDate } from '../../hooks/useDate';
+import { ClassroomContext } from '../../context/classroomsContext';
 
 const FormContainer = styled.div`
   display: flex;
@@ -46,6 +47,7 @@ const ReservationForm = ({ id }) => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [redirectOnReservation, setRedirectOnReservation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { setClassrooms, filters } = useContext(ClassroomContext);
   const fetchContext = useContext(FetchContext);
   const [dateObj] = useDate();
 
@@ -72,6 +74,10 @@ const ReservationForm = ({ id }) => {
 
           try {
             await fetchContext.authAxios.post(`classroom/${id}/confirm`, formattedDate);
+
+            const result = await fetchContext.authAxios.post('classrooms', filters);
+            setClassrooms(result.data.classrooms);
+
             setIsCorrect(true);
             setTimeout(() => setRedirectOnReservation(true), 1000);
           } catch (err) {
