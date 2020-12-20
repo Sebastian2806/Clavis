@@ -4,7 +4,7 @@ const IconBox = styled.button`
   cursor: pointer;
   background-color: transparent;
   border: 0;
-  border-radius: 50%;
+  border-radius: 25px;
   width: 50px;
   height: 50px;
   display: flex;
@@ -35,16 +35,16 @@ const IconBox = styled.button`
     mode === 'dark' &&
     css`
       &:hover {
-        background-color: ${({ theme }) => theme.colors.dark};
+        background-color: ${({ theme }) => theme.colors.lightgrey};
       }
 
       & > svg {
         color: ${({ theme }) => theme.colors.dark};
       }
 
-      &:hover > svg {
+      ${'' /* &:hover > svg {
         color: ${({ theme }) => theme.colors.light};
-      }
+      } */}
     `}
 `;
 
