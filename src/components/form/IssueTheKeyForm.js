@@ -119,7 +119,7 @@ const IssueTheKeyForm = ({ users, classrooms }) => {
               </Message>
             </StyledContainer>
           )}
-          <FormButton isSubmitting={isSubmitting} arialabel="Wydaj klucz do sali" />
+          <FormButton isSubmitting={isSubmitting} arialabel="Wydaj klucz do sali" label="wydaj" />
         </StyledForm>
       )}
     </Formik>
