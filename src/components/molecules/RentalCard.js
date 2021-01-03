@@ -55,9 +55,11 @@ const RentalCard = ({ id, messageStatus, setMessageStatus, userRentals }) => {
       if (status === CANCEL) await fetchContext.authAxios.delete(`apparitor/reservation/${id}/cancel`);
       else await fetchContext.authAxios.post(`apparitor/reservation/${id}/${status}`);
 
-      const rentals = await fetchContext.authAxios.get('apparitor/reservations');
-      setIsLoading(false);
-      rentalContext.setRental(rentals.data.reservations);
+      if (!userRentals) {
+        const rentals = await fetchContext.authAxios.get('apparitor/reservations');
+        setIsLoading(false);
+        rentalContext.setRental(rentals.data.reservations);
+      } else rentalContext.setRental(rentalContext.rentals.filter((el) => el._id !== id));
 
       if (!messageStatus.show) {
         setMessageStatus({ msg: setMessage(status), show: true });

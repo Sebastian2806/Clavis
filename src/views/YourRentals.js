@@ -49,6 +49,7 @@ const YourRentals = () => {
   }, []);
 
   useEffect(() => {
+    // console.log(rentalContext.rentals);
     setRental(rentalContext.rentals);
   }, [rentalContext.rentals]);
 
