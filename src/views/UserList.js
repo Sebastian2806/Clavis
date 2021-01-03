@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Form, Formik } from 'formik';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -7,9 +7,11 @@ import ViewWrapper from '../components/atoms/ViewWrapper';
 import Loader from '../components/molecules/Loader';
 import Checkbox from '../components/molecules/Checkbox';
 import IconBox from '../components/atoms/IconBox';
-import { users } from '../data';
+// import { users } from '../data';
 import AlertTemplate from '../components/templates/AlertTemplate';
 import Button from '../components/atoms/Button';
+import { FetchContext } from '../context/fetchContext';
+import { AuthContext } from '../context/authContext';
 
 const StyledContainer = styled.div`
   width: 100%;
@@ -26,6 +28,12 @@ const StyledContainer = styled.div`
 
 const StyledHeader = styled.div`
   width: 100%;
+`;
+
+const StyledError = styled.p`
+  color: ${({ theme }) => theme.colors.error};
+  font-size: 17px;
+  font-weight: bold;
 `;
 
 const StyledContent = styled.div`
@@ -55,31 +63,12 @@ const StyledUserBar = styled(StyledGridHeader)`
   &:hover {
     background-color: ${({ theme }) => theme.colors.lightgrey};
   }
-
-  /* &:hover .index-number {
-    display: none;
-  }
-
-  &:hover .checkbox-container {
-    display: block;
-  } */
-
-  /* ${({ isSelected }) =>
-    isSelected &&
-    css`
-      & .index-number {
-        display: none;
-      }
-
-      & .checkbox-container {
-        display: block;
-      }
-    `} */
 `;
 
 const StyledUserBarElement = styled.div`
   display: flex;
   align-items: center;
+  text-transform: capitalize;
 `;
 
 const StyledIndex = styled(StyledUserBarElement)`
@@ -102,18 +91,53 @@ const StyledBox = styled.div`
 `;
 
 const UserList = () => {
-  const [isLoading] = useState(false);
+  const fetchContext = useContext(FetchContext);
+  const { isAdmin } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState({ name: '', surname: '' });
+  const [currentUser, setCurrentUser] = useState({ name: '', surname: '', _id: '' });
+  const [remove, setRemove] = useState(false);
+  const [error, setError] = useState({ is: false, msg: 'Wystąpił błąd' });
+  const [users, setUsers] = useState([]);
   const firstEL = useRef();
 
-  const handleDelete = (is, name = '', surname = '') => {
+  const handleDelete = (is, name = '', surname = '', _id = '') => {
     setIsOpen(is);
-    setCurrentUser({ name, surname });
+    setCurrentUser({ name, surname, _id });
+  };
+
+  const deleteUser = async (id) => {
+    setError({ is: false, msg: 'Wystąpił błąd' });
+    try {
+      setIsLoading(true);
+      await fetchContext.authAxios.delete('admin/deleteuser', {
+        data: { userToDelete: id },
+      });
+    } catch (err) {
+      if (err.response.data && err.response.data.error && err.response.data.error.message)
+        setError({ is: true, msg: err.response.data.error.message });
+      else setError({ is: true, msg: 'Wystąpił błąd' });
+    }
+    setRemove((prevState) => !prevState);
+    handleDelete(false);
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    if (firstEL && isOpen === false) firstEL.current.focus();
+    (async () => {
+      try {
+        setIsLoading(true);
+        const cl = await fetchContext.authAxios.get('apparitor/users');
+        setUsers(cl.data.users);
+      } catch (err) {
+        console.log(err);
+      }
+      setIsLoading(false);
+    })();
+  }, [remove]);
+
+  useEffect(() => {
+    if (firstEL && isOpen === false && users && users.lenght > 0) firstEL.current.focus();
   }, [firstEL, isOpen]);
 
   return (
@@ -133,10 +157,11 @@ const UserList = () => {
                   <div>
                     <StyledHeader>
                       <ViewTitle id="user_list_title">Lista użytkowników</ViewTitle>
+                      {error.is && <StyledError>{error.msg}</StyledError>}
                     </StyledHeader>
                     <StyledContent
                       role="grid"
-                      aria-colcount="4"
+                      aria-colcount={isAdmin() ? '4' : '3'}
                       aria-rowcount={users.length}
                       aria-labelledby="user_list_title"
                     >
@@ -150,9 +175,11 @@ const UserList = () => {
                         <StyledUserBarElement role="columnheader" aria-colindex="3" aria-sort="none">
                           <p>Nazwisko</p>
                         </StyledUserBarElement>
-                        <StyledUserBarElement role="columnheader" aria-colindex="4" aria-sort="none">
-                          <p>Usuń</p>
-                        </StyledUserBarElement>
+                        {isAdmin() && (
+                          <StyledUserBarElement role="columnheader" aria-colindex="4" aria-sort="none">
+                            <p>Usuń</p>
+                          </StyledUserBarElement>
+                        )}
                       </StyledGridHeader>
                       {users.map((user, i) => (
                         <StyledUserBar
@@ -179,18 +206,21 @@ const UserList = () => {
                           <StyledUserBarElement role="gridcell" aria-colindex="3">
                             <p>{user.surname}</p>
                           </StyledUserBarElement>
-                          <StyledUserBarElement role="gridcell" aria-colindex="4">
-                            <IconBox
-                              type="button"
-                              mode="dark"
-                              aria-label={`Usuń użytkownika ${user.name} ${user.surname}`}
-                              title={`Usuń użytkownika ${user.name} ${user.surname}`}
-                              onClick={() => handleDelete(true, user.name, user.surname)}
-                              ref={i === 0 ? firstEL : null}
-                            >
-                              <DeleteIcon />
-                            </IconBox>
-                          </StyledUserBarElement>
+                          {isAdmin() && (
+                            <StyledUserBarElement role="gridcell" aria-colindex="4">
+                              <IconBox
+                                type="button"
+                                mode="dark"
+                                aria-label={`Usuń użytkownika ${user.name} ${user.surname}`}
+                                title={`Usuń użytkownika ${user.name} ${user.surname}`}
+                                onClick={() => handleDelete(true, user.name, user.surname, user._id)}
+                                userId={user._is}
+                                ref={i === 0 ? firstEL : null}
+                              >
+                                <DeleteIcon />
+                              </IconBox>
+                            </StyledUserBarElement>
+                          )}
                         </StyledUserBar>
                       ))}
                     </StyledContent>
@@ -210,6 +240,7 @@ const UserList = () => {
                 <Button
                   aria-label={`Usuń użytkownika ${currentUser.name} ${currentUser.surname}`}
                   title={`Usuń użytkownika ${currentUser.name} ${currentUser.surname}`}
+                  onClick={() => deleteUser(currentUser._id)}
                   cancel
                 >
                   Usuń

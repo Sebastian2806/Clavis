@@ -43,9 +43,9 @@ const Root = () => {
           <UserRoute path="/yourrentals">
             <YourRentals />
           </UserRoute>
-          <AdminRoute path="/userlist">
+          <AdminAndApparitorRoute path="/userlist">
             <UserList />
-          </AdminRoute>
+          </AdminAndApparitorRoute>
           <Route render={() => <Redirect to="/" />} />
         </Switch>
       </MainTemplate>

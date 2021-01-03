@@ -52,7 +52,7 @@ const nav = [
   {
     label: 'Lista użytkowników',
     icon: <GroupIcon />,
-    roles: ['admin'],
+    roles: ['admin', 'apparitor'],
     path: '/userlist',
   },
 ];
