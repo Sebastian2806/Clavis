@@ -7,6 +7,7 @@ import RentalCard from '../components/molecules/RentalCard';
 import FixedMessage from '../components/atoms/FixedMessage';
 import { CANCELED, FINISH } from '../util/constants';
 import { RentalContext } from '../context/rentalsContext';
+import { FetchContext } from '../context/fetchContext';
 
 const StyledWrapper = styled.div`
   min-height: calc(var(--vh) * 100 - 70px);
@@ -31,24 +32,24 @@ const StyledContainer = styled.div`
 `;
 
 const YourRentals = () => {
+  const fetchContext = useContext(FetchContext);
   const rentalContext = useContext(RentalContext);
   const [rental, setRental] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [messageStatus, setMessageStatus] = useState({ show: false, msg: 'Akcja wykonana pomyślnie.' });
 
   useEffect(() => {
-    // rentalContext.setRental(rental);
-    setRental(rentalContext.rentals);
-    setTimeout(() => {
+    (async () => {
+      setIsLoading(true);
+      const cl = await fetchContext.authAxios.post('reservations');
+      rentalContext.setRental(cl.data.reservations);
+      setRental(cl.data.reservations);
       setIsLoading(false);
-    }, 500);
+    })();
   }, []);
 
   useEffect(() => {
     setRental(rentalContext.rentals);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
   }, [rentalContext.rentals]);
 
   return (
@@ -68,10 +69,11 @@ const YourRentals = () => {
                     rentalEl.status !== CANCELED &&
                     rentalEl.status !== FINISH && (
                       <RentalCard
-                        key={rentalEl.number}
+                        key={rentalEl._id}
                         messageStatus={messageStatus}
                         setMessageStatus={setMessageStatus}
                         userRentals
+                        id={rentalEl._id}
                         {...rentalEl}
                       />
                     ),
