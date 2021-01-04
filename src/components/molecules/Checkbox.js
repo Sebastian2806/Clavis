@@ -87,7 +87,6 @@ const StyledLabel = styled.label`
     isListItem &&
     css`
       width: fit-content;
-      margin: 0 auto;
     `}
 
   & span {
