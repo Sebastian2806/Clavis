@@ -37,7 +37,8 @@ export const formatDate = ({ dateStart, dateEnd, timeStart, timeEnd }) => ({
   endAt: moment(`${dateEnd.split('-').reverse().join('-')} ${timeEnd}`).format('YYYY-MM-DDTHH:mmZ'),
 });
 
-export const getFromDate = (time, format = 'DD-MM-YYYY') => moment(time, 'DD-MM-YYYYTHH:mmZ').format(format);
+export const getFromDate = (time, format = 'DD-MM-YYYY', incomingFormat = 'DD-MM-YYYYTHH:mmZ') =>
+  moment(time, incomingFormat).format(format);
 
 export const transformDateToLocal = (time, format = 'DD-MM-YYYY', incomingFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ') =>
   moment(time, incomingFormat).local().format(format);
