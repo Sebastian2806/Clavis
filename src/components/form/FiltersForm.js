@@ -12,6 +12,7 @@ import SubTitle from '../atoms/SubTitle';
 import Checkbox from '../molecules/Checkbox';
 import { useDate } from '../../hooks/useDate';
 import TextInput from '../molecules/TextInput';
+import { MenuContext } from '../../context/menuContext';
 
 const StyledFrom = styled(Form)`
   width: 100%;
@@ -36,6 +37,7 @@ const StyledFormContainer = styled.div`
 `;
 
 const FiltersForm = () => {
+  const { setIsFiltersOpen } = useContext(MenuContext);
   const [isError, setIsError] = useState({ is: false, msg: 'Wystąpił błąd podczas filtrowania.' });
   const [isCorrect, setIsCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -75,6 +77,7 @@ const FiltersForm = () => {
           } catch (err) {
             setIsError({ is: true, msg: 'Wystąpił błąd podczas filtrowania.' });
           }
+          setIsFiltersOpen(false);
           setIsLoading(false);
         }}
       >
