@@ -49,16 +49,18 @@ const ReservationForm = ({ id }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { setClassrooms, filters } = useContext(ClassroomContext);
   const fetchContext = useContext(FetchContext);
-  const [dateObj] = useDate();
+  const [dateObj, , , transformDateObj] = useDate();
+  const [initValues] = useState(() => {
+    if (filters.endAt && filters.startAt) return transformDateObj(filters.startAt, filters.endAt);
+    return dateObj;
+  });
 
   return (
     <FormContainer>
       {redirectOnReservation && <Redirect to="/findclassroom" />}
       <Formik
         validationSchema={ReservationSchema}
-        initialValues={{
-          ...dateObj,
-        }}
+        initialValues={initValues}
         onSubmit={async (values, { setErrors }) => {
           const formattedDate = formatDate(values);
 

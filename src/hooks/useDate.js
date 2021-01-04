@@ -12,5 +12,14 @@ export const useDate = ({ duration = 90, unit = 'm' } = {}) => {
     timeEnd: getFromDate(futureDate, 'HH:mm'),
   });
 
-  return [dateObj, currentDate, futureDate];
+  const transformDateObj = (startAt, endAt) => {
+    return {
+      dateStart: getFromDate(startAt, 'DD-MM-YYYY', 'YYYY-MM-DDTHH:mmZ'),
+      dateEnd: getFromDate(endAt, 'DD-MM-YYYY', 'YYYY-MM-DDTHH:mmZ'),
+      timeStart: getFromDate(startAt, 'HH:mm', 'YYYY-MM-DDTHH:mmZ'),
+      timeEnd: getFromDate(endAt, 'HH:mm', 'YYYY-MM-DDTHH:mmZ'),
+    };
+  };
+
+  return [dateObj, currentDate, futureDate, transformDateObj];
 };
