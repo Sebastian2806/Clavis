@@ -1,22 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Formik, Field, Form } from 'formik';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import Loader from '../components/molecules/Loader';
 import ViewWrapper from '../components/atoms/ViewWrapper';
-import { issueData } from '../data';
 import AvatarBox from '../components/atoms/AvatarBox';
 import IssueTheKeyForm from '../components/form/IssueTheKeyForm';
+import { FetchContext } from '../context/fetchContext';
 
 const IssueTheKey = () => {
+  const fetchContext = useContext(FetchContext);
   const [users, setUsers] = useState([]);
   const [classrooms, setClassrooms] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useState(() => {
-    setUsers(issueData.users);
-    setClassrooms(issueData.classrooms);
-  }, []);
+  const [isLoading, setIsLoading] = useState(true);
 
   const StyledBox = styled.div`
     width: 100%;
@@ -40,6 +35,20 @@ const IssueTheKey = () => {
     display: flex;
     justify-content: center;
   `;
+
+  useEffect(() => {
+    setIsLoading(true);
+    (async () => {
+      try {
+        const usersAndClassroms = await fetchContext.authAxios.get('apparitor/reservation/fast/data');
+        setClassrooms(usersAndClassroms.data.classrooms.map((el) => ({ ...el, id: el._id })));
+        setUsers(usersAndClassroms.data.users.map((el) => ({ ...el, id: el._id })));
+      } catch (err) {
+        console.log(err);
+      }
+      setIsLoading(false);
+    })();
+  }, []);
 
   return (
     <ViewWrapper>
