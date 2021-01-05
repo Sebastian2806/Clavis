@@ -64,7 +64,6 @@ const IssueTheKeyForm = ({ users, classrooms }) => {
         duration: 90,
       }}
       onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
-        console.log(values);
         try {
           setIsCorrect(false);
           setSubmitting(true);
@@ -74,7 +73,6 @@ const IssueTheKeyForm = ({ users, classrooms }) => {
           resetForm();
         } catch (err) {
           setIsError(false);
-          console.log(err.response);
           if (err.response && err.response.data && err.response.data.errors && err.response.data.errors.length > 0) {
             const error = {};
             err.response.data.errors.forEach((el) => (error[el.param] = el.msg));
