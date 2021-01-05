@@ -8,6 +8,7 @@ import Select from '../molecules/Select';
 import FormButton from '../molecules/FormButton';
 import { FetchContext } from '../../context/fetchContext';
 import Message from '../atoms/Message';
+import SubTitle from '../atoms/SubTitle';
 
 const StyledSideContainer = styled.div`
   width: 100%;
@@ -22,6 +23,13 @@ const StyledForm = styled(Form)`
 
 const StyledContainer = styled.div`
   padding: 15px;
+`;
+
+const StyledSubTitle = styled(SubTitle)`
+  font-size: 30px;
+  margin: 20px;
+  text-align: center;
+  font-weight: bold;
 `;
 
 const IssueTheKeySchema = Yup.object().shape({
@@ -56,72 +64,83 @@ const IssueTheKeyForm = ({ users, classrooms }) => {
   }, [users, classrooms]);
 
   return (
-    <Formik
-      validationSchema={IssueTheKeySchema}
-      initialValues={{
-        userId: users[0].id,
-        classroomId: classrooms[0].id,
-        duration: 90,
-      }}
-      onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
-        try {
-          setIsCorrect(false);
-          setSubmitting(true);
-          await fetchContext.authAxios.post('apparitor/reservation/fast', values);
-          setIsError(false);
-          setIsCorrect(true);
-          resetForm();
-        } catch (err) {
-          setIsError(false);
-          if (err.response && err.response.data && err.response.data.errors && err.response.data.errors.length > 0) {
-            const error = {};
-            err.response.data.errors.forEach((el) => (error[el.param] = el.msg));
-            setErrors(error);
-          } else {
-            setIsError(true);
-          }
-        }
-        setSubmitting(false);
-      }}
-    >
-      {({ errors, touched, values, handleChange, isSubmitting }) => (
-        <StyledForm noValidate>
-          <StyledSideContainer>
-            <Select
-              data={data.classrooms}
-              label="Numer sali"
-              name="classroomId"
-              value={values.classroomId}
-              onChange={handleChange}
-            />
-            <Select
-              data={data.users}
-              label="Imię i nazwisko"
-              name="userId"
-              value={values.userId}
-              onChange={handleChange}
-            />
-            <Field
-              as={TextInput}
-              label="Czas trwania w minutach"
-              name="duration"
-              type="number"
-              min="10"
-              step="10"
-              error={errors.duration && touched.duration ? errors.duration : ''}
-            />
-          </StyledSideContainer>
-          {(isError || isCorrect) && (
-            <StyledContainer>
-              <Message error={isError} correct={isCorrect}>
-                {isError ? 'Wystąpił błąd podczas wydawania klucza.' : 'Klucz wydany pomyślnie.'}
-              </Message>
-            </StyledContainer>
+    <>
+      {classrooms && classrooms.length > 0 ? (
+        <Formik
+          validationSchema={IssueTheKeySchema}
+          initialValues={{
+            userId: users[0].id,
+            classroomId: classrooms[0].id,
+            duration: 90,
+          }}
+          onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+            try {
+              setIsCorrect(false);
+              setSubmitting(true);
+              await fetchContext.authAxios.post('apparitor/reservation/fast', values);
+              setIsError(false);
+              setIsCorrect(true);
+              resetForm();
+            } catch (err) {
+              setIsError(false);
+              if (
+                err.response &&
+                err.response.data &&
+                err.response.data.errors &&
+                err.response.data.errors.length > 0
+              ) {
+                const error = {};
+                err.response.data.errors.forEach((el) => (error[el.param] = el.msg));
+                setErrors(error);
+              } else {
+                setIsError(true);
+              }
+            }
+            setSubmitting(false);
+          }}
+        >
+          {({ errors, touched, values, handleChange, isSubmitting }) => (
+            <StyledForm noValidate>
+              <StyledSideContainer>
+                <Select
+                  data={data.classrooms}
+                  label="Numer sali"
+                  name="classroomId"
+                  value={values.classroomId}
+                  onChange={handleChange}
+                />
+                <Select
+                  data={data.users}
+                  label="Imię i nazwisko"
+                  name="userId"
+                  value={values.userId}
+                  onChange={handleChange}
+                />
+                <Field
+                  as={TextInput}
+                  label="Czas trwania w minutach"
+                  name="duration"
+                  type="number"
+                  min="10"
+                  step="10"
+                  error={errors.duration && touched.duration ? errors.duration : ''}
+                />
+              </StyledSideContainer>
+              {(isError || isCorrect) && (
+                <StyledContainer>
+                  <Message error={isError} correct={isCorrect}>
+                    {isError ? 'Wystąpił błąd podczas wydawania klucza.' : 'Klucz wydany pomyślnie.'}
+                  </Message>
+                </StyledContainer>
+              )}
+              <FormButton isSubmitting={isSubmitting} arialabel="Wydaj klucz do sali" label="wydaj" />
+            </StyledForm>
           )}
-          <FormButton isSubmitting={isSubmitting} arialabel="Wydaj klucz do sali" label="wydaj" />
-        </StyledForm>
+        </Formik>
+      ) : (
+        <StyledSubTitle>Brak klas do zarezerwowania</StyledSubTitle>
       )}
-    </Formik>
+    </>
   );
 };
 
