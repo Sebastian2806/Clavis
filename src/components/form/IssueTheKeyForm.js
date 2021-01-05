@@ -25,8 +25,8 @@ const StyledContainer = styled.div`
 `;
 
 const IssueTheKeySchema = Yup.object().shape({
-  fullname: Yup.string().required('Pole wymagane'),
-  number: Yup.string().required('Pole wymagane'),
+  classroomId: Yup.string().required('Pole wymagane'),
+  userId: Yup.string().required('Pole wymagane'),
   duration: Yup.number().required('Pole wymagane').typeError('Wymagana jest liczba'),
 });
 
@@ -59,30 +59,31 @@ const IssueTheKeyForm = ({ users, classrooms }) => {
     <Formik
       validationSchema={IssueTheKeySchema}
       initialValues={{
-        fullname: users[0].id,
-        number: classrooms[0].id,
+        userId: users[0].id,
+        classroomId: classrooms[0].id,
         duration: 90,
       }}
       onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
         console.log(values);
-        // try {
-        //   setIsCorrect(false);
-        //   setSubmitting(true);
-        //   await fetchContext.authAxios.put('admin/adduser', values);
-        //   setIsError(false);
-        //   setIsCorrect(true);
-        //   resetForm();
-        // } catch (err) {
-        //   setIsError(false);
-        //   if (err.response && err.response.data && err.response.data.errors && err.response.data.errors.length > 0) {
-        //     const error = {};
-        //     err.response.data.errors.forEach((el) => (error[el.param] = el.msg));
-        //     setErrors(error);
-        //   } else {
-        //     setIsError(true);
-        //   }
-        // }
-        // setSubmitting(false);
+        try {
+          setIsCorrect(false);
+          setSubmitting(true);
+          await fetchContext.authAxios.post('apparitor/reservation/fast', values);
+          setIsError(false);
+          setIsCorrect(true);
+          resetForm();
+        } catch (err) {
+          setIsError(false);
+          console.log(err.response);
+          if (err.response && err.response.data && err.response.data.errors && err.response.data.errors.length > 0) {
+            const error = {};
+            err.response.data.errors.forEach((el) => (error[el.param] = el.msg));
+            setErrors(error);
+          } else {
+            setIsError(true);
+          }
+        }
+        setSubmitting(false);
       }}
     >
       {({ errors, touched, values, handleChange, isSubmitting }) => (
@@ -91,15 +92,15 @@ const IssueTheKeyForm = ({ users, classrooms }) => {
             <Select
               data={data.classrooms}
               label="Numer sali"
-              name="number"
-              value={values.number}
+              name="classroomId"
+              value={values.classroomId}
               onChange={handleChange}
             />
             <Select
               data={data.users}
               label="Imię i nazwisko"
-              name="fullname"
-              value={values.fullname}
+              name="userId"
+              value={values.userId}
               onChange={handleChange}
             />
             <Field
