@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import TuneIcon from '@material-ui/icons/Tune';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { useParams, Link } from 'react-router-dom';
-import { Formik, Field, Form } from 'formik';
 import Loader from '../components/molecules/Loader';
 import GridTemplate from '../components/templates/GridTemplate';
 import Classroom from '../components/molecules/Classroom';
@@ -17,7 +16,6 @@ import { MenuContext } from '../context/menuContext';
 import { FetchContext } from '../context/fetchContext';
 import { ClassroomContext } from '../context/classroomsContext';
 import { getStatusLabel } from '../util/helpers';
-import TextInput from '../components/molecules/TextInput';
 import { useSearch } from '../hooks/useSearch';
 import SearchForm from '../components/form/SearchForm';
 
