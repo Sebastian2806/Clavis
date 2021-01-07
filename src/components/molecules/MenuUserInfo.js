@@ -37,6 +37,7 @@ const StyledUserName = styled.h2`
   flex-direction: column;
   align-items: center;
   font-size: 30px;
+  text-transform: capitalize;
 `;
 
 const StyledRole = styled.p`
