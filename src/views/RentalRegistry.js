@@ -44,7 +44,7 @@ const RentalRegistry = () => {
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      const rentals = await fetchContext.authAxios.get('apparitor/reservations');
+      const rentals = await fetchContext.authAxios.get('apparitor/reservations?today=true');
 
       const r = rentals.data.reservations.map((el) => ({
         ...el,
