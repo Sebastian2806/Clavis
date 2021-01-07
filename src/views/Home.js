@@ -1,10 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { AuthContext } from '../context/authContext';
 import ViewWrapper from '../components/atoms/ViewWrapper';
 import ViewTitle from '../components/atoms/ViewTitle';
 import { keysIssued } from '../data';
 import Content from '../components/molecules/Home';
+import { FetchContext } from '../context/fetchContext';
+import Loader from '../components/molecules/Loader';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -50,7 +52,19 @@ const StyledGrid = styled.div`
 
 const Home = () => {
   const authContext = useContext(AuthContext);
-  const [data] = useState(keysIssued);
+  const fetchContext = useContext(FetchContext);
+  const [data, setData] = useState(keysIssued);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      const cl = await fetchContext.authAxios.post('reservations', { limit: 5 });
+      console.log(cl.data.reservations);
+      setData(cl.data.reservations);
+      setIsLoading(false);
+    })();
+  }, []);
 
   return (
     <ViewWrapper>
@@ -59,16 +73,20 @@ const Home = () => {
           <StyledHeader>
             <ViewTitle>Panel główny</ViewTitle>
           </StyledHeader>
-          <StyledGrid role={authContext.authState.user.role}>
-            {authContext.authState.user.role === 'user' ? (
-              <Content data={data} type="reservation" />
-            ) : (
-              <>
-                <Content data={data} type="issue" />
-                <Content data={data} />
-              </>
-            )}
-          </StyledGrid>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <StyledGrid role={authContext.authState.user.role}>
+              {authContext.authState.user.role === 'user' ? (
+                <Content data={data} type="reservation" />
+              ) : (
+                <>
+                  <Content data={data} type="issue" />
+                  <Content data={data} />
+                </>
+              )}
+            </StyledGrid>
+          )}
         </StyledBox>
       </StyledWrapper>
     </ViewWrapper>

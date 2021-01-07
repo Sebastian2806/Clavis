@@ -7,6 +7,7 @@ import CardHeader from '../atoms/CardHeader';
 import SubTitle from '../atoms/SubTitle';
 import SectionHeader from './SectionHeader';
 import CenteredBox from '../atoms/CenteredBox';
+import { getFromDate } from '../../util/helpers';
 
 const StyledContent = styled.div`
   border: 3px solid ${({ theme }) => theme.colors.dark};
@@ -157,17 +158,27 @@ const Home = ({ data, type }) => {
       <SectionHeader text={labelType[type].text} />
       <StyledContent>
         {data.map((el) => (
-          <StyledCard key={el.id}>
+          <StyledCard key={el._id}>
             <CardHeader>
-              <h2>{el.number}</h2>
+              <h2>{el.classroom.number}</h2>
               {type !== 'reservation' && <StyledTimeBox>{el.past} temu</StyledTimeBox>}
             </CardHeader>
             <StyledCardContent>
               <StyledFlex>
                 <StyledWho>{labelType[type].firstTitle}:&nbsp;</StyledWho>
                 <StyledWhoContainer type={type}>
-                  <StyledText>{type === 'reservation' ? '12-12-2020' : `${el.apparitor.name}`}&nbsp;</StyledText>
-                  <StyledText>{type === 'reservation' ? '18:50' : `${el.apparitor.surname}`}&nbsp;</StyledText>
+                  <StyledText>
+                    {type === 'reservation'
+                      ? `${getFromDate(el.startAt, 'DD-MM-YYYY', 'YYYY-MM-DDTHH:mmZ')}`
+                      : `${el.apparitor.name}`}
+                    &nbsp;
+                  </StyledText>
+                  <StyledText>
+                    {type === 'reservation'
+                      ? `${getFromDate(el.startAt, 'HH:mm', 'YYYY-MM-DDTHH:mmZ')}`
+                      : `${el.apparitor.surname}`}
+                    &nbsp;
+                  </StyledText>
                 </StyledWhoContainer>
               </StyledFlex>
               <StyledIconBox type={type}>
@@ -176,8 +187,18 @@ const Home = ({ data, type }) => {
               <StyledFlex>
                 <StyledWho>{labelType[type].secondTitle}:&nbsp;</StyledWho>
                 <StyledWhoContainer type={type}>
-                  <StyledText>{type === 'reservation' ? '12-12-2020' : `${el.name}`}&nbsp;</StyledText>
-                  <StyledText>{type === 'reservation' ? '20:20' : `${el.surname}`}&nbsp;</StyledText>
+                  <StyledText>
+                    {type === 'reservation'
+                      ? `${getFromDate(el.endAt, 'DD-MM-YYYY', 'YYYY-MM-DDTHH:mmZ')}`
+                      : `${el.name}`}
+                    &nbsp;
+                  </StyledText>
+                  <StyledText>
+                    {type === 'reservation'
+                      ? `${getFromDate(el.endAt, 'HH:mm', 'YYYY-MM-DDTHH:mmZ')}`
+                      : `${el.surname}`}
+                    &nbsp;
+                  </StyledText>
                 </StyledWhoContainer>
               </StyledFlex>
             </StyledCardContent>
@@ -192,11 +213,17 @@ Home.propTypes = {
   type: PropTypes.string,
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      surname: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
+      classroom: PropTypes.shape({
+        _id: PropTypes.string,
+        number: PropTypes.string,
+      }),
+      endAt: PropTypes.string.isRequired,
+      startAt: PropTypes.string.isRequired,
+      name: PropTypes.string,
+      surname: PropTypes.string,
       apparitor: PropTypes.shape({
-        id: PropTypes.string,
+        _id: PropTypes.string,
         name: PropTypes.string,
         surname: PropTypes.string,
       }),
