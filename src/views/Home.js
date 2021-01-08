@@ -60,7 +60,6 @@ const Home = () => {
     (async () => {
       setIsLoading(true);
       const cl = await fetchContext.authAxios.post('reservations', { limit: 5 });
-      console.log(cl.data.reservations);
       setData(cl.data.reservations);
       setIsLoading(false);
     })();
