@@ -58,10 +58,15 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      const cl = await fetchContext.authAxios.post('reservations', { limit: 5 });
-      setData(cl.data.reservations);
-      setIsLoading(false);
+      if (authContext.authState.user.role === 'user') {
+        setIsLoading(true);
+        const cl = await fetchContext.authAxios.post('reservations', { limit: 5 });
+        setData(cl.data.reservations);
+        setIsLoading(false);
+      } else {
+        setData(keysIssued);
+        setIsLoading(false);
+      }
     })();
   }, []);
 

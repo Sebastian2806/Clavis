@@ -20,7 +20,7 @@ export const issueData = {
 export const keysIssued = [
   {
     id: '1',
-    number: '201',
+    classroom: { number: '201' },
     past: '7min',
     name: 'Paweł',
     surname: 'Nowakowski',
@@ -28,7 +28,7 @@ export const keysIssued = [
   },
   {
     id: '2',
-    number: '307',
+    classroom: { number: '307' },
     past: '11min',
     name: 'Karol',
     surname: 'Piotrowski',
@@ -36,7 +36,7 @@ export const keysIssued = [
   },
   {
     id: '3',
-    number: 'aula 02',
+    classroom: { number: 'aula 02' },
     past: '37min',
     name: 'Izabela',
     surname: 'Konieszko',
@@ -44,7 +44,7 @@ export const keysIssued = [
   },
   {
     id: '4',
-    number: '117',
+    classroom: { number: '117' },
     past: '57min',
     name: 'Karolina',
     surname: 'Lewandowska',
@@ -52,7 +52,7 @@ export const keysIssued = [
   },
   {
     id: '5',
-    number: '207',
+    classroom: { number: '207' },
     past: '2h',
     name: 'Michał',
     surname: 'Pawłowski',
