@@ -56,7 +56,7 @@ const RentalCard = ({ id, messageStatus, setMessageStatus, userRentals }) => {
       else await fetchContext.authAxios.post(`apparitor/reservation/${id}/${status}`);
 
       if (!userRentals) {
-        const rentals = await fetchContext.authAxios.get('apparitor/reservations');
+        const rentals = await fetchContext.authAxios.get('apparitor/reservations?today=true');
         setIsLoading(false);
         rentalContext.setRental(rentals.data.reservations);
       } else rentalContext.setRental(rentalContext.rentals.filter((el) => el._id !== id));
